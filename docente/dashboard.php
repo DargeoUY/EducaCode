@@ -11,8 +11,9 @@ require_docente();
 $usuario = usuario_actual($pdo);
 $uid = $usuario['id'];
 
-$total_grupos = $pdo->prepare("SELECT COUNT(*) FROM grupos WHERE docente_id = :uid")->execute([':uid' => $uid]) &&
-    $pdo->query("SELECT COUNT(*) FROM grupos WHERE docente_id = $uid")->fetchColumn();
+$stmt_grupos = $pdo->prepare("SELECT COUNT(*) FROM grupos WHERE docente_id = :uid");
+$stmt_grupos->execute([':uid' => $uid]);
+$total_grupos = (int)$stmt_grupos->fetchColumn();
 
 $total_alumnos = $pdo->prepare(
     "SELECT COUNT(DISTINCT gm.usuario_id) FROM grupo_miembros gm
