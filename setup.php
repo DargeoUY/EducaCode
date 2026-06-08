@@ -96,12 +96,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$exito) {
 
                 // Ejecutar SQL de creación de tablas
                 $sql = file_get_contents(__DIR__ . '/includes/db_setup.sql');
-                // Separar por punto y coma seguido de newline
-                $statements = preg_split('/;\s*\r?\n/', $sql);
+                $sql = str_replace("\r\n", "\n", $sql);
+                $statements = preg_split('/;\s*\n/', $sql);
                 foreach ($statements as $stmts) {
                     $stmts = trim($stmts);
-                    if (empty($stmts) || strpos($stmts, '--') === 0) continue;
-                    // Saltar el INSERT del admin (lo creamos después con la contraseña del usuario)
+                    if ($stmts === '' || strpos($stmts, '--') === 0 || strpos($stmts, '/*') === 0) continue;
                     if (stripos($stmts, 'INSERT INTO usuarios') !== false) continue;
                     $pdo->exec($stmts);
                 }

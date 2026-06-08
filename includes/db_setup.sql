@@ -5,6 +5,19 @@
 
 SET FOREIGN_KEY_CHECKS = 0;
 
+DROP TABLE IF EXISTS solicitudes_docente;
+DROP TABLE IF EXISTS sesiones_log;
+DROP TABLE IF EXISTS banco_preguntas;
+DROP TABLE IF EXISTS notificaciones;
+DROP TABLE IF EXISTS tab_salidas;
+DROP TABLE IF EXISTS evaluacion_intentos;
+DROP TABLE IF EXISTS evaluaciones;
+DROP TABLE IF EXISTS actividades;
+DROP TABLE IF EXISTS materiales;
+DROP TABLE IF EXISTS grupo_miembros;
+DROP TABLE IF EXISTS grupos;
+DROP TABLE IF EXISTS usuarios;
+
 CREATE TABLE IF NOT EXISTS usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
