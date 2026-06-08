@@ -14,3 +14,5 @@ Thumbs.db
 .DS_Store
 *.tmp
 *.log
+
+*.zip
