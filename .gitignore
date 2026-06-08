@@ -1,0 +1,16 @@
+# Configuracion - NO SUBIR a produccion sin cambiar
+config.php
+setup.php
+
+# Uploads
+uploads/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+*.tmp
+*.log
