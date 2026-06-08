@@ -111,11 +111,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$exito) {
                 $pdo->prepare("INSERT INTO usuarios (username, password_hash, rol, nombre, email) VALUES ('admin', :p, 'admin', 'Administrador', 'admin@plataforma.edu')")
                     ->execute([':p' => $hash]);
 
-                // Auto-detectar protocolo para BASE_URL
+                // Auto-detectar protocolo y subdirectorio para BASE_URL
                 $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
                     || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
                     || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
                 $proto = $is_https ? 'https' : 'http';
+                $subdir = dirname($_SERVER['SCRIPT_NAME']);
+                $subdir = ($subdir === '/' || $subdir === '\\') ? '/' : $subdir . '/';
 
                 // Escribir config.php con las credenciales reales
                 $configContenido = '<?php
@@ -130,11 +132,13 @@ define(\'DB_USER\', \'' . addcslashes($db['user'], "\\'") . '\');
 define(\'DB_PASS\', \'' . addcslashes($db['pass'], "\\'") . '\');
 define(\'DB_CHARSET\', \'utf8mb4\');
 
+$subdir = dirname($_SERVER[\'SCRIPT_NAME\']);
+$subdir = ($subdir === \'/\' || $subdir === \'\\\\\') ? \'/\' : $subdir . \'/\';
 $is_https = (!empty($_SERVER[\'HTTPS\']) && $_SERVER[\'HTTPS\'] !== \'off\')
     || (isset($_SERVER[\'SERVER_PORT\']) && $_SERVER[\'SERVER_PORT\'] == 443)
     || (isset($_SERVER[\'HTTP_X_FORWARDED_PROTO\']) && $_SERVER[\'HTTP_X_FORWARDED_PROTO\'] === \'https\');
 $proto = $is_https ? \'https\' : \'http\';
-define(\'BASE_URL\', "{$proto}://{$_SERVER[\'HTTP_HOST\']}/plataforma/");
+define(\'BASE_URL\', "{$proto}://{$_SERVER[\'HTTP_HOST\']}{$subdir}");
 
 define(\'MAX_INTENTOS_LOGIN\', 5);
 define(\'BLOQUEO_MINUTOS\', 15);
