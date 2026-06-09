@@ -15,14 +15,14 @@ $noLeidas = ($rol && $rol !== 'admin') ? notificacionesNoLeidas($pdo, $usuario['
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://fonts.googleapis.com https://fonts.gstatic.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net; connect-src 'self' https:; upgrade-insecure-requests;">
     <title><?= sanitizar($titulo ?? 'Plataforma Educativa') ?></title>
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/estilos.css">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+    <link rel="icon" href="<?= BASE_URL ?>img/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 <div class="fondo-particulas"></div>
 
 <nav class="navbar">
     <div class="nav-container">
-        <a href="<?= BASE_URL ?>" class="nav-logo">🎓 Plataforma</a>
+        <a href="<?= BASE_URL ?>" class="nav-logo"><img src="<?= BASE_URL ?>img/logo-icon.svg" alt="" width="28" height="28" style="vertical-align:middle;margin-right:6px;">EducaCode</a>
         <div class="nav-links">
             <?php if ($rol === 'admin'): ?>
                 <a href="<?= BASE_URL ?>admin/dashboard.php">📊 Dashboard</a>

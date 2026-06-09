@@ -97,7 +97,13 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <?php if ($creado): ?>
-    <div class="flash flash-exito">Grupo creado. Comparte el código <strong><?= sanitizar($grupo['codigo_invitacion']) ?></strong> con tus estudiantes.</div>
+    <div class="codigo-banner">
+        <div class="codigo-banner-icon">🔑</div>
+        <h2>¡Grupo creado!</h2>
+        <p>Compartí este código con tus estudiantes para que se unan:</p>
+        <div class="codigo-display"><?= sanitizar($grupo['codigo_invitacion']) ?></div>
+        <p class="codigo-banner-hint">Los estudiantes deben ingresar este código en su panel</p>
+    </div>
 <?php endif; ?>
 
 <?php if ($mensaje): ?>

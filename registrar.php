@@ -29,8 +29,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif ($password !== $password2) {
         $error = 'Las contraseñas no coinciden.';
     } else {
-        $stmt = $pdo->prepare("SELECT id FROM usuarios WHERE username = :u OR email = :e LIMIT 1");
-        $stmt->execute([':u' => $username, ':e' => $email]);
+        $checkSql = "SELECT id FROM usuarios WHERE username = :u";
+        $checkParams = [':u' => $username];
+        if ($email !== '') {
+            $checkSql .= " OR email = :e";
+            $checkParams[':e'] = $email;
+        }
+        $checkSql .= " LIMIT 1";
+        $stmt = $pdo->prepare($checkSql);
+        $stmt->execute($checkParams);
         if ($stmt->fetch()) {
             $error = 'El usuario o email ya está registrado.';
         } else {

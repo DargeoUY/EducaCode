@@ -1,6 +1,6 @@
 </main>
 <footer class="footer">
-    <p>Plataforma Educativa &mdash; Pensamiento Computacional</p>
+    <p>EducaCode &mdash; Plataforma Educativa</p>
 </footer>
 </body>
 </html>
