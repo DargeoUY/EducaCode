@@ -111,9 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$exito) {
                     ->execute([':p' => $hash]);
 
                 // Auto-detectar protocolo y subdirectorio para BASE_URL
-                $is_https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
-                    || (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
-                    || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https');
+                $is_https = (!empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off');
                 $proto = $is_https ? 'https' : 'http';
                 $subdir = dirname($_SERVER['SCRIPT_NAME']);
                 $subdir = ($subdir === '/' || $subdir === '\\') ? '/' : $subdir . '/';
@@ -137,9 +135,7 @@ if (stripos($subdir, $docroot) === 0) {
     $subdir = substr($subdir, strlen($docroot));
 }
 $subdir = ($subdir === \'\' || $subdir === \'/\') ? \'/\' : \'/\' . trim($subdir, \'/\') . \'/\';
-$is_https = (!empty($_SERVER[\'HTTPS\']) && $_SERVER[\'HTTPS\'] !== \'off\')
-    || (isset($_SERVER[\'SERVER_PORT\']) && $_SERVER[\'SERVER_PORT\'] == 443)
-    || (isset($_SERVER[\'HTTP_X_FORWARDED_PROTO\']) && $_SERVER[\'HTTP_X_FORWARDED_PROTO\'] === \'https\');
+$is_https = (!empty($_SERVER[\'HTTPS\']) && strtolower($_SERVER[\'HTTPS\']) !== \'off\');
 $proto = $is_https ? \'https\' : \'http\';
 define(\'BASE_URL\', "{$proto}://{$_SERVER[\'HTTP_HOST\']}{$subdir}");
 
