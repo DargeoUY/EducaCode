@@ -1,5 +1,7 @@
-# Configuracion - NO SUBIR a produccion sin cambiar
-config.php
+# Configuracion - EDITAR antes de subir
+# config.php  (descomentar si vas a subir a un repo publico)
+
+# Solo ignorar setup.php por seguridad
 setup.php
 
 # Uploads
