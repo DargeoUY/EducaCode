@@ -19,6 +19,7 @@ $noLeidas = ($rol && $rol !== 'admin') ? notificacionesNoLeidas($pdo, $usuario['
 </head>
 <body>
 <div class="fondo-particulas"></div>
+<div class="fondo-plataforma" style="position:fixed;top:0;left:0;width:100%;height:100%;background:url('<?= BASE_URL ?>img/fondo.jpg') center/cover no-repeat;opacity:.08;z-index:0;pointer-events:none;"></div>
 
 <nav class="navbar">
     <div class="nav-container">

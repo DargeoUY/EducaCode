@@ -50,6 +50,8 @@ if (isset($_GET['eliminar'])) {
     redirigir('docente/banco-preguntas.php');
 }
 
+sembrarBancoDocente($pdo, $uid);
+
 $banco = $pdo->prepare("SELECT * FROM banco_preguntas WHERE docente_id = :uid ORDER BY materia, creado_en DESC");
 $banco->execute([':uid' => $uid]);
 $banco = $banco->fetchAll();

@@ -120,3 +120,32 @@ function formatearTiempo($minutos) {
     }
     return $minutos . ' min';
 }
+
+function sembrarBancoDocente($pdo, $docente_id) {
+    $existe = $pdo->prepare("SELECT COUNT(*) FROM banco_preguntas WHERE docente_id = :d");
+    $existe->execute([':d' => $docente_id]);
+    if ($existe->fetchColumn() > 0) return;
+
+    $preguntas = [
+        ['Pseudocódigo', '¿Qué estructura se usa para repetir un bloque de código mientras una condición sea verdadera?', 'multiple', json_encode(['While','For','If','Switch']), 'While', 10],
+        ['Pseudocódigo', '¿Qué símbolo se usa para asignar un valor a una variable?', 'multiple', json_encode(['=','←',':=','==']), '←', 10],
+        ['Pseudocódigo', '¿Qué palabra clave se usa para declarar una función?', 'multiple', json_encode(['Funcion','Def','Function','Sub']), 'Funcion', 10],
+        ['Pseudocódigo', '¿Cuál es el valor de verdad de: (5 > 3) Y (2 < 1)?', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Falso', 5],
+        ['Pseudocódigo', 'Para leer un dato ingresado por el usuario se usa la instrucción...', 'completar', json_encode([]), 'Leer|leer|LEER', 10],
+        ['Diseño Web', '¿Qué etiqueta HTML se usa para el encabezado principal?', 'multiple', json_encode(['h1','title','head','header']), 'h1', 10],
+        ['Diseño Web', '¿Qué propiedad CSS cambia el color de fondo?', 'multiple', json_encode(['color','background-color','bgcolor','font-color']), 'background-color', 10],
+        ['Diseño Web', '¿Qué etiqueta crea un enlace en HTML?', 'multiple', json_encode(['link','a','href','url']), 'a', 10],
+        ['Diseño Web', 'CSS significa "Cascading Style Sheets"', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Verdadero', 5],
+        ['Diseño Web', 'La etiqueta para insertar una imagen en HTML es...', 'completar', json_encode([]), 'img|IMG|Img', 10],
+        ['Python', '¿Qué función se usa para mostrar texto en pantalla?', 'multiple', json_encode(['print','echo','console.log','display']), 'print', 10],
+        ['Python', '¿Qué tipo de dato es True en Python?', 'multiple', json_encode(['string','int','bool','float']), 'bool', 10],
+        ['Python', '¿Qué palabra clave define una función en Python?', 'multiple', json_encode(['def','function','func','define']), 'def', 10],
+        ['Python', 'Python es un lenguaje compilado', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Falso', 5],
+        ['Python', 'La función para obtener la longitud de una lista es...', 'completar', json_encode([]), 'len|len()|LEN', 10],
+    ];
+
+    $stmt = $pdo->prepare("INSERT INTO banco_preguntas (docente_id, materia, texto, tipo, opciones_json, respuesta_correcta, puntaje) VALUES (:d, :m, :t, :tp, :oj, :r, :p)");
+    foreach ($preguntas as $p) {
+        $stmt->execute([':d' => $docente_id, ':m' => $p[0], ':t' => $p[1], ':tp' => $p[2], ':oj' => $p[3], ':r' => $p[4], ':p' => $p[5]]);
+    }
+}

@@ -11,6 +11,12 @@ require_estudiante();
 $usuario = usuario_actual($pdo);
 $uid = $usuario['id'];
 $mensaje = '';
+$codigoUrl = strtoupper(trim($_GET['codigo'] ?? ''));
+
+if ($codigoUrl !== '') {
+    $_POST['codigo'] = $codigoUrl;
+    $_SERVER['REQUEST_METHOD'] = 'POST';
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $codigo = strtoupper(trim($_POST['codigo']));

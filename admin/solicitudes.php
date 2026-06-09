@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
         if ($nuevo_estado === 'aprobada') {
             $pdo->prepare("UPDATE usuarios SET rol = 'docente' WHERE id = :uid")
                 ->execute([':uid' => $sol['usuario_id']]);
+            sembrarBancoDocente($pdo, $sol['usuario_id']);
         }
 
         $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Solicitud ' . $nuevo_estado . '.'];

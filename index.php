@@ -18,6 +18,10 @@ if (isset($_SESSION['usuario_id'])) {
 
 $error = '';
 $redirect = $_GET['redirect'] ?? '';
+$codigo = $_GET['codigo'] ?? '';
+if ($codigo !== '') {
+    $redirect = 'estudiante/dashboard.php?codigo=' . urlencode($codigo);
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

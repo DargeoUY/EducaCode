@@ -82,7 +82,7 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="page-header">
-    <h1>⚙️ <?= sanitizar($grupo['nombre']) ?></h1>
+    <h1><img src="<?= BASE_URL ?>img/grupo.png" alt="" width="28" height="28" style="vertical-align:middle;margin-right:8px;"><?= sanitizar($grupo['nombre']) ?></h1>
     <p>Código de invitación: <strong class="codigo-grande"><?= sanitizar($grupo['codigo_invitacion']) ?></strong>
     <?php if ($grupo['codigo_expiracion']): ?>
         — Expira: <?= formatearFecha($grupo['codigo_expiracion']) ?>
@@ -101,8 +101,19 @@ require_once __DIR__ . '/../includes/header.php';
         <div class="codigo-banner-icon">🔑</div>
         <h2>¡Grupo creado!</h2>
         <p>Compartí este código con tus estudiantes para que se unan:</p>
-        <div class="codigo-display"><?= sanitizar($grupo['codigo_invitacion']) ?></div>
-        <p class="codigo-banner-hint">Los estudiantes deben ingresar este código en su panel</p>
+        <div class="codigo-display" id="codigoGrupo"><?= sanitizar($grupo['codigo_invitacion']) ?></div>
+        <button type="button" class="btn-primario" style="margin-top:12px;display:inline-block;width:auto;" onclick="copiarEnlace()">📋 Copiar enlace de invitación</button>
+        <p class="codigo-banner-hint">Los estudiantes pueden unirse con el código o haciendo clic en el enlace</p>
+        <script>
+        function copiarEnlace() {
+            var enlace = '<?= BASE_URL ?>?codigo=<?= $grupo['codigo_invitacion'] ?>';
+            var btn = document.querySelector('.btn-primario[onclick="copiarEnlace()"]');
+            navigator.clipboard.writeText(enlace).then(function() {
+                btn.textContent = '✓ Enlace copiado';
+                setTimeout(function() { btn.textContent = '📋 Copiar enlace de invitación'; }, 2000);
+            });
+        }
+        </script>
     </div>
 <?php endif; ?>
 
