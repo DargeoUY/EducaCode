@@ -131,8 +131,12 @@ define(\'DB_USER\', \'' . addcslashes($db['user'], "\\'") . '\');
 define(\'DB_PASS\', \'' . addcslashes($db['pass'], "\\'") . '\');
 define(\'DB_CHARSET\', \'utf8mb4\');
 
-$subdir = dirname($_SERVER[\'SCRIPT_NAME\']);
-$subdir = ($subdir === \'/\' || $subdir === \'\\\\\') ? \'/\' : $subdir . \'/\';
+$subdir = str_replace(\'\\\\\', \'/\', __DIR__);
+$docroot = str_replace(\'\\\\\', \'/\', rtrim($_SERVER[\'DOCUMENT_ROOT\'] ?? dirname($_SERVER[\'SCRIPT_FILENAME\']), \'/\'));
+if (stripos($subdir, $docroot) === 0) {
+    $subdir = substr($subdir, strlen($docroot));
+}
+$subdir = ($subdir === \'\' || $subdir === \'/\') ? \'/\' : \'/\' . trim($subdir, \'/\') . \'/\';
 $is_https = (!empty($_SERVER[\'HTTPS\']) && $_SERVER[\'HTTPS\'] !== \'off\')
     || (isset($_SERVER[\'SERVER_PORT\']) && $_SERVER[\'SERVER_PORT\'] == 443)
     || (isset($_SERVER[\'HTTP_X_FORWARDED_PROTO\']) && $_SERVER[\'HTTP_X_FORWARDED_PROTO\'] === \'https\');
@@ -261,9 +265,9 @@ if (!file_exists(UPLOAD_DIR)) {
                 <input type="password" id="db_pass" name="db_pass" placeholder="Contraseña de la BD">
             </div>
             <div class="form-group">
-                <label for="base_url">URL de la plataforma</label>
-                <input type="text" id="base_url" name="base_url" required placeholder="https://test.geodk.sbs/plataforma" value="<?= htmlspecialchars($_POST['base_url'] ?? (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '') . '/plataforma') ?>">
-                <div class="help">Con https:// y sin barra final</div>
+                <label for="base_url">URL de la plataforma (auto-detectada)</label>
+                <input type="text" id="base_url" name="base_url" value="<?= htmlspecialchars($_POST['base_url'] ?? (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . '://' . ($_SERVER['HTTP_HOST'] ?? '') . dirname($_SERVER['SCRIPT_NAME']) . '/') ?>" class="input-dato" readonly style="opacity:0.7;">
+                <div class="help">Se detecta automáticamente. No modificar salvo que falle.</div>
             </div>
             <button type="submit">Probar conexión y continuar</button>
         </form>
