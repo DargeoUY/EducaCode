@@ -6,10 +6,10 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../includes/funciones.php';
 require_once __DIR__ . '/../includes/auth.php';
-require_docente();
 
 $usuario = usuario_actual($pdo);
 $uid = $usuario['id'];
+$esAdmin = ($usuario['rol'] === 'admin');
 $mensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -29,12 +29,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $opciones = ['Verdadero', 'Falso'];
     }
 
+    $destino = $esAdmin ? 0 : $uid;
+
     if ($texto === '' || $respuesta === '') {
         $mensaje = ['error', 'Completa el texto y la respuesta correcta.'];
     } else {
         $pdo->prepare("INSERT INTO banco_preguntas (docente_id, materia, texto, tipo, opciones_json, respuesta_correcta, puntaje) VALUES (:d, :m, :t, :tp, :oj, :r, :p)")
             ->execute([
-                ':d' => $uid, ':m' => $materia, ':t' => $texto, ':tp' => $tipo,
+                ':d' => $destino, ':m' => $materia, ':t' => $texto, ':tp' => $tipo,
                 ':oj' => json_encode($opciones, JSON_UNESCAPED_UNICODE),
                 ':r' => $respuesta, ':p' => $puntaje
             ]);
@@ -45,26 +47,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (isset($_GET['eliminar'])) {
     $bid = (int)$_GET['eliminar'];
-    $check = $pdo->prepare("SELECT texto FROM banco_preguntas WHERE id = :id AND docente_id = :uid");
-    $check->execute([':id' => $bid, ':uid' => $uid]);
+    $check = $pdo->prepare("SELECT texto, docente_id FROM banco_preguntas WHERE id = :id");
+    $check->execute([':id' => $bid]);
     $pregunta = $check->fetch();
-    if ($pregunta && esPreguntaSemilla($pregunta['texto'])) {
-        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas del banco recomendado no se pueden eliminar.'];
+    if (!$pregunta) {
+        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Pregunta no encontrada.'];
+    } elseif ($pregunta['docente_id'] == 0 && !$esAdmin) {
+        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas del banco de sugerencias no se pueden eliminar.'];
+    } elseif ($pregunta['docente_id'] != $uid && !$esAdmin) {
+        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'No puedes eliminar preguntas de otro docente.'];
+    } elseif (esPreguntaSemilla($pregunta['texto'])) {
+        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas recomendadas no se pueden eliminar.'];
     } else {
-        $pdo->prepare("DELETE FROM banco_preguntas WHERE id = :id AND docente_id = :uid")->execute([':id' => $bid, ':uid' => $uid]);
+        $pdo->prepare("DELETE FROM banco_preguntas WHERE id = :id")->execute([':id' => $bid]);
         $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta eliminada.'];
     }
     redirigir('docente/banco-preguntas.php');
 }
 
-sembrarBancoDocente($pdo, $uid);
+sembrarBancoDocente($pdo);
 
-$banco = $pdo->prepare("SELECT * FROM banco_preguntas WHERE docente_id = :uid ORDER BY materia, creado_en DESC");
-$banco->execute([':uid' => $uid]);
-$banco = $banco->fetchAll();
+$tab = $_GET['tab'] ?? 'sugerencias';
+
+$sugerencias = $pdo->query("SELECT * FROM banco_preguntas WHERE docente_id = 0 ORDER BY materia, creado_en DESC")->fetchAll();
+$privadas = $pdo->prepare("SELECT * FROM banco_preguntas WHERE docente_id = :uid ORDER BY materia, creado_en DESC");
+$privadas->execute([':uid' => $uid]);
+$privadas = $privadas->fetchAll();
+
+$banco = $tab === 'privadas' ? $privadas : $sugerencias;
 
 $materias = [];
-foreach ($banco as $b) { $materias[$b['materia']] = true; }
+foreach (array_merge($sugerencias, $privadas) as $b) { $materias[$b['materia']] = true; }
 $materias = array_keys($materias);
 
 $titulo = 'Banco de Preguntas';
@@ -73,7 +86,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 <div class="page-header">
     <h1>🗂 Banco de Preguntas</h1>
-    <p>Preguntas reutilizables para tus evaluaciones</p>
+    <p><?= $esAdmin ? 'Administrá el banco de sugerencias (visible para todos los docentes)' : 'Preguntas reutilizables para tus evaluaciones' ?></p>
 </div>
 
 <?php if ($mensaje): ?>
@@ -81,21 +94,22 @@ require_once __DIR__ . '/../includes/header.php';
 <?php endif; ?>
 
 <div class="card">
-    <h2>➕ Nueva pregunta</h2>
+    <h2>➕ Nueva pregunta <?= $esAdmin ? '(Sugerencias — visible para todos)' : '(Privada)' ?></h2>
     <form method="POST">
         <div class="input-row-2">
             <div class="grupo-input">
                 <label for="materia">Materia</label>
                 <div style="display:flex;gap:8px;">
                     <select id="materia" name="materia" class="input-dato" style="flex:1;">
-                        <option value="General">General</option>
+                        <option value="Pseudocódigo">Pseudocódigo</option>
                         <option value="HTML">HTML</option>
                         <option value="CSS">CSS</option>
                         <option value="JavaScript">JavaScript</option>
+                        <option value="Diseño Web">Diseño Web</option>
                         <option value="Python">Python</option>
                         <option value="Algoritmia">Algoritmia</option>
-                        <option value="Pseudocódigo">Pseudocódigo</option>
-                        <?php foreach ($materias as $m): if ($m !== 'General' && !in_array($m, ['HTML','CSS','JavaScript','Python','Algoritmia','Pseudocódigo'])): ?>
+                        <option value="General">General</option>
+                        <?php foreach ($materias as $m): if (!in_array($m, ['Pseudocódigo','HTML','CSS','JavaScript','Diseño Web','Python','Algoritmia','General'])): ?>
                         <option value="<?= sanitizar($m) ?>"><?= sanitizar($m) ?></option>
                         <?php endif; endforeach; ?>
                     </select>
@@ -141,7 +155,10 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <div class="card">
-    <h2>📋 Banco de preguntas (<?= count($banco) ?>)</h2>
+    <div class="banco-tabs">
+        <a href="?tab=sugerencias" class="banco-tab <?= $tab === 'sugerencias' ? 'active' : '' ?>">📌 Sugerencias (<?= count($sugerencias) ?>)</a>
+        <a href="?tab=privadas" class="banco-tab <?= $tab === 'privadas' ? 'active' : '' ?>">🔒 Mis preguntas (<?= count($privadas) ?>)</a>
+    </div>
     <?php if (empty($banco)): ?>
         <p class="vacio">No tienes preguntas en tu banco. ¡Crea la primera o espera a que se carguen las recomendadas!</p>
     <?php else: ?>
@@ -154,7 +171,7 @@ require_once __DIR__ . '/../includes/header.php';
         $icono = iconoMateria($mat);
         $total = count($preguntas);
     ?>
-    <div class="materia-seccion">
+    <div class="materia-seccion colapsado">
         <div class="materia-header" onclick="this.parentElement.classList.toggle('colapsado')">
             <span class="materia-icono"><?= $icono ?></span>
             <span class="materia-nombre"><?= sanitizar($mat) ?></span>
@@ -195,6 +212,19 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <style>
+.banco-tabs {
+    display: flex; gap: 0; margin-bottom: 16px;
+    border-bottom: 2px solid var(--borde);
+}
+.banco-tab {
+    padding: 10px 20px; text-decoration: none; font-weight: 600; font-size: .88rem;
+    color: var(--texto-secundario); border-bottom: 2px solid transparent;
+    margin-bottom: -2px; transition: all .2s;
+}
+.banco-tab:hover { color: var(--texto); }
+.banco-tab.active {
+    color: var(--primario-claro); border-bottom-color: var(--primario-claro);
+}
 .materia-seccion { margin-bottom: 12px; border: 1px solid var(--borde); border-radius: 12px; overflow: hidden; }
 .materia-header {
     display: flex; align-items: center; gap: 12px; padding: 14px 18px;

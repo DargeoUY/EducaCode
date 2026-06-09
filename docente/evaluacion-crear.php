@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$banco = $pdo->prepare("SELECT * FROM banco_preguntas WHERE docente_id = :uid ORDER BY materia, creado_en DESC");
+$banco = $pdo->prepare("SELECT * FROM banco_preguntas WHERE docente_id = 0 OR docente_id = :uid ORDER BY materia, creado_en DESC");
 $banco->execute([':uid' => $uid]);
 $banco = $banco->fetchAll();
 

@@ -121,9 +121,8 @@ function formatearTiempo($minutos) {
     return $minutos . ' min';
 }
 
-function sembrarBancoDocente($pdo, $docente_id) {
-    $existe = $pdo->prepare("SELECT COUNT(*) FROM banco_preguntas WHERE docente_id = :d");
-    $existe->execute([':d' => $docente_id]);
+function sembrarBancoDocente($pdo) {
+    $existe = $pdo->query("SELECT COUNT(*) FROM banco_preguntas WHERE docente_id = 0");
     if ($existe->fetchColumn() > 0) return;
 
     $preguntas = [
@@ -132,21 +131,37 @@ function sembrarBancoDocente($pdo, $docente_id) {
         ['Pseudocódigo', '¿Qué palabra clave se usa para declarar una función?', 'multiple', json_encode(['Funcion','Def','Function','Sub']), 'Funcion', 10],
         ['Pseudocódigo', '¿Cuál es el valor de verdad de: (5 > 3) Y (2 < 1)?', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Falso', 5],
         ['Pseudocódigo', 'Para leer un dato ingresado por el usuario se usa la instrucción...', 'completar', json_encode([]), 'Leer|leer|LEER', 10],
+        ['Pseudocódigo', '¿Qué estructura se usa para evaluar múltiples condiciones excluyentes?', 'multiple', json_encode(['Si-Sino','Segun','Mientras','Para']), 'Segun', 10],
         ['Diseño Web', '¿Qué etiqueta HTML se usa para el encabezado principal?', 'multiple', json_encode(['h1','title','head','header']), 'h1', 10],
         ['Diseño Web', '¿Qué propiedad CSS cambia el color de fondo?', 'multiple', json_encode(['color','background-color','bgcolor','font-color']), 'background-color', 10],
         ['Diseño Web', '¿Qué etiqueta crea un enlace en HTML?', 'multiple', json_encode(['link','a','href','url']), 'a', 10],
         ['Diseño Web', 'CSS significa "Cascading Style Sheets"', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Verdadero', 5],
         ['Diseño Web', 'La etiqueta para insertar una imagen en HTML es...', 'completar', json_encode([]), 'img|IMG|Img', 10],
+        ['HTML', '¿Qué etiqueta define un párrafo?', 'multiple', json_encode(['p','paragraph','text','div']), 'p', 10],
+        ['HTML', '¿Cuál es la estructura básica de un documento HTML5?', 'multiple', json_encode(['html>head>body','header>main>footer','div>span>p','head>title>body']), 'html>head>body', 10],
+        ['HTML', '¿Qué atributo se usa para abrir un enlace en nueva pestaña?', 'multiple', json_encode(['target="_blank"','href="_new"','open="tab"','rel="new"']), 'target="_blank"', 10],
+        ['HTML', 'La etiqueta <br> sirve para crear un salto de línea', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Verdadero', 5],
+        ['HTML', '¿Qué etiqueta se usa para crear una lista ordenada?', 'completar', json_encode([]), 'ol|OL', 10],
+        ['CSS', '¿Qué propiedad se usa para cambiar el tamaño de fuente?', 'multiple', json_encode(['font-size','text-size','size','font-weight']), 'font-size', 10],
+        ['CSS', '¿Qué valor de display convierte un elemento en bloque flexible?', 'multiple', json_encode(['flex','block','inline','grid']), 'flex', 10],
+        ['CSS', '¿Qué propiedad controla el espacio interior de un elemento?', 'multiple', json_encode(['margin','padding','spacing','gap']), 'padding', 10],
+        ['CSS', 'El selector de clase se escribe con un punto (.) antes del nombre', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Verdadero', 5],
+        ['CSS', '¿Qué propiedad se usa para redondear bordes?', 'completar', json_encode([]), 'border-radius|border radius', 10],
+        ['JavaScript', '¿Qué función muestra un mensaje en una ventana emergente?', 'multiple', json_encode(['alert()','console.log()','prompt()','confirm()']), 'alert()', 10],
+        ['JavaScript', '¿Qué palabra clave se usa para declarar una variable?', 'multiple', json_encode(['let','var','const','Todas son correctas']), 'Todas son correctas', 10],
+        ['JavaScript', '¿Qué método agrega un elemento al final de un array?', 'multiple', json_encode(['push()','pop()','shift()','append()']), 'push()', 10],
+        ['JavaScript', 'document.getElementById() selecciona un elemento por su clase', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Falso', 5],
         ['Python', '¿Qué función se usa para mostrar texto en pantalla?', 'multiple', json_encode(['print','echo','console.log','display']), 'print', 10],
         ['Python', '¿Qué tipo de dato es True en Python?', 'multiple', json_encode(['string','int','bool','float']), 'bool', 10],
         ['Python', '¿Qué palabra clave define una función en Python?', 'multiple', json_encode(['def','function','func','define']), 'def', 10],
         ['Python', 'Python es un lenguaje compilado', 'verdadero_falso', json_encode(['Verdadero','Falso']), 'Falso', 5],
         ['Python', 'La función para obtener la longitud de una lista es...', 'completar', json_encode([]), 'len|len()|LEN', 10],
+        ['Python', '¿Qué símbolo se usa para comentarios de una línea en Python?', 'completar', json_encode([]), '#|numeral|almohadilla', 10],
     ];
 
-    $stmt = $pdo->prepare("INSERT INTO banco_preguntas (docente_id, materia, texto, tipo, opciones_json, respuesta_correcta, puntaje) VALUES (:d, :m, :t, :tp, :oj, :r, :p)");
+    $stmt = $pdo->prepare("INSERT INTO banco_preguntas (docente_id, materia, texto, tipo, opciones_json, respuesta_correcta, puntaje) VALUES (0, :m, :t, :tp, :oj, :r, :p)");
     foreach ($preguntas as $p) {
-        $stmt->execute([':d' => $docente_id, ':m' => $p[0], ':t' => $p[1], ':tp' => $p[2], ':oj' => $p[3], ':r' => $p[4], ':p' => $p[5]]);
+        $stmt->execute([':m' => $p[0], ':t' => $p[1], ':tp' => $p[2], ':oj' => $p[3], ':r' => $p[4], ':p' => $p[5]]);
     }
 }
 
@@ -157,16 +172,32 @@ function esPreguntaSemilla($texto) {
         '¿Qué palabra clave se usa para declarar una función?',
         '¿Cuál es el valor de verdad de: (5 > 3) Y (2 < 1)?',
         'Para leer un dato ingresado por el usuario se usa la instrucción...',
+        '¿Qué estructura se usa para evaluar múltiples condiciones excluyentes?',
         '¿Qué etiqueta HTML se usa para el encabezado principal?',
         '¿Qué propiedad CSS cambia el color de fondo?',
         '¿Qué etiqueta crea un enlace en HTML?',
         'CSS significa "Cascading Style Sheets"',
         'La etiqueta para insertar una imagen en HTML es...',
+        '¿Qué etiqueta define un párrafo?',
+        '¿Cuál es la estructura básica de un documento HTML5?',
+        '¿Qué atributo se usa para abrir un enlace en nueva pestaña?',
+        'La etiqueta <br> sirve para crear un salto de línea',
+        '¿Qué etiqueta se usa para crear una lista ordenada?',
+        '¿Qué propiedad se usa para cambiar el tamaño de fuente?',
+        '¿Qué valor de display convierte un elemento en bloque flexible?',
+        '¿Qué propiedad controla el espacio interior de un elemento?',
+        'El selector de clase se escribe con un punto (.) antes del nombre',
+        '¿Qué propiedad se usa para redondear bordes?',
+        '¿Qué función muestra un mensaje en una ventana emergente?',
+        '¿Qué palabra clave se usa para declarar una variable?',
+        '¿Qué método agrega un elemento al final de un array?',
+        'document.getElementById() selecciona un elemento por su clase',
         '¿Qué función se usa para mostrar texto en pantalla?',
         '¿Qué tipo de dato es True en Python?',
         '¿Qué palabra clave define una función en Python?',
         'Python es un lenguaje compilado',
         'La función para obtener la longitud de una lista es...',
+        '¿Qué símbolo se usa para comentarios de una línea en Python?',
     ];
     return in_array($texto, $semillas);
 }

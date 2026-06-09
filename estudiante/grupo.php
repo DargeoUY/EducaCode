@@ -60,7 +60,7 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <?php if (!empty($notificaciones)): ?>
-<div class="card collapsible">
+<div class="card collapsible collapsed">
     <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
         <span>📢 Avisos del docente (<?= count($notificaciones) ?>)</span>
         <span class="collapsible-arrow">▼</span>
@@ -77,7 +77,7 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 <?php endif; ?>
 
-<div class="card collapsible">
+<div class="card collapsible collapsed">
     <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
         <span>📚 Materiales (<?= count($materiales) ?>)</span>
         <span class="collapsible-arrow">▼</span>
@@ -102,7 +102,7 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
-<div class="card collapsible">
+<div class="card collapsible collapsed">
     <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
         <span>📋 Actividades (<?= count($actividades) ?>)</span>
         <span class="collapsible-arrow">▼</span>
@@ -129,7 +129,7 @@ require_once __DIR__ . '/../includes/header.php';
     </div>
 </div>
 
-<div class="card collapsible">
+<div class="card collapsible collapsed">
     <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
         <span>📝 Evaluaciones (<?= count($evaluaciones) ?>)</span>
         <span class="collapsible-arrow">▼</span>
