@@ -92,12 +92,12 @@ $titulo = 'Iniciar Sesión';
     <link rel="icon" href="<?= BASE_URL ?>img/favicon.svg" type="image/svg+xml">
 </head>
 <body>
-<div class="fondo-particulas"></div>
+<div class="login-bg" style="position:fixed;top:0;left:0;width:100%;height:100%;background:url('<?= BASE_URL ?>img/fondo.jpg') center/cover no-repeat;opacity:.3;z-index:0;"></div>
 
 <div class="login-container">
     <div class="login-card">
         <div class="login-header">
-            <img src="<?= BASE_URL ?>img/logo-icon.svg" alt="EducaCode" class="login-logo" width="100" height="100">
+            <img src="<?= BASE_URL ?>img/Logo.png" alt="EducaCode" class="login-logo">
             <h1>EducaCode</h1>
             <p>Plataforma Educativa</p>
         </div>

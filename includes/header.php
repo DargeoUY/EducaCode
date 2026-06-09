@@ -22,7 +22,7 @@ $noLeidas = ($rol && $rol !== 'admin') ? notificacionesNoLeidas($pdo, $usuario['
 
 <nav class="navbar">
     <div class="nav-container">
-        <a href="<?= BASE_URL ?>" class="nav-logo"><img src="<?= BASE_URL ?>img/logo-icon.svg" alt="" width="28" height="28" style="vertical-align:middle;margin-right:6px;">EducaCode</a>
+        <a href="<?= BASE_URL ?>" class="nav-logo"><img src="<?= BASE_URL ?>img/Logo.png" alt="" width="28" height="28" style="vertical-align:middle;margin-right:6px;">EducaCode</a>
         <div class="nav-links">
             <?php if ($rol === 'admin'): ?>
                 <a href="<?= BASE_URL ?>admin/dashboard.php">📊 Dashboard</a>
