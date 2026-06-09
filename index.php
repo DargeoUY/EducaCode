@@ -27,8 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($username === '' || $password === '') {
             $error = 'Completa todos los campos.';
         } else {
-            $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = :u OR email = :u LIMIT 1");
-            $stmt->execute([':u' => $username]);
+            $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = :u OR email = :e LIMIT 1");
+            $stmt->execute([':u' => $username, ':e' => $username]);
             $usuario = $stmt->fetch();
 
             if ($usuario) {
