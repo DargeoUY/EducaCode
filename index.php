@@ -7,6 +7,9 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/funciones.php';
 require_once __DIR__ . '/includes/auth.php';
 
+error_reporting(E_ALL);
+ini_set('display_errors', 0);
+
 if (isset($_SESSION['usuario_id'])) {
     if ($_SESSION['usuario_rol'] === 'admin') redirigir('admin/dashboard.php');
     elseif ($_SESSION['usuario_rol'] === 'docente') redirigir('docente/dashboard.php');
@@ -17,58 +20,63 @@ $error = '';
 $redirect = $_GET['redirect'] ?? '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = trim($_POST['username'] ?? '');
-    $password = $_POST['password'] ?? '';
+    try {
+        $username = trim($_POST['username'] ?? '');
+        $password = $_POST['password'] ?? '';
 
-    if ($username === '' || $password === '') {
-        $error = 'Completa todos los campos.';
-    } else {
-        $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = :u OR email = :u LIMIT 1");
-        $stmt->execute([':u' => $username]);
-        $usuario = $stmt->fetch();
-
-        if ($usuario) {
-            if (estaBloqueado($usuario)) {
-                $tiempo = strtotime($usuario['bloqueo_hasta']) - time();
-                $min = ceil($tiempo / 60);
-                $error = "Cuenta bloqueada. Intenta de nuevo en $min minuto(s).";
-            } elseif (password_verify($password, $usuario['password_hash'])) {
-                $pdo->prepare("UPDATE usuarios SET intentos_login = 0, bloqueo_hasta = NULL, ultimo_login = NOW() WHERE id = :id")
-                    ->execute([':id' => $usuario['id']]);
-
-                session_regenerate_id(true);
-                $_SESSION['usuario_id'] = $usuario['id'];
-                $_SESSION['usuario_rol'] = $usuario['rol'];
-                $_SESSION['usuario_nombre'] = $usuario['nombre'];
-
-                registrarSesion($pdo, $usuario['id'], 'login');
-
-                if ($redirect && strpos($redirect, 'logout') === false) {
-                    header('Location: ' . $redirect);
-                } elseif ($usuario['rol'] === 'admin') {
-                    redirigir('admin/dashboard.php');
-                } elseif ($usuario['rol'] === 'docente') {
-                    redirigir('docente/dashboard.php');
-                } else {
-                    redirigir('estudiante/dashboard.php');
-                }
-                exit;
-            } else {
-                $intentos = $usuario['intentos_login'] + 1;
-                if ($intentos >= MAX_INTENTOS_LOGIN) {
-                    $bloqueo = date('Y-m-d H:i:s', strtotime('+' . BLOQUEO_MINUTOS . ' minutes'));
-                    $pdo->prepare("UPDATE usuarios SET intentos_login = :i, bloqueado = 1, bloqueo_hasta = :b WHERE id = :id")
-                        ->execute([':i' => $intentos, ':b' => $bloqueo, ':id' => $usuario['id']]);
-                    $error = "Demasiados intentos. Cuenta bloqueada por " . BLOQUEO_MINUTOS . " minutos.";
-                } else {
-                    $pdo->prepare("UPDATE usuarios SET intentos_login = :i WHERE id = :id")
-                        ->execute([':i' => $intentos, ':id' => $usuario['id']]);
-                    $error = "Contraseña incorrecta. Te quedan " . (MAX_INTENTOS_LOGIN - $intentos) . " intento(s).";
-                }
-            }
+        if ($username === '' || $password === '') {
+            $error = 'Completa todos los campos.';
         } else {
-            $error = 'Usuario no encontrado.';
+            $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE username = :u OR email = :u LIMIT 1");
+            $stmt->execute([':u' => $username]);
+            $usuario = $stmt->fetch();
+
+            if ($usuario) {
+                if (estaBloqueado($usuario)) {
+                    $tiempo = strtotime($usuario['bloqueo_hasta']) - time();
+                    $min = ceil($tiempo / 60);
+                    $error = "Cuenta bloqueada. Intenta de nuevo en $min minuto(s).";
+                } elseif (password_verify($password, $usuario['password_hash'])) {
+                    $pdo->prepare("UPDATE usuarios SET intentos_login = 0, bloqueo_hasta = NULL, ultimo_login = NOW() WHERE id = :id")
+                        ->execute([':id' => $usuario['id']]);
+
+                    session_regenerate_id(true);
+                    $_SESSION['usuario_id'] = $usuario['id'];
+                    $_SESSION['usuario_rol'] = $usuario['rol'];
+                    $_SESSION['usuario_nombre'] = $usuario['nombre'];
+
+                    registrarSesion($pdo, $usuario['id'], 'login');
+
+                    if ($redirect && strpos($redirect, 'logout') === false) {
+                        header('Location: ' . $redirect);
+                    } elseif ($usuario['rol'] === 'admin') {
+                        redirigir('admin/dashboard.php');
+                    } elseif ($usuario['rol'] === 'docente') {
+                        redirigir('docente/dashboard.php');
+                    } else {
+                        redirigir('estudiante/dashboard.php');
+                    }
+                    exit;
+                } else {
+                    $intentos = $usuario['intentos_login'] + 1;
+                    if ($intentos >= MAX_INTENTOS_LOGIN) {
+                        $bloqueo = date('Y-m-d H:i:s', strtotime('+' . BLOQUEO_MINUTOS . ' minutes'));
+                        $pdo->prepare("UPDATE usuarios SET intentos_login = :i, bloqueado = 1, bloqueo_hasta = :b WHERE id = :id")
+                            ->execute([':i' => $intentos, ':b' => $bloqueo, ':id' => $usuario['id']]);
+                        $error = "Demasiados intentos. Cuenta bloqueada por " . BLOQUEO_MINUTOS . " minutos.";
+                    } else {
+                        $pdo->prepare("UPDATE usuarios SET intentos_login = :i WHERE id = :id")
+                            ->execute([':i' => $intentos, ':id' => $usuario['id']]);
+                        $error = "Contraseña incorrecta. Te quedan " . (MAX_INTENTOS_LOGIN - $intentos) . " intento(s).";
+                    }
+                }
+            } else {
+                $error = 'Usuario no encontrado.';
+            }
         }
+    } catch (Exception $e) {
+        $error = 'Error del servidor: ' . $e->getMessage();
+        error_log('Login error: ' . $e->getMessage());
     }
 }
 
