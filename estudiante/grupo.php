@@ -51,7 +51,7 @@ require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="page-header">
-    <h1>📂 <?= sanitizar($grupo['nombre']) ?></h1>
+    <h1><img src="<?= BASE_URL ?>img/grupo.png" alt="" width="28" height="28" style="vertical-align:middle;margin-right:8px;"><?= sanitizar($grupo['nombre']) ?></h1>
     <?php if ($grupo['descripcion']): ?>
         <p><?= sanitizar($grupo['descripcion']) ?></p>
     <?php endif; ?>
@@ -60,8 +60,12 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <?php if (!empty($notificaciones)): ?>
-<div class="card">
-    <h2>📢 Avisos del docente</h2>
+<div class="card collapsible">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
+        <span>📢 Avisos del docente (<?= count($notificaciones) ?>)</span>
+        <span class="collapsible-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
     <?php foreach ($notificaciones as $notif): ?>
     <div class="notif-item">
         <strong><?= sanitizar($notif['titulo']) ?></strong>
@@ -69,40 +73,46 @@ require_once __DIR__ . '/../includes/header.php';
         <small><?= formatearFecha($notif['creado_en']) ?></small>
     </div>
     <?php endforeach; ?>
+    </div>
 </div>
 <?php endif; ?>
 
-<div class="card">
-    <h2>📚 Materiales de ayuda</h2>
+<div class="card collapsible">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
+        <span>📚 Materiales (<?= count($materiales) ?>)</span>
+        <span class="collapsible-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
     <?php if (empty($materiales)): ?>
         <p class="vacio">No hay materiales disponibles.</p>
     <?php else: ?>
     <table class="tabla">
-        <thead>
-            <tr><th>Título</th><th>Tipo</th><th>Acción</th></tr>
-        </thead>
+        <thead><tr><th>Título</th><th>Tipo</th><th>Acción</th></tr></thead>
         <tbody>
         <?php foreach ($materiales as $m): ?>
             <tr>
                 <td><?= sanitizar($m['titulo']) ?></td>
-                <td><span class="tag"><?= $m['tipo'] ?></span></td>
+                <td><span class="tag tag-<?= $m['tipo'] ?>"><?= $m['tipo'] ?></span></td>
                 <td><a href="<?= sanitizar($m['contenido_url']) ?>" target="_blank" rel="noopener" class="btn-sm btn-accion">Abrir ↗</a></td>
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
     <?php endif; ?>
+    </div>
 </div>
 
-<div class="card">
-    <h2>📋 Actividades</h2>
+<div class="card collapsible">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
+        <span>📋 Actividades (<?= count($actividades) ?>)</span>
+        <span class="collapsible-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
     <?php if (empty($actividades)): ?>
         <p class="vacio">No hay actividades disponibles.</p>
     <?php else: ?>
     <table class="tabla">
-        <thead>
-            <tr><th>Título</th><th>Tipo</th><th>Fecha límite</th></tr>
-        </thead>
+        <thead><tr><th>Título</th><th>Tipo</th><th>Fecha límite</th></tr></thead>
         <tbody>
         <?php foreach ($actividades as $a): ?>
             <tr>
@@ -116,23 +126,21 @@ require_once __DIR__ . '/../includes/header.php';
         </tbody>
     </table>
     <?php endif; ?>
+    </div>
 </div>
 
-<div class="card">
-    <h2>📝 Evaluaciones</h2>
+<div class="card collapsible">
+    <div class="collapsible-header" onclick="this.parentElement.classList.toggle('collapsed')">
+        <span>📝 Evaluaciones (<?= count($evaluaciones) ?>)</span>
+        <span class="collapsible-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
     <?php if (empty($evaluaciones)): ?>
         <p class="vacio">No hay evaluaciones disponibles.</p>
     <?php else: ?>
     <table class="tabla">
         <thead>
-            <tr>
-                <th>Título</th>
-                <th>Puntaje máx</th>
-                <th>Duración</th>
-                <th>Intentos</th>
-                <th>Mejor nota</th>
-                <th>Acción</th>
-            </tr>
+            <tr><th>Título</th><th>Puntaje</th><th>Duración</th><th>Intentos</th><th>Mejor nota</th><th></th></tr>
         </thead>
         <tbody>
         <?php foreach ($evaluaciones as $e):
@@ -147,7 +155,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <td><?= $e['mi_mejor_nota'] !== null ? number_format($e['mi_mejor_nota'], 1) : '—' ?></td>
                 <td>
                     <?php if (!$puedeRendir): ?>
-                        <span style="color:var(--error);">Sin intentos disponibles</span>
+                        <span style="color:var(--error);">Sin intentos</span>
                     <?php elseif ($vencida): ?>
                         <span style="color:var(--texto-secundario);">Vencida</span>
                     <?php else: ?>
@@ -159,6 +167,25 @@ require_once __DIR__ . '/../includes/header.php';
         </tbody>
     </table>
     <?php endif; ?>
+    </div>
 </div>
+
+<style>
+.collapsible { border: 1px solid var(--borde); border-radius: 12px; overflow: hidden; }
+.collapsible-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; background: rgba(99,102,241,.05);
+    cursor: pointer; user-select: none; font-weight: 700; font-size: .95rem;
+    transition: background .2s;
+}
+.collapsible-header:hover { background: rgba(99,102,241,.1); }
+.collapsible-arrow { font-size: .7rem; color: var(--texto-secundario); transition: transform .3s; }
+.collapsible.collapsed .collapsible-body { display: none; }
+.collapsible.collapsed .collapsible-arrow { transform: rotate(-90deg); }
+.collapsible-body { padding: 12px 18px; }
+.tag-link { background: rgba(99,102,241,.15); color: #818cf8; }
+.tag-archivo { background: rgba(16,185,129,.15); color: #10b981; }
+.tag-html { background: rgba(245,158,11,.15); color: #f59e0b; }
+</style>
 
 <?php require_once __DIR__ . '/../includes/footer.php'; ?>
