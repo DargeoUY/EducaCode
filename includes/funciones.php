@@ -149,3 +149,38 @@ function sembrarBancoDocente($pdo, $docente_id) {
         $stmt->execute([':d' => $docente_id, ':m' => $p[0], ':t' => $p[1], ':tp' => $p[2], ':oj' => $p[3], ':r' => $p[4], ':p' => $p[5]]);
     }
 }
+
+function esPreguntaSemilla($texto) {
+    $semillas = [
+        '¿Qué estructura se usa para repetir un bloque de código mientras una condición sea verdadera?',
+        '¿Qué símbolo se usa para asignar un valor a una variable?',
+        '¿Qué palabra clave se usa para declarar una función?',
+        '¿Cuál es el valor de verdad de: (5 > 3) Y (2 < 1)?',
+        'Para leer un dato ingresado por el usuario se usa la instrucción...',
+        '¿Qué etiqueta HTML se usa para el encabezado principal?',
+        '¿Qué propiedad CSS cambia el color de fondo?',
+        '¿Qué etiqueta crea un enlace en HTML?',
+        'CSS significa "Cascading Style Sheets"',
+        'La etiqueta para insertar una imagen en HTML es...',
+        '¿Qué función se usa para mostrar texto en pantalla?',
+        '¿Qué tipo de dato es True en Python?',
+        '¿Qué palabra clave define una función en Python?',
+        'Python es un lenguaje compilado',
+        'La función para obtener la longitud de una lista es...',
+    ];
+    return in_array($texto, $semillas);
+}
+
+function iconoMateria($materia) {
+    $iconos = [
+        'Pseudocódigo' => '📜',
+        'Diseño Web'   => '🌐',
+        'Python'       => '🐍',
+        'HTML'         => '🏗️',
+        'CSS'          => '🎨',
+        'JavaScript'   => '⚡',
+        'Algoritmia'   => '🧮',
+        'General'      => '📂',
+    ];
+    return $iconos[$materia] ?? '📌';
+}

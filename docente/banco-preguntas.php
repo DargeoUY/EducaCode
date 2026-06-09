@@ -45,8 +45,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 if (isset($_GET['eliminar'])) {
     $bid = (int)$_GET['eliminar'];
-    $pdo->prepare("DELETE FROM banco_preguntas WHERE id = :id AND docente_id = :uid")->execute([':id' => $bid, ':uid' => $uid]);
-    $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta eliminada.'];
+    $check = $pdo->prepare("SELECT texto FROM banco_preguntas WHERE id = :id AND docente_id = :uid");
+    $check->execute([':id' => $bid, ':uid' => $uid]);
+    $pregunta = $check->fetch();
+    if ($pregunta && esPreguntaSemilla($pregunta['texto'])) {
+        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas del banco recomendado no se pueden eliminar.'];
+    } else {
+        $pdo->prepare("DELETE FROM banco_preguntas WHERE id = :id AND docente_id = :uid")->execute([':id' => $bid, ':uid' => $uid]);
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta eliminada.'];
+    }
     redirigir('docente/banco-preguntas.php');
 }
 
@@ -134,29 +141,81 @@ require_once __DIR__ . '/../includes/header.php';
 </div>
 
 <div class="card">
-    <h2>📋 Preguntas guardadas (<?= count($banco) ?>)</h2>
+    <h2>📋 Banco de preguntas (<?= count($banco) ?>)</h2>
     <?php if (empty($banco)): ?>
-        <p class="vacio">No tienes preguntas en tu banco.</p>
+        <p class="vacio">No tienes preguntas en tu banco. ¡Crea la primera o espera a que se carguen las recomendadas!</p>
     <?php else: ?>
-    <?php $matActual = ''; foreach ($banco as $bp): ?>
-        <?php if ($bp['materia'] !== $matActual): $matActual = $bp['materia']; ?>
-        <h3 style="color:var(--primario-claro);margin-top:16px;margin-bottom:8px;">📂 <?= sanitizar($matActual) ?></h3>
-        <?php endif; ?>
-        <?php $ops = json_decode($bp['opciones_json'], true) ?? []; ?>
-        <div class="pregunta-mini">
-            <div class="pregunta-mini-header">
-                <span><strong><?= sanitizar($bp['tipo']) ?></strong> — <?= $bp['puntaje'] ?> pts</span>
-                <a href="?eliminar=<?= $bp['id'] ?>" class="btn-sm btn-rechazar" onclick="return confirm('¿Eliminar?')">🗑</a>
-            </div>
-            <p><?= sanitizar($bp['texto']) ?></p>
-            <?php if ($ops): ?>
-                <small style="color:var(--texto-secundario);">Opciones: <?= implode(' | ', array_map('sanitizar', $ops)) ?></small><br>
-            <?php endif; ?>
-            <small style="color:var(--exito);">✅ <?= sanitizar($bp['respuesta_correcta']) ?></small>
+    <?php
+    $agrupado = [];
+    foreach ($banco as $bp) {
+        $agrupado[$bp['materia']][] = $bp;
+    }
+    foreach ($agrupado as $mat => $preguntas):
+        $icono = iconoMateria($mat);
+        $total = count($preguntas);
+    ?>
+    <div class="materia-seccion">
+        <div class="materia-header" onclick="this.parentElement.classList.toggle('colapsado')">
+            <span class="materia-icono"><?= $icono ?></span>
+            <span class="materia-nombre"><?= sanitizar($mat) ?></span>
+            <span class="materia-contador"><?= $total ?> pregunta<?= $total !== 1 ? 's' : '' ?></span>
+            <span class="materia-flecha">▼</span>
         </div>
+        <div class="materia-body">
+        <?php foreach ($preguntas as $bp):
+            $ops = json_decode($bp['opciones_json'], true) ?? [];
+            $esSemilla = esPreguntaSemilla($bp['texto']);
+        ?>
+            <div class="pregunta-mini <?= $esSemilla ? 'pregunta-semilla' : '' ?>">
+                <div class="pregunta-mini-header">
+                    <span>
+                        <span class="tag tag-<?= $bp['tipo'] ?>"><?= $bp['tipo'] === 'multiple' ? 'Multiple' : ($bp['tipo'] === 'verdadero_falso' ? 'V/F' : 'Completar') ?></span>
+                        <strong><?= $bp['puntaje'] ?> pts</strong>
+                        <?php if ($esSemilla): ?><span class="tag tag-semilla">Recomendada</span><?php endif; ?>
+                    </span>
+                    <?php if (!$esSemilla): ?>
+                    <a href="?eliminar=<?= $bp['id'] ?>" class="btn-sm btn-rechazar" onclick="return confirm('¿Eliminar esta pregunta?')" title="Eliminar">🗑</a>
+                    <?php else: ?>
+                    <span class="btn-sm" style="opacity:.3;cursor:not-allowed" title="Las preguntas recomendadas no se pueden eliminar">🔒</span>
+                    <?php endif; ?>
+                </div>
+                <p><?= sanitizar($bp['texto']) ?></p>
+                <?php if ($ops): ?>
+                    <small style="color:var(--texto-secundario);"><?= implode(' | ', array_map('sanitizar', $ops)) ?></small>
+                <?php endif; ?>
+                <div style="margin-top:4px;">
+                    <small style="color:var(--exito);">✅ <?= sanitizar($bp['respuesta_correcta']) ?></small>
+                </div>
+            </div>
+        <?php endforeach; ?>
+        </div>
+    </div>
     <?php endforeach; ?>
     <?php endif; ?>
 </div>
+
+<style>
+.materia-seccion { margin-bottom: 12px; border: 1px solid var(--borde); border-radius: 12px; overflow: hidden; }
+.materia-header {
+    display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+    background: rgba(99,102,241,.06); cursor: pointer; user-select: none;
+    transition: background .2s;
+}
+.materia-header:hover { background: rgba(99,102,241,.1); }
+.materia-icono { font-size: 1.3rem; }
+.materia-nombre { font-weight: 700; color: var(--texto); flex: 1; font-size: .95rem; }
+.materia-contador { font-size: .8rem; color: var(--texto-secundario); background: rgba(99,102,241,.1); padding: 3px 10px; border-radius: 20px; }
+.materia-flecha { font-size: .7rem; color: var(--texto-secundario); transition: transform .3s; }
+.materia-seccion.colapsado .materia-body { display: none; }
+.materia-seccion.colapsado .materia-flecha { transform: rotate(-90deg); }
+.materia-body { padding: 8px 12px 12px; }
+.pregunta-semilla { border-left: 3px solid rgba(99,102,241,.3); }
+.tag-semilla { background: rgba(99,102,241,.15); color: #818cf8; padding: 2px 8px; border-radius: 10px; font-size: .7rem; font-weight: 600; }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: .7rem; font-weight: 600; margin-right: 6px; }
+.tag-multiple { background: rgba(6,182,212,.15); color: #06b6d4; }
+.tag-verdadero_falso { background: rgba(16,185,129,.15); color: #10b981; }
+.tag-completar { background: rgba(245,158,11,.15); color: #f59e0b; }
+</style>
 
 <script>
 function toggleTipoB(tipo) {
