@@ -23,7 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cambiar_password'])) 
     } else {
         $hash = password_hash($nueva, PASSWORD_BCRYPT, ['cost' => 12]);
         $pdo->prepare("UPDATE usuarios SET password_hash = :p WHERE id = :id")->execute([':p' => $hash, ':id' => $uid]);
-        $mensaje = ['exito', 'Contraseña actualizada.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Contraseña actualizada.'];
+        redirigir('admin/configuracion.php');
     }
 }
 

@@ -94,6 +94,10 @@ $titulo = 'Iniciar Sesión';
             <p>Pensamiento Computacional</p>
         </div>
 
+        <?php if (isset($_SESSION['flash'])): ?>
+            <div class="flash flash-<?= $_SESSION['flash']['tipo'] ?? 'info' ?>"><?= sanitizar($_SESSION['flash']['mensaje']) ?></div>
+            <?php unset($_SESSION['flash']); ?>
+        <?php endif; ?>
         <?php if ($error): ?>
             <div class="flash flash-error"><?= sanitizar($error) ?></div>
         <?php endif; ?>

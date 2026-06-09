@@ -39,14 +39,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $pdo->prepare("INSERT INTO materiales (grupo_id, titulo, tipo, contenido_url, archivo_nombre) VALUES (:g, :t, :tp, :u, :an)")
             ->execute([':g' => $gid, ':t' => $titulo, ':tp' => $tipo, ':u' => $url, ':an' => $archivo_nombre]);
-        $mensaje = ['exito', 'Material agregado.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Material agregado.'];
+        redirigir("docente/materiales.php?grupo_id=$gid");
     }
 }
 
 if (isset($_GET['eliminar'])) {
     $mid = (int)$_GET['eliminar'];
     $pdo->prepare("DELETE FROM materiales WHERE id = :id AND grupo_id = :g")->execute([':id' => $mid, ':g' => $gid]);
-    $mensaje = ['exito', 'Material eliminado.'];
+    $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Material eliminado.'];
+    redirigir("docente/materiales.php?grupo_id=$gid");
 }
 
 $materiales = $pdo->prepare("SELECT * FROM materiales WHERE grupo_id = :g ORDER BY creado_en DESC");

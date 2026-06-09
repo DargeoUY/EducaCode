@@ -31,14 +31,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $pdo->prepare("INSERT INTO actividades (grupo_id, titulo, descripcion, tipo, contenido, fecha_limite) VALUES (:g, :t, :d, :tp, :c, :f)")
             ->execute([':g' => $gid, ':t' => $titulo, ':d' => $descripcion, ':tp' => $tipo, ':c' => $contenido, ':f' => $limite]);
-        $mensaje = ['exito', 'Actividad creada.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Actividad creada.'];
+        redirigir("docente/actividades.php?grupo_id=$gid");
     }
 }
 
 if (isset($_GET['eliminar'])) {
     $aid = (int)$_GET['eliminar'];
     $pdo->prepare("DELETE FROM actividades WHERE id = :id AND grupo_id = :g")->execute([':id' => $aid, ':g' => $gid]);
-    $mensaje = ['exito', 'Actividad eliminada.'];
+    $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Actividad eliminada.'];
+    redirigir("docente/actividades.php?grupo_id=$gid");
 }
 
 $actividades = $pdo->prepare("SELECT * FROM actividades WHERE grupo_id = :g ORDER BY creado_en DESC");

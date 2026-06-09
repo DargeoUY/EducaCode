@@ -40,7 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $pdo->prepare("INSERT INTO grupo_miembros (grupo_id, usuario_id) VALUES (:g, :u)")
                     ->execute([':g' => $grupo['id'], ':u' => $uid]);
-                $mensaje = ['exito', '¡Te uniste al grupo "' . sanitizar($grupo['nombre']) . '" correctamente!'];
+                $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => '¡Te uniste al grupo "' . sanitizar($grupo['nombre']) . '" correctamente!'];
+                redirigir('estudiante/dashboard.php');
             }
         }
     }

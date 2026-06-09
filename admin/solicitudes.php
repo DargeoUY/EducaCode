@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
                 ->execute([':uid' => $sol['usuario_id']]);
         }
 
-        $mensaje = ['exito', 'Solicitud ' . $nuevo_estado . '.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Solicitud ' . $nuevo_estado . '.'];
+        redirigir('admin/solicitudes.php');
     }
 }
 

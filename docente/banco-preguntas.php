@@ -38,14 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':oj' => json_encode($opciones, JSON_UNESCAPED_UNICODE),
                 ':r' => $respuesta, ':p' => $puntaje
             ]);
-        $mensaje = ['exito', 'Pregunta agregada al banco.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta agregada al banco.'];
+        redirigir('docente/banco-preguntas.php');
     }
 }
 
 if (isset($_GET['eliminar'])) {
     $bid = (int)$_GET['eliminar'];
     $pdo->prepare("DELETE FROM banco_preguntas WHERE id = :id AND docente_id = :uid")->execute([':id' => $bid, ':uid' => $uid]);
-    $mensaje = ['exito', 'Pregunta eliminada.'];
+    $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta eliminada.'];
+    redirigir('docente/banco-preguntas.php');
 }
 
 $banco = $pdo->prepare("SELECT * FROM banco_preguntas WHERE docente_id = :uid ORDER BY materia, creado_en DESC");

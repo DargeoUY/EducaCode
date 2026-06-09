@@ -38,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             } else {
                 $pdo->prepare("INSERT INTO grupo_miembros (grupo_id, usuario_id) VALUES (:g, :u)")
                     ->execute([':g' => $gid, ':u' => $u['id']]);
-                $mensaje = ['exito', 'Estudiante agregado al grupo.'];
+                $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Estudiante agregado al grupo.'];
+                redirigir("docente/grupo-editar.php?id=$gid");
             }
         }
     } elseif (isset($_POST['accion']) && $_POST['accion'] === 'bloquear') {
@@ -46,19 +47,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $bloq = (int)$_POST['bloqueado'];
         $pdo->prepare("UPDATE grupo_miembros SET bloqueado = :b WHERE id = :id AND grupo_id = :g")
             ->execute([':b' => $bloq ? 0 : 1, ':id' => $mid, ':g' => $gid]);
-        $mensaje = ['exito', $bloq ? 'Estudiante desbloqueado.' : 'Estudiante bloqueado del grupo.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => $bloq ? 'Estudiante desbloqueado.' : 'Estudiante bloqueado del grupo.'];
+        redirigir("docente/grupo-editar.php?id=$gid");
     } elseif (isset($_POST['accion']) && $_POST['accion'] === 'remover') {
         $mid = (int)$_POST['miembro_id'];
         $pdo->prepare("DELETE FROM grupo_miembros WHERE id = :id AND grupo_id = :g")
             ->execute([':id' => $mid, ':g' => $gid]);
-        $mensaje = ['exito', 'Estudiante removido del grupo.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Estudiante removido del grupo.'];
+        redirigir("docente/grupo-editar.php?id=$gid");
     } elseif (isset($_POST['accion']) && $_POST['accion'] === 'enviar_notificacion') {
         $titulo = sanitizar($_POST['notif_titulo']);
         $msg = sanitizar($_POST['notif_mensaje']);
         if ($titulo && $msg) {
             $pdo->prepare("INSERT INTO notificaciones (grupo_id, titulo, mensaje) VALUES (:g, :t, :m)")
                 ->execute([':g' => $gid, ':t' => $titulo, ':m' => $msg]);
-            $mensaje = ['exito', 'Notificación enviada al grupo.'];
+            $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Notificación enviada al grupo.'];
+            redirigir("docente/grupo-editar.php?id=$gid");
         }
     }
 }

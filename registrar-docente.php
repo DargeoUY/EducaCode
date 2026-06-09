@@ -14,7 +14,6 @@ if (isset($_SESSION['usuario_id'])) {
 }
 
 $error = '';
-$exito = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
@@ -43,7 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $pdo->prepare("INSERT INTO solicitudes_docente (usuario_id) VALUES (:uid)")
                 ->execute([':uid' => $uid]);
 
-            $exito = 'Solicitud enviada. Un administrador revisará tu cuenta y te notificará por email.';
+            $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Solicitud enviada. Un administrador revisará tu cuenta.'];
+            redirigir('index.php');
         }
     }
 }
@@ -72,9 +72,6 @@ $titulo = 'Solicitar Cuenta Docente';
 
         <?php if ($error): ?>
             <div class="flash flash-error"><?= sanitizar($error) ?></div>
-        <?php endif; ?>
-        <?php if ($exito): ?>
-            <div class="flash flash-exito"><?= sanitizar($exito) ?></div>
         <?php endif; ?>
 
         <form method="POST" action="" class="login-form">

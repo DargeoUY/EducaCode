@@ -10,7 +10,6 @@ require_once __DIR__ . '/includes/auth.php';
 if (isset($_SESSION['usuario_id'])) redirigir('estudiante/dashboard.php');
 
 $error = '';
-$exito = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username'] ?? '');
@@ -48,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ':rs' => $respuesta_hash,
             ]);
 
-            $exito = 'Cuenta creada exitosamente. Ya puedes iniciar sesión.';
+            $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Cuenta creada exitosamente. Ya puedes iniciar sesión.'];
+            redirigir('index.php');
         }
     }
 }
@@ -77,9 +77,6 @@ $titulo = 'Registro de Estudiante';
 
         <?php if ($error): ?>
             <div class="flash flash-error"><?= sanitizar($error) ?></div>
-        <?php endif; ?>
-        <?php if ($exito): ?>
-            <div class="flash flash-exito"><?= sanitizar($exito) ?></div>
         <?php endif; ?>
 
         <form method="POST" action="" class="login-form">

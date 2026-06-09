@@ -30,23 +30,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
             $hash = password_hash($p, PASSWORD_BCRYPT, ['cost' => 12]);
             $pdo->prepare("INSERT INTO usuarios (username, password_hash, rol, nombre, email) VALUES (:u, :p, :r, :n, :e)")
                 ->execute([':u' => $u, ':p' => $hash, ':r' => $r, ':n' => $n, ':e' => $e]);
-            $mensaje = ['exito', 'Usuario creado correctamente.'];
+            $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Usuario creado correctamente.'];
+            redirigir('admin/usuarios.php');
         }
     } elseif ($_POST['accion'] === 'bloquear') {
         $uid = (int)$_POST['id'];
         $bloq = (int)$_POST['bloqueado'];
         $pdo->prepare("UPDATE usuarios SET bloqueado = :b, intentos_login = 0, bloqueo_hasta = NULL WHERE id = :id")
             ->execute([':b' => $bloq ? 0 : 1, ':id' => $uid]);
-        $mensaje = ['exito', $bloq ? 'Usuario desbloqueado.' : 'Usuario bloqueado.'];
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => $bloq ? 'Usuario desbloqueado.' : 'Usuario bloqueado.'];
+        redirigir('admin/usuarios.php');
     } elseif ($_POST['accion'] === 'cambiar_rol') {
         $uid = (int)$_POST['id'];
         $nuevo_rol = $_POST['nuevo_rol'];
         if ($uid != $usuario['id']) {
             $pdo->prepare("UPDATE usuarios SET rol = :r WHERE id = :id")->execute([':r' => $nuevo_rol, ':id' => $uid]);
-            $mensaje = ['exito', 'Rol actualizado.'];
+            $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Rol actualizado.'];
         } else {
-            $mensaje = ['error', 'No puedes cambiarte tu propio rol.'];
+            $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'No puedes cambiarte tu propio rol.'];
         }
+        redirigir('admin/usuarios.php');
     }
 }
 
