@@ -10,6 +10,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// Bloquear acceso si APP_INSTALLED ya está definido (config.php válido)
+if (defined('APP_INSTALLED') && APP_INSTALLED) {
+    die('<h1>Plataforma ya instalada</h1><p><a href="index.php" style="color:#818cf8;">Ir al login →</a></p>');
+}
+
 $paso = 1;
 $mensaje = '';
 $error = false;
@@ -122,6 +127,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !$exito) {
  * config.php — Configuracion global de la plataforma
  * Generado automaticamente por setup.php
  */
+
+define(\'APP_INSTALLED\', true);
 
 define(\'DB_HOST\', \'' . addcslashes($db['host'], "\\'") . '\');
 define(\'DB_NAME\', \'' . addcslashes($db['name'], "\\'") . '\');

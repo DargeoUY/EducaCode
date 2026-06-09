@@ -21,6 +21,8 @@ if (!$grupo || ($grupo['docente_id'] != $uid && $usuario['rol'] !== 'admin')) {
 $mensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $mensaje = ['error', 'Token de seguridad inválido. Recargá la página.']; }
+    else {
     if (isset($_POST['accion']) && $_POST['accion'] === 'agregar_usuario') {
         $username = sanitizar($_POST['username']);
         $stmt = $pdo->prepare("SELECT id,rol FROM usuarios WHERE username = :u LIMIT 1");
@@ -64,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Notificación enviada al grupo.'];
             redirigir("docente/grupo-editar.php?id=$gid");
         }
+    }
     }
 }
 
@@ -124,6 +127,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card">
     <h2>👥 Agregar estudiante manualmente</h2>
     <form method="POST" class="form-inline">
+        <?= csrfInput() ?>
         <input type="hidden" name="accion" value="agregar_usuario">
         <input type="text" name="username" class="input-dato" placeholder="Nombre de usuario del estudiante" required>
         <button type="submit" class="btn-primario">➕ Agregar</button>
@@ -134,6 +138,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card">
     <h2>📢 Enviar notificación al grupo</h2>
     <form method="POST">
+        <?= csrfInput() ?>
         <input type="hidden" name="accion" value="enviar_notificacion">
         <div class="grupo-input">
             <input type="text" name="notif_titulo" class="input-dato" placeholder="Título de la notificación" required>
@@ -167,6 +172,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <td>
                     <div class="btn-grupo-sm">
                         <form method="POST" style="display:inline;">
+                            <?= csrfInput() ?>
                             <input type="hidden" name="accion" value="bloquear">
                             <input type="hidden" name="miembro_id" value="<?= $m['id'] ?>">
                             <input type="hidden" name="bloqueado" value="<?= $m['bloqueado'] ?>">
@@ -175,6 +181,7 @@ require_once __DIR__ . '/../includes/header.php';
                             </button>
                         </form>
                         <form method="POST" style="display:inline;" onsubmit="return confirm('¿Remover permanentemente a este estudiante?')">
+                            <?= csrfInput() ?>
                             <input type="hidden" name="accion" value="remover">
                             <input type="hidden" name="miembro_id" value="<?= $m['id'] ?>">
                             <button type="submit" class="btn-sm btn-rechazar">🗑 Remover</button>

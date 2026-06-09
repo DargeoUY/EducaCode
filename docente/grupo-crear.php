@@ -12,6 +12,8 @@ $usuario = usuario_actual($pdo);
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $error = 'Token de seguridad inválido. Recargá la página.'; }
+    else {
     $nombre = sanitizar($_POST['nombre']);
     $descripcion = sanitizar($_POST['descripcion'] ?? '');
     $expiracion = $_POST['codigo_expiracion'] ?? '';
@@ -20,7 +22,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'El nombre del grupo es obligatorio.';
     } else {
         $codigo = generarCodigoInvitacion();
-        while ($pdo->prepare("SELECT id FROM grupos WHERE codigo_invitacion = :c")->execute([':c' => $codigo]) && $pdo->query("SELECT id FROM grupos WHERE codigo_invitacion = '$codigo'")->fetch()) {
+        $check = $pdo->prepare("SELECT COUNT(*) FROM grupos WHERE codigo_invitacion = :c");
+        while (true) {
+            $check->execute([':c' => $codigo]);
+            if ($check->fetchColumn() == 0) break;
             $codigo = generarCodigoInvitacion();
         }
 
@@ -31,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $gid = $pdo->lastInsertId();
         redirigir("docente/grupo-editar.php?id=$gid&creado=1");
+    }
     }
 }
 
@@ -48,6 +54,7 @@ require_once __DIR__ . '/../includes/header.php';
     <?php endif; ?>
 
     <form method="POST">
+        <?= csrfInput() ?>
         <div class="grupo-input">
             <label for="nombre">Nombre del grupo *</label>
             <input type="text" id="nombre" name="nombre" class="input-dato" placeholder="Ej: 3ro A — Diseño Web" required>

@@ -17,8 +17,9 @@ if (!$grupo || ($grupo['docente_id'] != $uid && $usuario['rol'] !== 'admin')) {
     redirigir('docente/grupos.php');
 }
 
-if (isset($_GET['eliminar'])) {
-    $eid = (int)$_GET['eliminar'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
+    if (!validarCSRF()) { $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Token de seguridad inválido.']; redirigir("docente/evaluaciones.php?grupo_id=$gid"); }
+    $eid = (int)$_POST['id'];
     $pdo->prepare("DELETE FROM evaluaciones WHERE id = :id AND grupo_id = :g")->execute([':id' => $eid, ':g' => $gid]);
     $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Evaluación eliminada.'];
     redirigir("docente/evaluaciones.php?grupo_id=$gid");
@@ -70,7 +71,12 @@ require_once __DIR__ . '/../includes/header.php';
                 <td>
                     <div class="btn-grupo-sm">
                         <a href="<?= BASE_URL ?>docente/evaluacion-resultados.php?id=<?= $e['id'] ?>" class="btn-sm btn-accion">📊 Resultados</a>
-                        <a href="?grupo_id=<?= $gid ?>&eliminar=<?= $e['id'] ?>" class="btn-sm btn-rechazar" onclick="return confirm('¿Eliminar?')">🗑</a>
+                        <form method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar?')">
+                            <?= csrfInput() ?>
+                            <input type="hidden" name="accion" value="eliminar">
+                            <input type="hidden" name="id" value="<?= $e['id'] ?>">
+                            <button type="submit" class="btn-sm btn-rechazar">🗑</button>
+                        </form>
                     </div>
                 </td>
             </tr>

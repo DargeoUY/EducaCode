@@ -16,6 +16,8 @@ if (isset($_SESSION['usuario_id'])) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $error = 'Token de seguridad inválido. Recargá la página.'; }
+    else {
     $username = trim($_POST['username'] ?? '');
     $nombre = trim($_POST['nombre'] ?? '');
     $email = trim($_POST['email'] ?? '');
@@ -53,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirigir('index.php');
         }
     }
+    }
 }
 
 $titulo = 'Solicitar Cuenta Docente';
@@ -82,6 +85,7 @@ $titulo = 'Solicitar Cuenta Docente';
         <?php endif; ?>
 
         <form method="POST" action="" class="login-form">
+            <?= csrfInput() ?>
             <div class="grupo-input">
                 <label for="username">Usuario *</label>
                 <input type="text" id="username" name="username" class="input-dato" value="<?= sanitizar($_POST['username'] ?? '') ?>" required>

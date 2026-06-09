@@ -13,6 +13,8 @@ $mensaje = '';
 
 // Crear usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
+    if (!validarCSRF()) { $mensaje = ['error', 'Token de seguridad inválido. Recargá la página.']; }
+    else {
     if ($_POST['accion'] === 'crear') {
         $u = sanitizar($_POST['username']);
         $n = sanitizar($_POST['nombre']);
@@ -51,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
         }
         redirigir('admin/usuarios.php');
     }
+    }
 }
 
 $busqueda = $_GET['q'] ?? '';
@@ -83,6 +86,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card">
     <h2>➕ Crear usuario</h2>
     <form method="POST" class="form-inline">
+        <?= csrfInput() ?>
         <input type="hidden" name="accion" value="crear">
         <input type="text" name="username" placeholder="Usuario" class="input-dato" required>
         <input type="text" name="nombre" placeholder="Nombre completo" class="input-dato" required>
@@ -127,6 +131,7 @@ require_once __DIR__ . '/../includes/header.php';
                 <td>
                     <div class="btn-grupo-sm">
                         <form method="POST" style="display:inline;">
+                            <?= csrfInput() ?>
                             <input type="hidden" name="accion" value="bloquear">
                             <input type="hidden" name="id" value="<?= $u['id'] ?>">
                             <input type="hidden" name="bloqueado" value="<?= $u['bloqueado'] ?>">
@@ -136,6 +141,7 @@ require_once __DIR__ . '/../includes/header.php';
                         </form>
                         <?php if ($u['id'] != $usuario['id']): ?>
                         <form method="POST" style="display:inline;">
+                            <?= csrfInput() ?>
                             <input type="hidden" name="accion" value="cambiar_rol">
                             <input type="hidden" name="id" value="<?= $u['id'] ?>">
                             <select name="nuevo_rol" onchange="this.form.submit()" class="input-dato input-sm">

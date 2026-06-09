@@ -40,28 +40,41 @@ $intentoId = $pdo->lastInsertId();
 
 $preguntas = json_decode($eval['preguntas_json'], true) ?? [];
 
-// Shuffle preguntas
+// Etiquetar cada pregunta con su indice original para scoring server-side
+foreach ($preguntas as $i => &$p) {
+    $p['_idx'] = $i;
+}
+unset($p);
+
 if ($eval['shuffle_preguntas']) {
     shuffle($preguntas);
 }
 
-// Seleccionar subconjunto si preguntas_mostrar esta definido
 if ($eval['preguntas_mostrar'] && $eval['preguntas_mostrar'] < count($preguntas)) {
     $preguntas = array_slice($preguntas, 0, $eval['preguntas_mostrar']);
 }
 
-// Shuffle opciones para cada pregunta multiple
 foreach ($preguntas as &$p) {
-    if (($p['tipo'] ?? 'multiple') === 'multiple' && $eval['shuffle_opciones']) {
+    if (($p['tipo'] ?? 'multiple') !== 'completar' && $eval['shuffle_opciones']) {
         $opciones = $p['opciones'] ?? [];
-        $respuesta = $p['respuesta'] ?? '';
         shuffle($opciones);
         $p['opciones'] = $opciones;
     }
 }
 unset($p);
 
-$preguntasJSON = json_encode($preguntas, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+// Guardar preguntas ordenadas (con respuestas) en el intento para scoring server-side
+$pdo->prepare("UPDATE evaluacion_intentos SET respuestas_json = :rj WHERE id = :id")
+    ->execute([':rj' => json_encode($preguntas, JSON_UNESCAPED_UNICODE), ':id' => $intentoId]);
+
+// Enviar al cliente SIN las respuestas correctas
+$preguntasClean = [];
+foreach ($preguntas as $p) {
+    $c = $p;
+    unset($c['respuesta']);
+    $preguntasClean[] = $c;
+}
+$preguntasJSON = json_encode($preguntasClean, JSON_UNESCAPED_UNICODE | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
 $duracionSeg = $eval['duracion_min'] * 60;
 ?>
 <!DOCTYPE html>
@@ -158,9 +171,9 @@ var tiempoRestante = DURACION_SEG;
 var evaluacionEntregada = false;
 var respuestas = {};
 
-// Inicializar respuestas
+// Inicializar respuestas (key = _idx original)
 PREGUNTAS.forEach(function(p, i) {
-    respuestas[i] = null;
+    respuestas[p._idx] = null;
 });
 
 // ============ ANTI-TRAMPA: FULLSCREEN ============
@@ -343,7 +356,7 @@ function renderizarPreguntas() {
                 html += '</div>';
             });
         } else if (tipo === 'completar') {
-            html += '<input type="text" class="input-respuesta" id="respuesta-' + idx + '" placeholder="Escribí tu respuesta..." oninput="respuestas[' + idx + ']=this.value">';
+            html += '<input type="text" class="input-respuesta" id="respuesta-' + idx + '" placeholder="Escribí tu respuesta..." oninput="respuestas[' + p._idx + ']=this.value">';
         }
 
         html += '</div>';
@@ -358,7 +371,6 @@ function escaparHTML(str) {
 }
 
 function seleccionarOpcion(idx, oi, el) {
-    // Desmarcar todas las opciones de esta pregunta
     var opciones = document.querySelectorAll('[id^="opcion-' + idx + '-"]');
     opciones.forEach(function(o) { o.classList.remove('seleccionada'); });
     el.classList.add('seleccionada');
@@ -366,7 +378,8 @@ function seleccionarOpcion(idx, oi, el) {
     var radio = document.getElementById('radio-' + idx + '-' + oi);
     if (radio) radio.checked = true;
 
-    respuestas[idx] = PREGUNTAS[idx].opciones[oi];
+    var pregunta = PREGUNTAS[idx];
+    respuestas[pregunta._idx] = pregunta.opciones[oi];
 }
 
 // ============ ENTREGAR ============
@@ -382,7 +395,7 @@ function entregarEvaluacion() {
     PREGUNTAS.forEach(function(p, idx) {
         if ((p.tipo || 'multiple') === 'completar') {
             var input = document.getElementById('respuesta-' + idx);
-            if (input) respuestas[idx] = input.value;
+            if (input) respuestas[p._idx] = input.value;
         }
     });
 
@@ -393,7 +406,6 @@ function entregarEvaluacion() {
             intento_id: INTENTO_ID,
             evaluacion_id: EVAL_ID,
             respuestas: respuestas,
-            preguntas: PREGUNTAS,
             tab_salidas: tabSalidas
         })
     })

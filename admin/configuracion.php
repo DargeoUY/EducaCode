@@ -12,19 +12,22 @@ $usuario = usuario_actual($pdo);
 $mensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cambiar_password'])) {
+    if (!validarCSRF()) { $mensaje = ['error', 'Token de seguridad inválido. Recargá la página.']; }
+    else {
     $uid = (int)$_POST['user_id'];
     $nueva = $_POST['nueva_password'];
     $nueva2 = $_POST['nueva_password2'];
 
     if ($nueva !== $nueva2) {
         $mensaje = ['error', 'Las contraseñas no coinciden.'];
-    } elseif (strlen($nueva) < 6) {
-        $mensaje = ['error', 'Mínimo 6 caracteres.'];
+    } elseif (strlen($nueva) < 8) {
+        $mensaje = ['error', 'Mínimo 8 caracteres.'];
     } else {
         $hash = password_hash($nueva, PASSWORD_BCRYPT, ['cost' => 12]);
         $pdo->prepare("UPDATE usuarios SET password_hash = :p WHERE id = :id")->execute([':p' => $hash, ':id' => $uid]);
         $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Contraseña actualizada.'];
         redirigir('admin/configuracion.php');
+    }
     }
 }
 
@@ -43,6 +46,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card">
     <h2>🔑 Cambiar contraseña de usuario</h2>
     <form method="POST" class="form-inline">
+        <?= csrfInput() ?>
         <input type="hidden" name="cambiar_password" value="1">
         <select name="user_id" class="input-dato" required>
             <option value="">Seleccionar usuario...</option>

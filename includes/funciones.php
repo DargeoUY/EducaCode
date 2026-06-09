@@ -215,3 +215,23 @@ function iconoMateria($materia) {
     ];
     return $iconos[$materia] ?? '📌';
 }
+
+/**
+ * CSRF Protection
+ */
+function generarTokenCSRF() {
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+function csrfInput() {
+    return '<input type="hidden" name="csrf_token" value="' . generarTokenCSRF() . '">';
+}
+
+function validarCSRF($token = null) {
+    $token = $token ?? ($_POST['csrf_token'] ?? '');
+    $stored = $_SESSION['csrf_token'] ?? '';
+    return $token && $stored && hash_equals($stored, $token);
+}

@@ -20,6 +20,8 @@ if (!$grupo || ($grupo['docente_id'] != $uid && $usuario['rol'] !== 'admin')) {
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $error = 'Token de seguridad inválido. Recargá la página.'; }
+    else {
     $titulo = sanitizar($_POST['titulo']);
     $descripcion = sanitizar($_POST['descripcion'] ?? '');
     $duracion = (int)$_POST['duracion_min'];
@@ -53,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         redirigir("docente/evaluaciones.php?grupo_id=$gid&creada=1");
     }
+    }
 }
 
 $banco = $pdo->prepare("SELECT * FROM banco_preguntas WHERE docente_id = 0 OR docente_id = :uid ORDER BY materia, creado_en DESC");
@@ -73,6 +76,7 @@ require_once __DIR__ . '/../includes/header.php';
 <?php endif; ?>
 
 <form method="POST" id="form-evaluacion">
+    <?= csrfInput() ?>
     <div class="card">
         <h2>📋 Configuración general</h2>
         <div class="grupo-input">

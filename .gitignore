@@ -4,6 +4,7 @@ setup.php
 
 # Uploads
 uploads/
+!uploads/.htaccess
 
 # IDE
 .vscode/

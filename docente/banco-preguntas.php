@@ -6,6 +6,8 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../includes/funciones.php';
 require_once __DIR__ . '/../includes/auth.php';
+require_login();
+require_docente();
 
 $usuario = usuario_actual($pdo);
 $uid = $usuario['id'];
@@ -13,6 +15,27 @@ $esAdmin = ($usuario['rol'] === 'admin');
 $mensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $mensaje = ['error', 'Token de seguridad inválido. Recargá la página.']; }
+    else {
+    if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
+        $bid = (int)$_POST['id'];
+        $check = $pdo->prepare("SELECT texto, docente_id FROM banco_preguntas WHERE id = :id");
+        $check->execute([':id' => $bid]);
+        $pregunta = $check->fetch();
+        if (!$pregunta) {
+            $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Pregunta no encontrada.'];
+        } elseif ($pregunta['docente_id'] == 0 && !$esAdmin) {
+            $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas del banco de sugerencias no se pueden eliminar.'];
+        } elseif ($pregunta['docente_id'] != $uid && !$esAdmin) {
+            $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'No puedes eliminar preguntas de otro docente.'];
+        } elseif (esPreguntaSemilla($pregunta['texto'])) {
+            $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas recomendadas no se pueden eliminar.'];
+        } else {
+            $pdo->prepare("DELETE FROM banco_preguntas WHERE id = :id")->execute([':id' => $bid]);
+            $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta eliminada.'];
+        }
+        redirigir('docente/banco-preguntas.php');
+    } else {
     $materia = sanitizar($_POST['materia']);
     $texto = sanitizar($_POST['texto']);
     $tipo = $_POST['tipo'];
@@ -43,26 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta agregada al banco.'];
         redirigir('docente/banco-preguntas.php');
     }
-}
-
-if (isset($_GET['eliminar'])) {
-    $bid = (int)$_GET['eliminar'];
-    $check = $pdo->prepare("SELECT texto, docente_id FROM banco_preguntas WHERE id = :id");
-    $check->execute([':id' => $bid]);
-    $pregunta = $check->fetch();
-    if (!$pregunta) {
-        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Pregunta no encontrada.'];
-    } elseif ($pregunta['docente_id'] == 0 && !$esAdmin) {
-        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas del banco de sugerencias no se pueden eliminar.'];
-    } elseif ($pregunta['docente_id'] != $uid && !$esAdmin) {
-        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'No puedes eliminar preguntas de otro docente.'];
-    } elseif (esPreguntaSemilla($pregunta['texto'])) {
-        $_SESSION['flash'] = ['tipo' => 'error', 'mensaje' => 'Las preguntas recomendadas no se pueden eliminar.'];
-    } else {
-        $pdo->prepare("DELETE FROM banco_preguntas WHERE id = :id")->execute([':id' => $bid]);
-        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Pregunta eliminada.'];
     }
-    redirigir('docente/banco-preguntas.php');
+    }
 }
 
 sembrarBancoDocente($pdo);
@@ -96,6 +101,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card">
     <h2>➕ Nueva pregunta <?= $esAdmin ? '(Sugerencias — visible para todos)' : '(Privada)' ?></h2>
     <form method="POST">
+        <?= csrfInput() ?>
         <div class="input-row-2">
             <div class="grupo-input">
                 <label for="materia">Materia</label>
@@ -191,7 +197,12 @@ require_once __DIR__ . '/../includes/header.php';
                         <?php if ($esSemilla): ?><span class="tag tag-semilla">Recomendada</span><?php endif; ?>
                     </span>
                     <?php if (!$esSemilla): ?>
-                    <a href="?eliminar=<?= $bp['id'] ?>" class="btn-sm btn-rechazar" onclick="return confirm('¿Eliminar esta pregunta?')" title="Eliminar">🗑</a>
+                    <form method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar esta pregunta?')">
+                        <?= csrfInput() ?>
+                        <input type="hidden" name="accion" value="eliminar">
+                        <input type="hidden" name="id" value="<?= $bp['id'] ?>">
+                        <button type="submit" class="btn-sm btn-rechazar" title="Eliminar">🗑</button>
+                    </form>
                     <?php else: ?>
                     <span class="btn-sm" style="opacity:.3;cursor:not-allowed" title="Las preguntas recomendadas no se pueden eliminar">🔒</span>
                     <?php endif; ?>

@@ -19,6 +19,8 @@ if ($codigoUrl !== '') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $mensaje = ['error', 'Token de seguridad inválido. Recargá la página.']; }
+    else {
     $codigo = strtoupper(trim($_POST['codigo']));
 
     if ($codigo === '') {
@@ -51,6 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
+    }
 }
 
 $notificaciones = obtenerNotificaciones($pdo, $uid);
@@ -70,6 +73,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card" style="max-width:500px;margin:0 auto 24px;">
     <h2>🔑 Unirse a un grupo</h2>
     <form method="POST">
+        <?= csrfInput() ?>
         <div class="grupo-input">
             <label for="codigo">Código de invitación</label>
             <input type="text" id="codigo" name="codigo" class="input-dato input-codigo" placeholder="Ej: ABC123" maxlength="10" style="font-size:1.4rem;text-align:center;letter-spacing:4px;text-transform:uppercase;" autocomplete="off" required>

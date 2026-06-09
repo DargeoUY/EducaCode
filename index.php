@@ -7,9 +7,6 @@ require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/includes/funciones.php';
 require_once __DIR__ . '/includes/auth.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 0);
-
 if (isset($_SESSION['usuario_id'])) {
     if ($_SESSION['usuario_rol'] === 'admin') redirigir('admin/dashboard.php');
     elseif ($_SESSION['usuario_rol'] === 'docente') redirigir('docente/dashboard.php');
@@ -19,11 +16,25 @@ if (isset($_SESSION['usuario_id'])) {
 $error = '';
 $redirect = $_GET['redirect'] ?? '';
 $codigo = $_GET['codigo'] ?? '';
+
+// Validar redirect: solo rutas locales
+if ($redirect !== '') {
+    $rutasPermitidas = ['estudiante', 'docente', 'admin'];
+    $esValida = false;
+    foreach ($rutasPermitidas as $r) {
+        if (strpos($redirect, $r . '/') === 0 || strpos($redirect, $r . '.') === 0) {
+            $esValida = true; break;
+        }
+    }
+    if (!$esValida) $redirect = '';
+}
 if ($codigo !== '') {
     $redirect = 'estudiante/dashboard.php?codigo=' . urlencode($codigo);
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $error = 'Token de seguridad inválido. Recargá la página.'; }
+    else {
     try {
         $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
@@ -51,8 +62,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                     registrarSesion($pdo, $usuario['id'], 'login');
 
-                    if ($redirect && strpos($redirect, 'logout') === false) {
-                        header('Location: ' . $redirect);
+                    if ($redirect !== '') {
+                        header('Location: ' . BASE_URL . $redirect);
                     } elseif ($usuario['rol'] === 'admin') {
                         redirigir('admin/dashboard.php');
                     } elseif ($usuario['rol'] === 'docente') {
@@ -75,12 +86,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 }
             } else {
-                $error = 'Usuario no encontrado.';
+                $error = 'Credenciales inválidas.';  // Mensaje genérico para no revelar si el usuario existe
             }
         }
     } catch (Exception $e) {
-        $error = 'Error del servidor: ' . $e->getMessage();
+        $error = 'Error del servidor. Intenta más tarde.';
         error_log('Login error: ' . $e->getMessage());
+    }
     }
 }
 
@@ -296,6 +308,7 @@ $titulo = 'Iniciar Sesión';
             <?php endif; ?>
 
             <form method="POST" action="">
+                <?= csrfInput() ?>
                 <div class="form-group">
                     <label for="username">Usuario o Email</label>
                     <div class="input-icon-wrap">

@@ -12,6 +12,8 @@ if (isset($_SESSION['usuario_id'])) redirigir('estudiante/dashboard.php');
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $error = 'Token de seguridad inválido. Recargá la página.'; }
+    else {
     $username = trim($_POST['username'] ?? '');
     $nombre = trim($_POST['nombre'] ?? '');
     $email = trim($_POST['email'] ?? '');
@@ -24,10 +26,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Completa todos los campos obligatorios.';
     } elseif (strlen($username) < 3) {
         $error = 'El usuario debe tener al menos 3 caracteres.';
-    } elseif (strlen($password) < 6) {
-        $error = 'La contraseña debe tener al menos 6 caracteres.';
+    } elseif (strlen($password) < 8) {
+        $error = 'La contraseña debe tener al menos 8 caracteres.';
     } elseif ($password !== $password2) {
         $error = 'Las contraseñas no coinciden.';
+    } elseif ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = 'El email no es válido.';
     } else {
         $checkSql = "SELECT id FROM usuarios WHERE username = :u";
         $checkParams = [':u' => $username];
@@ -58,6 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             redirigir('index.php');
         }
     }
+    }
 }
 
 $titulo = 'Registro de Estudiante';
@@ -87,6 +92,7 @@ $titulo = 'Registro de Estudiante';
         <?php endif; ?>
 
         <form method="POST" action="" class="login-form">
+            <?= csrfInput() ?>
             <div class="input-row-2">
                 <div class="grupo-input">
                     <label for="username">Usuario *</label>

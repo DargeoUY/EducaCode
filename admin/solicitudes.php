@@ -12,6 +12,8 @@ $usuario = usuario_actual($pdo);
 $mensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
+    if (!validarCSRF()) { $mensaje = ['error', 'Token de seguridad inválido. Recargá la página.']; }
+    else {
     $sid = (int)$_POST['id'];
     $stmt = $pdo->prepare("SELECT * FROM solicitudes_docente WHERE id = :id LIMIT 1");
     $stmt->execute([':id' => $sid]);
@@ -29,6 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'])) {
 
         $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Solicitud ' . $nuevo_estado . '.'];
         redirigir('admin/solicitudes.php');
+    }
     }
 }
 
@@ -77,11 +80,13 @@ require_once __DIR__ . '/../includes/header.php';
                     <?php if ($s['estado'] === 'pendiente'): ?>
                     <div class="btn-grupo-sm">
                         <form method="POST" style="display:inline;">
+                            <?= csrfInput() ?>
                             <input type="hidden" name="accion" value="aprobar">
                             <input type="hidden" name="id" value="<?= $s['id'] ?>">
                             <button type="submit" class="btn-sm btn-aprobar">✅ Aprobar</button>
                         </form>
                         <form method="POST" style="display:inline;">
+                            <?= csrfInput() ?>
                             <input type="hidden" name="accion" value="rechazar">
                             <input type="hidden" name="id" value="<?= $s['id'] ?>">
                             <button type="submit" class="btn-sm btn-rechazar">❌ Rechazar</button>

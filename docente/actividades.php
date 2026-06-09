@@ -20,6 +20,14 @@ if (!$grupo || ($grupo['docente_id'] != $uid && $usuario['rol'] !== 'admin')) {
 $mensaje = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!validarCSRF()) { $mensaje = ['error', 'Token de seguridad inválido. Recargá la página.']; }
+    else {
+    if (isset($_POST['accion']) && $_POST['accion'] === 'eliminar') {
+        $aid = (int)$_POST['id'];
+        $pdo->prepare("DELETE FROM actividades WHERE id = :id AND grupo_id = :g")->execute([':id' => $aid, ':g' => $gid]);
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Actividad eliminada.'];
+        redirigir("docente/actividades.php?grupo_id=$gid");
+    } else {
     $titulo = sanitizar($_POST['titulo']);
     $tipo = $_POST['tipo'];
     $descripcion = sanitizar($_POST['descripcion'] ?? '');
@@ -34,13 +42,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Actividad creada.'];
         redirigir("docente/actividades.php?grupo_id=$gid");
     }
-}
-
-if (isset($_GET['eliminar'])) {
-    $aid = (int)$_GET['eliminar'];
-    $pdo->prepare("DELETE FROM actividades WHERE id = :id AND grupo_id = :g")->execute([':id' => $aid, ':g' => $gid]);
-    $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Actividad eliminada.'];
-    redirigir("docente/actividades.php?grupo_id=$gid");
+    }
+    }
 }
 
 $actividades = $pdo->prepare("SELECT * FROM actividades WHERE grupo_id = :g ORDER BY creado_en DESC");
@@ -63,6 +66,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="card">
     <h2>➕ Crear actividad</h2>
     <form method="POST">
+        <?= csrfInput() ?>
         <div class="grupo-input">
             <label for="titulo">Título *</label>
             <input type="text" id="titulo" name="titulo" class="input-dato" required>
@@ -111,7 +115,12 @@ require_once __DIR__ . '/../includes/header.php';
                 <td><span class="tag"><?= $a['tipo'] ?></span></td>
                 <td><?= formatearFecha($a['fecha_limite']) ?></td>
                 <td>
-                    <a href="?grupo_id=<?= $gid ?>&eliminar=<?= $a['id'] ?>" class="btn-sm btn-rechazar" onclick="return confirm('¿Eliminar?')">🗑</a>
+                    <form method="POST" style="display:inline;" onsubmit="return confirm('¿Eliminar?')">
+                        <?= csrfInput() ?>
+                        <input type="hidden" name="accion" value="eliminar">
+                        <input type="hidden" name="id" value="<?= $a['id'] ?>">
+                        <button type="submit" class="btn-sm btn-rechazar">🗑</button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
