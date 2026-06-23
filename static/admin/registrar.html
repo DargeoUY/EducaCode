@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Docente — Pensamiento Computacional</title>
+    <style>
+        :root{--bg:#0f172a;--card-bg:#1e293b;--text:#f1f5f9;--text2:#94a3b8;--prim:#3b82f6;--prim-h:#2563eb;--border:#334155;--input-bg:#0f172a;--err:#ef4444;--ok:#22c55e}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+        .card{background:var(--card-bg);border-radius:16px;padding:40px;width:100%;max-width:440px;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+        h1{font-size:1.5rem;margin-bottom:4px;text-align:center}
+        p{color:var(--text2);text-align:center;margin-bottom:28px;font-size:0.9rem}
+        label{display:block;font-size:0.85rem;margin-bottom:6px;color:var(--text2);font-weight:500}
+        input{width:100%;padding:12px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.95rem;outline:none;transition:border-color .2s;margin-bottom:14px}
+        input:focus{border-color:var(--prim)}
+        button{width:100%;padding:12px;background:var(--prim);color:#fff;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;transition:background .2s}
+        button:hover{background:var(--prim-h)}
+        .msg{padding:10px;border-radius:6px;margin-bottom:16px;text-align:center;font-size:0.85rem;display:none}
+        .msg.error{background:rgba(239,68,68,.1);color:var(--err)}
+        .msg.ok{background:rgba(34,197,94,.1);color:var(--ok)}
+        .links{text-align:center;margin-top:20px;font-size:0.85rem}
+        .links a{color:var(--prim);text-decoration:none;margin:0 6px}
+        .links a:hover{text-decoration:underline}
+        .nota{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);padding:12px;border-radius:8px;font-size:0.82rem;color:var(--text2);margin-bottom:20px}
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>👨‍🏫 Solicitar Registro Docente</h1>
+    <p>Completá tus datos. Un administrador aprobará tu cuenta.</p>
+    <div class="nota">Luego de enviar el formulario, deberás esperar que un administrador apruebe tu cuenta para poder iniciar sesión.</div>
+    <div class="msg" id="msg"></div>
+    <form id="form-registro">
+        <label>Nombre completo</label>
+        <input type="text" id="nombre" placeholder="Juan Pérez" required>
+        <label>Cédula</label>
+        <input type="text" id="cedula" placeholder="12345678" required>
+        <label>Email (opcional)</label>
+        <input type="email" id="email" placeholder="docente@ejemplo.com">
+        <label>Contraseña</label>
+        <input type="password" id="password" placeholder="Mínimo 6 caracteres" required minlength="6">
+        <label>Repetir contraseña</label>
+        <input type="password" id="password2" placeholder="Repetí tu contraseña" required>
+        <button type="submit">Enviar solicitud</button>
+    </form>
+    <div class="links">
+        <a href="/login">Volver al login</a> · <a href="/">Inicio</a>
+    </div>
+</div>
+<script src="/static/js/seguridad.js"></script>
+<script>
+document.getElementById('form-registro').addEventListener('submit',function(e){e.preventDefault();
+    var msg=document.getElementById('msg');
+    var p1=document.getElementById('password').value,p2=document.getElementById('password2').value;
+    if(p1!==p2){msg.className='msg error';msg.textContent='Las contraseñas no coinciden';msg.style.display='block';return}
+    if(p1.length<6){msg.className='msg error';msg.textContent='La contraseña debe tener al menos 6 caracteres';msg.style.display='block';return}
+    var data={cedula:document.getElementById('cedula').value.trim(),nombre:document.getElementById('nombre').value.trim(),password:p1};
+    var email=document.getElementById('email').value.trim();
+    if(email)data.email=email;
+    fetch('/api/auth/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)})
+    .then(function(r){return r.json().then(function(d){return {status:r.status,data:d}})})
+    .then(function(r){
+        if(r.status===200&&r.data.ok){
+            msg.className='msg ok';
+            msg.textContent=r.data.mensaje;
+            msg.style.display='block';
+            document.getElementById('form-registro').reset();
+            setTimeout(function(){window.location.href='/login'},3000);
+        }else{
+            msg.className='msg error';
+            msg.textContent=r.data.detail||'Error al registrar';
+            msg.style.display='block';
+        }
+    })
+    .catch(function(){msg.className='msg error';msg.textContent='Error de conexión';msg.style.display='block'});
+});
+</script>
+</body>
+</html>

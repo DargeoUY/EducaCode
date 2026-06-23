@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Nivel 1 — Ejercicios</title><link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✏️</div><h1>JavaScript Nivel 1 — Ejercicios <span class="badge-nivel">Práctica</span></h1><p>Variables, console.log y alert — Copiá y resolvé en tu cuaderno</p></header>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">1</span> Declarando variables</h2><p>Declará las siguientes variables en código JavaScript y anotá su tipo de dato:</p><div class="bloque-codigo"><pre>A) Una variable llamada "nombre" que guarde tu nombre.
+B) Una variable llamada "edad" que guarde tu edad en años.
+C) Una variable constante llamada "ESCUELA" que guarde el nombre de tu liceo.
+D) Una variable llamada "esMayor" que guarde si tenés 18 años o más (true/false).</pre></div></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">2</span> console.log() en acción</h2><p>Escribí un bloque de código que haga lo siguiente usando <code>console.log()</code>. Después, explicá qué verías en la consola (F12).</p><div class="bloque-codigo"><pre>let materia = "Pensamiento Computacional";
+let año = 2026;
+console.log("Estoy en la clase de " + materia);
+console.log("Año: " + año);
+console.log("Fin del programa");</pre></div><p><strong>Pregunta:</strong> ¿En qué orden se mostrarían estos mensajes en la consola?</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">3</span> Usando alert() y prompt()</h2><p>Escribí código JavaScript que haga lo siguiente en orden:</p><div class="alerta-importante"><span class="icono-alerta">📝</span><div>A) Mostrar un <code>alert</code> que diga: "¡Hola! Vamos a calcular tu año de nacimiento."<br>B) Usar <code>prompt</code> para preguntar la edad del usuario y guardarla en una variable.<br>C) Mostrar otro <code>alert</code> que diga: "Naciste aproximadamente en el año " seguido del resultado de (2026 - edad).</div></div></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">4</span> Identificando tipos de datos</h2><p>Para cada uno de los siguientes valores, indicá si es <strong>string</strong>, <strong>number</strong> o <strong>boolean</strong>. Respondé en tu cuaderno.</p><div class="bloque-codigo"><pre>A) "JavaScript"        B) 42           C) true
+D) "156"              E) 3.14         F) false
+G) "true"             H) 0            I) "Hola mundo"</pre></div><p><strong>Pregunta extra:</strong> ¿Hay diferencia entre el valor <code>true</code> (sin comillas) y el valor <code>"true"</code> (con comillas)? Explicá.</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">5</span> Asignación vs. comparación</h2><p>Mirá este código y respondé en tu cuaderno: ¿qué hace cada línea? ¿Hay algún error?</p><div class="bloque-codigo"><pre>let x = 10;
+let y = 5;
+x = y;           // ¿Qué hace esta línea?
+console.log(x);  // ¿Qué valor muestra?
+// Ahora imaginá este otro código:
+let a = 10;
+let b = 5;
+console.log(a === b);  // ¿Qué muestra? ¿Por qué?</pre></div><p>Explicá con tus palabras la diferencia entre <code>=</code> (asignación) y <code>===</code> (comparación).</p></div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python - Nivel 1: Primeros Pasos</title><link rel="stylesheet" href="estilos.css">
+    <style>
+        #codigo-input:focus { border-color: var(--primario) !important; box-shadow: 0 0 0 3px rgba(99,102,241,0.2); }
+        #py-loading-juego { font-size: 0.78rem; color: var(--texto-secundario); text-align: center; margin-top: 6px; }
+        #py-loading-juego.list { color: var(--exito); }
+    </style>
+</head>
+<body><div class="fondo-particulas"></div>
+<header><div class="header-icono">🐍</div><h1>Python Nivel 1: Primeros Pasos <span class="badge-nivel">Nivel 1</span></h1><p>Descubriendo el lenguaje de programacion mas popular del mundo</p></header>
+
+<div class="seccion-clase"><h2><span class="numero-seccion">1</span> Que es Python?</h2>
+    <div class="alerta-importante"><span class="icono-alerta">💡</span><div><strong>Python</strong> es un lenguaje de programacion creado en 1991. Se caracteriza por ser <strong>facil de leer</strong>, con una sintaxis limpia que se parece al ingles. Se usa en inteligencia artificial, desarrollo web, analisis de datos y hasta en la NASA!</div></div>
+    <p>A diferencia de HTML (que solo describe como se ve una pagina), Python <strong>ejecuta instrucciones</strong>: puede hacer calculos, tomar decisiones, repetir tareas y mucho mas.</p></div>
+
+<div class="seccion-clase"><h2><span class="numero-seccion">2</span> La funcion print()</h2>
+    <p>La primera funcion que aprendemos es <code>print()</code>. Sirve para mostrar texto en pantalla:</p>
+    <div class="bloque-codigo"><pre>print("Hola, mundo!")
+print("Estoy aprendiendo Python")</pre></div>
+    <p>Todo lo que va entre comillas (simples o dobles) se llama <strong>string</strong> (cadena de texto). Las comillas le dicen a Python: "esto es texto, no codigo".</p></div>
+
+<div class="seccion-clase"><h2><span class="numero-seccion">3</span> Variables y tipos de datos</h2>
+    <p>Una <strong>variable</strong> es como una caja etiquetada donde guardamos informacion. En Python se crean simplemente asignando un valor:</p>
+    <div class="bloque-codigo"><pre>nombre = "Ana"         # string (texto)
+edad = 16              # int (entero)
+altura = 1.65          # float (decimal)
+print(nombre)
+print(edad)</pre></div>
+    <div class="tarjetas-input">
+        <div class="tarjeta-input"><div class="tarjeta-icono">📝</div><strong>str</strong><p>Cadenas de texto: "Hola"</p></div>
+        <div class="tarjeta-input"><div class="tarjeta-icono">🔢</div><strong>int</strong><p>Numeros enteros: 42</p></div>
+        <div class="tarjeta-input"><div class="tarjeta-icono">📐</div><strong>float</strong><p>Numeros decimales: 3.14</p></div>
+        <div class="tarjeta-input"><div class="tarjeta-icono">💬</div><strong>#</strong><p>Comentarios: Python los ignora</p></div>
+    </div></div>
+
+<div id="bloque-juego"><div class="juego-encabezado"><h2>🎮 Desafio: El Pythonista</h2><p>Demostra lo que aprendiste sobre Python.</p></div>
+    <div class="panel-progreso"><div class="progreso-item"><span class="progreso-etiqueta">Pregunta</span><strong id="numero-pregunta">1/6</strong></div><div class="barra-progreso-contenedor"><div class="barra-progreso" id="barra-progreso"></div></div><div class="progreso-item"><span class="progreso-etiqueta">Puntaje</span><strong id="puntaje">0 pts</strong></div><div class="progreso-item"><span class="progreso-etiqueta">Tiempo</span><strong id="cronometro">0s</strong></div></div>
+    <div id="pantalla-etiqueta">Que hace la funcion print() en Python?</div>
+    <div class="contenedor-botones" id="opciones-juego"><button class="btn-opcion" data-indice="0">A) Muestra texto en la pantalla</button><button class="btn-opcion" data-indice="1">B) Imprime el codigo en una hoja de papel</button><button class="btn-opcion" data-indice="2">C) Borra todo lo escrito anteriormente</button><button class="btn-opcion" data-indice="3">D) Guarda el programa en un archivo</button></div>
+    <div id="contenedor-codigo" style="display:none;">
+        <textarea id="codigo-input" placeholder="# Escribe tu codigo aqui..." style="width:100%;max-width:520px;display:block;background:var(--fondo-codigo);color:var(--texto-codigo);border:2px solid var(--superficie-claro);border-radius:8px;padding:14px;font-family:Consolas,Monaco,monospace;font-size:0.9rem;resize:vertical;min-height:90px;outline:none;transition:border-color 0.3s;caret-color:var(--primario-claro);margin:0 auto;"></textarea>
+        <button id="btn-verificar-codigo" style="margin-top:8px;background:var(--gradiente-secundario);color:white;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;font-family:Inter,sans-serif;font-size:0.95rem;display:block;margin-left:auto;margin-right:auto;">▶ Ejecutar y verificar</button>
+        <p id="feedback-codigo" style="margin-top:8px;min-height:20px;font-size:0.85rem;text-align:center;"></p>
+        <p id="py-loading-juego">Cargando interprete Python...</p>
+    </div>
+    <div id="resultado-juego">El tiempo comenzara a correr cuando selecciones tu primera opcion!</div></div>
+<div id="pantalla-final" class="oculto"><div class="trofeo">🏆</div><h2>Felicidades!</h2><p>Completaste el Nivel 1</p><div class="estadisticas-finales"><div class="stat"><span class="stat-numero" id="stat-puntaje">0</span><span class="stat-etiqueta">Puntos</span></div><div class="stat"><span class="stat-numero" id="stat-tiempo">0s</span><span class="stat-etiqueta">Tiempo</span></div><div class="stat"><span class="stat-numero" id="stat-aciertos">0/6</span><span class="stat-etiqueta">Aciertos</span></div></div><button class="btn-reiniciar" onclick="reiniciarJuego()">Jugar de nuevo</button></div>
+
+<script>
+var bancoPreguntas = [
+  {
+    tipo: "multiple",
+    enunciado: "Que hace la funcion print() en Python?",
+    opciones: ["A) Muestra texto en la pantalla","B) Imprime el codigo en una hoja de papel","C) Borra todo lo escrito anteriormente","D) Guarda el programa en un archivo"],
+    correcta: 0
+  },
+  {
+    tipo: "multiple",
+    enunciado: "Cual es el tipo de dato de este valor: <strong>42</strong>?",
+    opciones: ["A) str (string)","B) int (entero)","C) float (decimal)","D) bool (verdadero/falso)"],
+    correcta: 1
+  },
+  {
+    tipo: "multiple",
+    enunciado: "Para que sirve el simbolo <strong>#</strong> en Python?",
+    opciones: ["A) Para multiplicar numeros","B) Para escribir comentarios que Python ignora","C) Para declarar variables","D) Para cerrar el programa"],
+    correcta: 1
+  },
+  {
+    tipo: "multiple",
+    enunciado: "Que tipo de dato es <strong>\"Hola mundo\"</strong>?",
+    opciones: ["A) int","B) float","C) str","D) list"],
+    correcta: 2
+  },
+  {
+    tipo: "multiple",
+    enunciado: "Como se crea una variable en Python?",
+    opciones: ["A) var nombre = \"Ana\"","B) nombre = \"Ana\"","C) create nombre = \"Ana\"","D) let nombre = \"Ana\""],
+    correcta: 1
+  },
+  {
+    tipo: "codigo",
+    enunciado: "✍️ <strong>Desafio de codigo:</strong> Escribi un programa que imprima un <strong>numero decimal</strong> (float).",
+    pista: "Usa <code>print()</code> con un numero que tenga punto decimal, como <strong>3.14</strong> o <strong>1.65</strong>.",
+    ejecutar: true,
+    validarSalida: function(salida) {
+      var s = salida.trim();
+      if (s === "") return { ok: false, mensaje: "Tu programa no imprimio nada. Usa print()." };
+      var num = parseFloat(s);
+      if (!isNaN(num) && s.indexOf(".") !== -1) {
+        return { ok: true, puntaje: 150, mensaje: "Correcto! Imprimiste el decimal " + s + ". +150 pts" };
+      }
+      if (!isNaN(num) && s.indexOf(".") === -1) {
+        return { ok: false, mensaje: "Imprimiste \"" + s + "\" que es un entero (int). Necesita ser decimal (float) con punto." };
+      }
+      return { ok: false, mensaje: "El resultado \"" + s + "\" no es un numero decimal. Proba con algo como 3.14." };
+    }
+  }
+];
+
+var i = 0, t = 0, it = null, ft = false, p = 0, a = 0, rp = false;
+var intentosCodigo = 0;
+var pyodide = null;
+
+function iniciarCrono() {
+  it = setInterval(function() {
+    if (!ft) { t++; document.getElementById("cronometro").innerText = t + "s"; }
+  }, 1000);
+}
+
+function actualizarBarra() {
+  document.getElementById("barra-progreso").style.width = (i / bancoPreguntas.length * 100) + "%";
+}
+
+function evaluarMultiple(indice) {
+  if (ft || rp) return;
+  rp = true;
+  if (it === null) iniciarCrono();
+
+  var q = bancoPreguntas[i];
+  var ok = indice === q.correcta;
+  var msg = document.getElementById("resultado-juego");
+  var botones = document.querySelectorAll(".btn-opcion");
+
+  botones.forEach(function(b) { b.disabled = true; });
+
+  var be = document.querySelector('.btn-opcion[data-indice="' + indice + '"]');
+  var bc = document.querySelector('.btn-opcion[data-indice="' + q.correcta + '"]');
+
+  if (ok) {
+    be.classList.add("acierto");
+    p += 100; a++;
+    document.getElementById("puntaje").innerText = p + " pts";
+    msg.innerHTML = '<span class="icono-resultado">✅</span> Correcto! +100 pts';
+    msg.className = "resultado-exito";
+    i++; actualizarBarra();
+    if (i < bancoPreguntas.length) setTimeout(cargarPregunta, 1200);
+    else { ft = true; clearInterval(it); setTimeout(mostrarFinal, 1200); }
+  } else {
+    be.classList.add("error");
+    bc.classList.add("revelar");
+    t += 10;
+    document.getElementById("cronometro").innerText = t + "s";
+    msg.innerHTML = '<span class="icono-resultado">❌</span> Incorrecto! +10s.';
+    msg.className = "resultado-error";
+    setTimeout(function() {
+      botones.forEach(function(b) { b.disabled = false; });
+      be.classList.remove("error");
+      bc.classList.remove("revelar");
+      rp = false;
+    }, 2000);
+  }
+}
+
+async function evaluarCodigo() {
+  if (ft || rp) return;
+  rp = true;
+  if (it === null) iniciarCrono();
+
+  var q = bancoPreguntas[i];
+  var codigo = document.getElementById("codigo-input").value;
+  var c = codigo.trim();
+  var fb = document.getElementById("feedback-codigo");
+  var msg = document.getElementById("resultado-juego");
+
+  if (c === "" || (/^#/.test(c) && c.split("\n").filter(function(l){ return l.trim() !== "" && !l.trim().startsWith("#"); }).length === 0)) {
+    fb.innerHTML = '<span style="color:var(--error);">Escribi tu codigo antes de verificar.</span>';
+    rp = false;
+    return;
+  }
+
+  if (!pyodide) {
+    fb.innerHTML = '<span style="color:#f59e0b;">⏳ El interprete Python aun no esta listo. Espera unos segundos...</span>';
+    rp = false;
+    return;
+  }
+
+  fb.innerHTML = '<span style="color:var(--texto-secundario);">Ejecutando...</span>';
+
+  var salida = "";
+  try {
+    pyodide.setStdout({ batched: function(m) { salida += m; } });
+    await pyodide.runPythonAsync(codigo);
+    var res = q.validarSalida(salida);
+
+    if (res.ok) {
+      p += res.puntaje; a++;
+      document.getElementById("puntaje").innerText = p + " pts";
+      msg.innerHTML = '<span class="icono-resultado">✅</span> ' + res.mensaje;
+      msg.className = "resultado-exito";
+      document.getElementById("btn-verificar-codigo").disabled = true;
+      document.getElementById("codigo-input").disabled = true;
+      fb.innerHTML = "";
+      i++; actualizarBarra();
+      if (i < bancoPreguntas.length) setTimeout(cargarPregunta, 1200);
+      else { ft = true; clearInterval(it); setTimeout(mostrarFinal, 1200); }
+    } else {
+      manejarErrorCodigo(res.mensaje);
+    }
+  } catch(e) {
+    var errMsg = e.message;
+    if (errMsg.indexOf("SyntaxError") !== -1 || errMsg.indexOf("NameError") !== -1) {
+      manejarErrorCodigo("Error de Python: " + errMsg);
+    } else {
+      manejarErrorCodigo("Error: " + errMsg);
+    }
+  }
+}
+
+function manejarErrorCodigo(mensaje) {
+  intentosCodigo++;
+  t += 5;
+  document.getElementById("cronometro").innerText = t + "s";
+  var fb = document.getElementById("feedback-codigo");
+  fb.innerHTML = '<span style="color:var(--error);">❌ ' + mensaje + '</span>';
+
+  if (intentosCodigo >= 3) {
+    fb.innerHTML += '<br><span style="color:var(--texto-secundario);">Respuesta de ejemplo: <code>print(3.14)</code></span>';
+    document.getElementById("btn-verificar-codigo").disabled = true;
+    document.getElementById("codigo-input").disabled = true;
+    setTimeout(function() {
+      i++; actualizarBarra();
+      intentosCodigo = 0;
+      if (i < bancoPreguntas.length) cargarPregunta();
+      else { ft = true; clearInterval(it); mostrarFinal(); }
+    }, 3000);
+  }
+  rp = false;
+}
+
+function cargarPregunta() {
+  intentosCodigo = 0;
+  actualizarUI();
+  document.getElementById("resultado-juego").innerHTML = "";
+  document.getElementById("resultado-juego").className = "";
+  document.getElementById("feedback-codigo").innerHTML = "";
+  rp = false;
+}
+
+function actualizarUI() {
+  var q = bancoPreguntas[i];
+  document.getElementById("numero-pregunta").innerText = (i + 1) + "/" + bancoPreguntas.length;
+  document.getElementById("pantalla-etiqueta").innerHTML = q.enunciado;
+
+  var opcionesDiv = document.getElementById("opciones-juego");
+  var codigoDiv = document.getElementById("contenedor-codigo");
+  var codigoInput = document.getElementById("codigo-input");
+  var btnVerificar = document.getElementById("btn-verificar-codigo");
+
+  if (q.tipo === "codigo") {
+    opcionesDiv.style.display = "none";
+    codigoDiv.style.display = "block";
+    codigoInput.value = "";
+    codigoInput.disabled = false;
+    btnVerificar.disabled = false;
+    if (q.pista) {
+      var pe = document.getElementById("pista-codigo-live");
+      if (!pe) {
+        pe = document.createElement("p");
+        pe.id = "pista-codigo-live";
+        pe.style.cssText = "font-size:0.85rem;color:var(--texto-secundario);margin-bottom:8px;text-align:center;";
+        document.getElementById("contenedor-codigo").insertBefore(pe, codigoInput);
+      }
+      pe.innerHTML = "💡 " + q.pista;
+    }
+  } else {
+    opcionesDiv.style.display = "flex";
+    codigoDiv.style.display = "none";
+    var botones = document.querySelectorAll(".btn-opcion");
+    botones.forEach(function(b, j) {
+      b.innerText = q.opciones[j];
+      b.dataset.indice = j;
+      b.disabled = false;
+      b.className = "btn-opcion";
+    });
+  }
+}
+
+function mostrarFinal() {
+  var total = bancoPreguntas.length;
+  document.getElementById("numero-pregunta").innerText = total + "/" + total;
+  document.getElementById("pantalla-etiqueta").innerText = "🏆 Nivel 1 Completado!";
+  document.getElementById("opciones-juego").style.display = "none";
+  document.getElementById("contenedor-codigo").style.display = "none";
+  document.getElementById("resultado-juego").innerHTML = "Primeros pasos firmes en Python!<br>Tiempo: <strong>" + t + "s</strong>.";
+  document.getElementById("resultado-juego").style.color = "#38bdf8";
+  document.getElementById("bloque-juego").classList.add("oculto");
+  document.getElementById("pantalla-final").classList.remove("oculto");
+  document.getElementById("stat-puntaje").innerText = p;
+  document.getElementById("stat-tiempo").innerText = t + "s";
+  document.getElementById("stat-aciertos").innerText = a + "/" + total;
+}
+
+function reiniciarJuego() {
+  i = 0; t = 0; p = 0; a = 0; ft = false; rp = false; intentosCodigo = 0; it = null;
+
+  document.getElementById("bloque-juego").classList.remove("oculto");
+  document.getElementById("pantalla-final").classList.add("oculto");
+  document.getElementById("opciones-juego").style.display = "flex";
+  document.getElementById("contenedor-codigo").style.display = "none";
+  document.getElementById("numero-pregunta").innerText = "1/" + bancoPreguntas.length;
+  document.getElementById("cronometro").innerText = "0s";
+  document.getElementById("puntaje").innerText = "0 pts";
+  document.getElementById("barra-progreso").style.width = "0%";
+  document.getElementById("resultado-juego").innerHTML = "El tiempo comenzara a correr cuando selecciones tu primera opcion!";
+  document.getElementById("resultado-juego").style.color = "";
+  document.getElementById("feedback-codigo").innerHTML = "";
+
+  actualizarUI();
+}
+
+document.querySelectorAll(".btn-opcion").forEach(function(b) {
+  b.addEventListener("click", function() {
+    evaluarMultiple(parseInt(this.dataset.indice));
+  });
+});
+
+document.getElementById("btn-verificar-codigo").addEventListener("click", evaluarCodigo);
+
+(function() {
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js";
+  document.head.appendChild(s);
+  s.onload = async function() {
+    try {
+      pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/" });
+      document.getElementById("py-loading-juego").textContent = "Python listo.";
+      document.getElementById("py-loading-juego").style.color = "var(--exito)";
+    } catch(e) {
+      document.getElementById("py-loading-juego").textContent = "No se pudo cargar Python. Verifica tu conexion.";
+    }
+  };
+})();
+</script><script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body></html>

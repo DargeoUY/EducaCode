@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Nivel 2 — Ejercicios</title><link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✏️</div><h1>JavaScript Nivel 2 — Ejercicios <span class="badge-nivel">Práctica</span></h1><p>Eventos, onclick y getElementById — Copiá y resolvé en tu cuaderno</p></header>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">1</span> Identificando eventos</h2><p>Asociá cada situación con el evento correcto. Escribí en tu cuaderno el número y la letra correspondiente:</p><div class="bloque-codigo"><pre>1) El usuario hace clic en un botón.        A) onmouseover
+2) El usuario pasa el mouse sobre una imagen. B) onclick
+3) El usuario presiona la tecla Enter.        C) onload
+4) La página web termina de cargarse.         D) onkeydown</pre></div></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">2</span> getElementById() en la práctica</h2><p>Mirá el siguiente HTML y respondé en tu cuaderno:</p><div class="bloque-codigo"><pre>&lt;p id="saludo"&gt;Hola&lt;/p&gt;
+&lt;p id="despedida"&gt;Chau&lt;/p&gt;</pre></div><p>A) Escribí la línea de JavaScript para obtener el elemento con id "saludo".<br>B) Escribí la línea de JavaScript para obtener el elemento con id "despedida".<br>C) ¿Qué devuelve <code>document.getElementById("nombre")</code> si no existe ningún elemento con ese id?</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">3</span> Cambiando contenido con innerHTML</h2><p>Tenemos este código HTML:</p><div class="bloque-codigo"><pre>&lt;h1 id="titulo"&gt;Título original&lt;/h1&gt;
+&lt;button onclick="cambiar()"&gt;Actualizar&lt;/button&gt;</pre></div><p>A) Escribí la función <code>cambiar()</code> en JavaScript para que al hacer clic, el título cambie a "Nuevo título".<br>B) ¿Qué diferencia hay entre usar <code>.innerHTML</code> y <code>.textContent</code>?<br>C) Si quisieras que el título muestre <strong>"&lt;strong&gt;Importante&lt;/strong&gt;"</strong> (con la palabra en negrita), ¿cuál de los dos usarías? ¿Por qué?</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">4</span> Modificando estilos desde JavaScript</h2><p>Tenemos una caja:</p><div class="bloque-codigo"><pre>&lt;div id="caja" style="width:200px; height:200px; background:blue;"&gt;&lt;/div&gt;
+&lt;button onclick="cambiarColor()"&gt;Rojo&lt;/button&gt;
+&lt;button onclick="cambiarTamaño()"&gt;Agrandar&lt;/button&gt;</pre></div><p>Escribí en tu cuaderno las funciones <code>cambiarColor()</code> y <code>cambiarTamaño()</code> para que:<br>A) <code>cambiarColor()</code>: cambie el fondo de la caja a rojo.<br>B) <code>cambiarTamaño()</code>: cambie el ancho a 400px y el alto a 400px.</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">5</span> Integrador: botón mágico</h2><p>Creá el código completo (HTML + JavaScript) para un botón que haga todo esto al hacer clic:</p><div class="alerta-importante"><span class="icono-alerta">📝</span><div>A) Cambiar el texto de un <code>&lt;h1 id="mensaje"&gt;</code> de "Esperando..." a "¡Activado!"<br>B) Cambiar el color de fondo de ese mismo h1 a verde (<code>green</code>).<br>C) Mostrar un <code>alert</code> que diga "¡Completado!"<br>D) Escribir en consola "Botón presionado a las " seguido de la hora actual (usá <code>new Date()</code>).</div></div></div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

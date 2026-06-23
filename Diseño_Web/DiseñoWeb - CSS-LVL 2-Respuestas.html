@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño Web CSS N2 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(16,185,129,0.1);border:2px solid #10b981;padding:14px 20px;border-radius:8px;text-align:center;color:#10b981;font-weight:700;margin-bottom:20px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>Diseño Web CSS Nivel 2 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios de CSS Nivel 2</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del CSS Nivel 2.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> Capas del Box Model</h2><p>De adentro hacia afuera: <strong style="color:#10b981;">content</strong> (contenido, controlado por width/height) → <strong style="color:#10b981;">padding</strong> (relleno interno) → <strong style="color:#10b981;">border</strong> (borde) → <strong style="color:#10b981;">margin</strong> (margen externo).</p><p><strong>Criterios:</strong> el orden debe ser exacto. Valorar si el estudiante dibuja un esquema visual y menciona cada propiedad CSS asociada.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> Margin vs Padding</h2><div class="bloque-codigo"><pre>A) div { margin: 20px; }
+B) div { padding: 15px 30px; }   /* 15px arriba/abajo, 30px izquierda/derecha */</pre></div><p><strong>Criterios:</strong> A usa margin. B usa la forma abreviada de padding con 2 valores (vertical horizontal). También es válido escribir <code>padding: 15px 30px 15px 30px;</code>.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Bordes creativos</h2><div class="bloque-codigo"><pre>A) div { border: 3px solid blue; }
+B) div { border: 2px dashed green; }
+C) div { border: 1px dotted red; border-radius: 8px; }</pre></div><p><strong>Criterios:</strong> cada regla debe incluir el ancho, estilo y color correctos. C debe incluir border-radius.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> Dimensiones</h2><p><strong style="color:#10b981;">A)</strong> width: 300px es un valor <strong>fijo</strong> (no cambia si se achica la ventana). width: 50% es un valor <strong>relativo</strong> al elemento padre (se adapta al tamaño del contenedor). <strong style="color:#10b981;">B)</strong> Si no se especifica height, el elemento toma la altura necesaria para contener su contenido (height: auto por defecto). El alto se ajusta automáticamente.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Maquetá una tarjeta</h2><div class="bloque-codigo"><pre>.tarjeta {
+    width: 300px;
+    padding: 20px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}</pre></div><p><strong>Criterios:</strong> debe incluir las 5 propiedades con los valores especificados. El nombre de la clase puede variar.</p></div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño Web N3 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);border-radius:10px;padding:14px 18px;text-align:center;color:#f59e0b;font-weight:700;margin-bottom:25px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>Diseño Web Nivel 3 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del Nivel 3.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> Crear una tabla</h2><div class="bloque-codigo"><pre>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Nombre&lt;/th&gt;
+    &lt;th&gt;Edad&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Ana&lt;/td&gt;
+    &lt;td&gt;16&lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Luis&lt;/td&gt;
+    &lt;td&gt;17&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre></div><p><strong>Criterios:</strong> encabezados con <code>&lt;th&gt;</code>, datos con <code>&lt;td&gt;</code>, cada fila en <code>&lt;tr&gt;</code>.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> Celda de encabezado</h2><p><strong style="color:#10b981;">&lt;th&gt;</strong> (Table Header). El navegador la muestra en negrita y centrada automáticamente. <code>&lt;td&gt;</code> (Table Data) muestra texto normal alineado a la izquierda.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Corregir el error</h2><p>Falta <strong style="color:#ef4444;">&lt;tr&gt;</strong> entre <code>&lt;table&gt;</code> y <code>&lt;td&gt;</code>. La jerarquía es: <code>&lt;table&gt;</code> → <code>&lt;tr&gt;</code> → <code>&lt;td&gt;</code>. No se puede poner un <code>&lt;td&gt;</code> directamente dentro de <code>&lt;table&gt;</code>.</p><div class="bloque-codigo"><pre>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Hola&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre></div></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> Contar filas</h2><p>Tiene <strong style="color:#10b981;">3 filas</strong>. Cada <code>&lt;tr&gt;</code> representa una fila. Como hay 3 etiquetas <code>&lt;tr&gt;</code>, la tabla tiene 3 filas.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Jerarquía de la tabla</h2><p><strong style="color:#10b981;">&lt;table&gt;</strong> → <strong style="color:#10b981;">&lt;tr&gt;</strong> (fila) → <strong style="color:#10b981;">&lt;th&gt;</strong> (encabezado) o <strong style="color:#10b981;">&lt;td&gt;</strong> (dato). Nunca se puede invertir este orden ni saltear niveles.</p></div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

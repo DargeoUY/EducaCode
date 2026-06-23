@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Nivel 3 — Ejercicios</title><link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✏️</div><h1>JavaScript Nivel 3 — Ejercicios <span class="badge-nivel">Práctica</span></h1><p>if, else y comparaciones — Copiá y resolvé en tu cuaderno</p></header>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">1</span> if / else básico</h2><p>Escribí un programa que reciba una variable <code>let temperatura = 25;</code> y:</p><div class="bloque-codigo"><pre>A) Si la temperatura es mayor a 30, muestre por consola "Hace calor".
+B) Si no (else), muestre por consola "Está fresco".
+C) Probá cambiando el valor de temperatura a 35 y después a 10. ¿Qué muestra en cada caso?</pre></div></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">2</span> Operadores de comparación</h2><p>Para cada una de las siguientes comparaciones, escribí en tu cuaderno si el resultado es <strong>true</strong> o <strong>false</strong>:</p><div class="bloque-codigo"><pre>A) 10 === 10        B) 10 === "10"       C) 5 !== 3
+D) 8 > 12           E) 6 < 10             F) 7 >= 7
+G) 4 <= 2           H) "hola" === "hola"  I) true === false</pre></div><p><strong>Pregunta extra:</strong> ¿Por qué <code>10 === "10"</code> da false? Explicá.</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">3</span> Operadores lógicos (&& y ||)</h2><p>Evaluá si estas condiciones compuestas son <strong>true</strong> o <strong>false</strong>. Escribí en tu cuaderno el resultado y explicá por qué.</p><div class="bloque-codigo"><pre>A) (5 > 3) && (10 > 8)      B) (5 > 10) && (3 > 1)
+C) (5 > 10) || (3 > 1)      D) (1 === 1) || (2 === 3)
+E) (8 >= 8) && (4 < 2)      F) (false) || (true)</pre></div><p>Ahora escribí un <strong>if</strong> que verifique: si una variable <code>nota</code> está entre 1 y 12 (inclusive), que muestre "Nota válida". Usá el operador &&.</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">4</span> if / else if / else</h2><p>Escribí un programa que clasifique a una persona según su edad, usando <code>let edad</code>:</p><div class="bloque-codigo"><pre>Si edad < 13:      mostrar "Niñez"
+Si edad < 18:      mostrar "Adolescencia"
+Si edad < 65:      mostrar "Adultez"
+En cualquier otro: mostrar "Tercera edad"</pre></div><p>Probá tu código mentalmente con: edad = 10, edad = 15, edad = 30, edad = 70. ¿Qué muestra cada uno?</p></div>
+
+    <div class="seccion-clase"><h2><span class="numero-seccion">5</span> Integrador: semáforo</h2><p>Creá un programa que reciba una variable <code>let colorSemaforo</code> que puede ser "rojo", "amarillo" o "verde" y muestre la acción correspondiente usando if/else if/else:</p><div class="alerta-importante"><span class="icono-alerta">📝</span><div>A) "rojo" → mostrar en consola: "Detenerse"<br>B) "amarillo" → mostrar en consola: "Precaución"<br>C) "verde" → mostrar en consola: "Avanzar"<br>D) Cualquier otro valor → mostrar en consola: "Color inválido"<br><br>Escribí el código completo en tu cuaderno.</div></div></div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

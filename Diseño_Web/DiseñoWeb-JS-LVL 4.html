@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 14: Bucles y Repetición</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🔄</div>
+        <h1>Clase 14: Bucles y Repetición <span class="badge-nivel">Nivel 14</span></h1>
+        <p>for, while y arrays básicos</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> Bucles: repitiendo tareas</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>Un bucle (loop)</strong> es una estructura que repite un bloque de código <strong>varias veces</strong>. Son fundamentales para procesar listas de datos, repetir operaciones y evitar escribir el mismo código muchas veces. JavaScript tiene varios tipos de bucles: <strong>for</strong>, <strong>while</strong> y <strong>do...while</strong>.
+            </div>
+        </div>
+        <p>En lugar de escribir 100 líneas de <code>console.log()</code> para contar del 1 al 100, un bucle lo hace en 3 líneas. ¡Esa es su magia!</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> El bucle for</h2>
+        <p>El bucle <code>for</code> es el más usado cuando sabemos <strong>cuántas veces</strong> queremos repetir algo. Su estructura tiene tres partes:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🏁</div>
+                <strong>Inicio</strong>
+                <p>Se ejecuta una vez al empezar: <code>let i = 0;</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔍</div>
+                <strong>Condición</strong>
+                <p>Se verifica antes de cada vuelta: <code>i &lt; 10;</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">➕</div>
+                <strong>Incremento</strong>
+                <p>Se ejecuta al final de cada vuelta: <code>i++</code></p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: contar del 1 al 10</h3>
+        <div class="bloque-codigo">
+            <pre>for (let i = 1; i <= 10; i++) {
+    console.log("Número: " + i);
+}
+// Muestra en consola:
+// Número: 1
+// Número: 2
+// ...
+// Número: 10</pre>
+        </div>
+        <p><code>i++</code> es lo mismo que <code>i = i + 1</code>: incrementa el valor en 1.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> El bucle while</h2>
+        <p>El bucle <code>while</code> repite un bloque <strong>mientras una condición sea verdadera</strong>. Se usa cuando no sabemos exactamente cuántas repeticiones necesitaremos.</p>
+
+        <div class="alerta-importante">
+            <span class="icono-alerta">⚠️</span>
+            <div>
+                <strong>¡Cuidado con los bucles infinitos!</strong> Si la condición del while nunca se vuelve falsa, el bucle se ejecutará para siempre y el navegador se trabará. Siempre asegurate de que algo dentro del bucle modifique la condición.
+            </div>
+        </div>
+
+        <h3>Ejemplo:</h3>
+        <div class="bloque-codigo">
+            <pre>let contador = 1;
+
+while (contador <= 5) {
+    console.log("Vuelta número: " + contador);
+    contador++;  // ¡Fundamental! Sin esto, bucle infinito
+}
+// Muestra: Vuelta número: 1, 2, 3, 4, 5</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> Arrays: listas de datos</h2>
+        <p>Un <strong>array</strong> (o arreglo) es una variable que puede guardar <strong>múltiples valores</strong> ordenados. Se define con corchetes <code>[]</code> y cada elemento tiene un <strong>índice</strong> que empieza en 0.</p>
+
+        <h3>Ejemplo de array:</h3>
+        <div class="bloque-codigo">
+            <pre>let frutas = ["manzana", "banana", "naranja"];
+
+console.log(frutas[0]);   // manzana (primer elemento, índice 0)
+console.log(frutas[1]);   // banana  (segundo elemento, índice 1)
+console.log(frutas[2]);   // naranja (tercer elemento, índice 2)
+console.log(frutas.length); // 3 (cantidad de elementos)</pre>
+        </div>
+
+        <h3>Recorrer un array con for:</h3>
+        <div class="bloque-codigo">
+            <pre>let frutas = ["manzana", "banana", "naranja"];
+
+for (let i = 0; i &lt; frutas.length; i++) {
+    console.log("Fruta " + i + ": " + frutas[i]);
+}
+// Muestra:
+// Fruta 0: manzana
+// Fruta 1: banana
+// Fruta 2: naranja</pre>
+        </div>
+        <p>La propiedad <code>.length</code> devuelve la cantidad de elementos del array. Es muy útil para los bucles.</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Bucle Infinito</h2>
+            <p>Demostrá lo que aprendiste sobre for, while y arrays.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué estructura repite un bloque de código un número conocido de veces?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) El bucle for, que tiene inicio, condición e incremento</button>
+            <button class="btn-opcion" data-indice="1">B) if / else, que decide qué código ejecutar</button>
+            <button class="btn-opcion" data-indice="2">C) Una variable, que guarda valores en memoria</button>
+            <button class="btn-opcion" data-indice="3">D) console.log, que imprime una sola línea en consola</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 14: Bucles y Repetición</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué estructura repite un bloque de código un número conocido de veces?",
+                opciones: [
+                    "A) El bucle for, que tiene inicio, condición e incremento",
+                    "B) if / else, que decide qué código ejecutar",
+                    "C) Una variable, que guarda valores en memoria",
+                    "D) console.log, que imprime una sola línea en consola"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Cuál es la sintaxis correcta de un bucle for?",
+                opciones: [
+                    "A) for (i = 0; i < 10) { }",
+                    "B) for (let i = 0; i < 10; i++) { }",
+                    "C) for (let i = 0, i < 10, i++) { }",
+                    "D) for { let i = 0; i < 10; i++ }"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué bucle se ejecuta mientras una condición sea verdadera?",
+                opciones: [
+                    "A) for, que se ejecuta un número fijo de veces",
+                    "B) if, que solo se ejecuta una vez",
+                    "C) while, que repite mientras la condición sea true",
+                    "D) switch, que evalúa múltiples casos"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Cómo se accede al primer elemento de un array llamado \"datos\"?",
+                opciones: [
+                    "A) datos[1], porque los índices empiezan en 1",
+                    "B) datos.first, que devuelve el primer elemento",
+                    "C) datos[0], porque los índices de array empiezan en 0",
+                    "D) datos[-1], que accede al último elemento"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Qué riesgo tiene un bucle while si la condición nunca se vuelve falsa?",
+                opciones: [
+                    "A) El bucle no se ejecuta ninguna vez",
+                    "B) Bucle infinito que puede trabar el navegador",
+                    "C) El código dentro del bucle se borra",
+                    "D) No hay riesgo, el navegador lo detiene solo"
+                ],
+                correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

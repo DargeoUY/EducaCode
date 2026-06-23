@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Configuracion LTI — CREA</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#0f172a;color:#f1f5f9;max-width:800px;margin:0 auto;padding:30px 20px 60px}
+h1{font-size:1.7rem;margin-bottom:6px;background:linear-gradient(135deg,#6366f1,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sub{color:#94a3b8;font-size:0.95rem;margin-bottom:30px}
+.card{background:#1e293b;border:1px solid #334155;border-radius:12px;padding:22px;margin-bottom:20px;box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.card h2{font-size:1.15rem;color:#818cf8;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.tabla{width:100%;border-collapse:collapse;font-size:0.9rem}
+.tabla td{padding:10px 12px;border-bottom:1px solid #334155}
+.tabla td:first-child{font-weight:600;color:#e2e8f0;white-space:nowrap}
+.tabla td:last-child{font-family:Consolas,Monaco,monospace;color:#34d399;word-break:break-all}
+.campo{display:flex;align-items:center;gap:8px}
+.copiar{background:#334155;color:#94a3b8;border:1px solid #475569;padding:4px 10px;border-radius:5px;cursor:pointer;font-size:0.75rem;font-weight:600;transition:all .2s}
+.copiar:hover{background:#6366f1;color:white;border-color:#6366f1}
+.copiado{background:#10b981!important;color:white!important;border-color:#10b981!important}
+.pasos{list-style:none;counter-reset:paso}
+.pasos li{counter-increment:paso;margin-bottom:12px;display:flex;gap:10px;align-items:flex-start;font-size:0.92rem;line-height:1.5}
+.pasos li::before{content:counter(paso);background:linear-gradient(135deg,#6366f1,#8b5cf6);color:white;font-weight:700;border-radius:50%;width:26px;height:26px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.85rem}
+code{background:rgba(99,102,241,.2);color:#c084fc;padding:2px 6px;border-radius:4px;font-family:Consolas,Monaco,monospace;font-size:0.85em}
+.alerta{background:rgba(245,158,11,.1);border-left:4px solid #f59e0b;padding:14px 16px;border-radius:0 8px 8px 0;font-size:0.88rem;line-height:1.5;margin-top:16px}
+.alerta strong{color:#f59e0b}
+.generado{color:#64748b;font-size:0.75rem;text-align:right;margin-top:30px}
+img,svg{max-width:100%}
+.resaltar{color:#f59e0b;font-weight:600}
+</style>
+</head>
+<body>
+
+<h1>🔗 Configuracion LTI para CREA</h1>
+<p class="sub">Guia visual — Copia estos valores en la herramienta externa de CREA</p>
+
+<!-- TARJETA 1: Datos principales -->
+<div class="card">
+    <h2>📋 Campos de la herramienta externa en CREA</h2>
+    <table class="tabla">
+        <tr>
+            <td>Titulo</td>
+            <td>
+                <div class="campo">
+                    <span>Python Nivel 1</span>
+                    <button class="copiar" onclick="copiar(this,'Python Nivel 1')">Copiar</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>URL</td>
+            <td>
+                <div class="campo">
+                    <span>https://tu-app.onrender.com/lti/launch</span>
+                    <button class="copiar" onclick="copiar(this,'https://tu-app.onrender.com/lti/launch')">Copiar</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Abrir opciones</td>
+            <td>Nueva ventana (o iframe)</td>
+        </tr>
+        <tr>
+            <td>Clave Consumidor</td>
+            <td>
+                <div class="campo">
+                    <span>tvX6xyxQ5STFHyhz</span>
+                    <button class="copiar" onclick="copiar(this,'tvX6xyxQ5STFHyhz')">Copiar</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Secreto Compartido</td>
+            <td>
+                <div class="campo">
+                    <span>0%RdBcq%0qCnlIo%#*a0c#iOGNXJSjY8</span>
+                    <button class="copiar" onclick="copiar(this,'0%RdBcq%0qCnlIo%#*a0c#iOGNXJSjY8')">Copiar</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Parametros Personalizados</td>
+            <td>
+                <div class="campo">
+                    <span>nivel=1</span>
+                    <button class="copiar" onclick="copiar(this,'nivel=1')">Copiar</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Habilitar calificacion</td>
+            <td><span class="resaltar">✅ SI — Activado</span></td>
+        </tr>
+    </table>
+</div>
+
+<!-- TARJETA 2: Como configurar CREA -->
+<div class="card">
+    <h2>🖱️ Pasos en CREA</h2>
+    <ol class="pasos">
+        <li>Entra a tu <strong>curso en CREA</strong></li>
+        <li>Anda a <strong>Materiales</strong> o <strong>Agregar materiales</strong></li>
+        <li>Selecciona <strong>Herramienta externa</strong></li>
+        <li>Completa los <strong>7 campos de arriba</strong> con los botones Copiar</li>
+        <li><strong>Guarda</strong> la herramienta</li>
+        <li>El quiz aparece como un enlace en los materiales del curso</li>
+    </ol>
+</div>
+
+<!-- TARJETA 3: Niveles adicionales -->
+<div class="card">
+    <h2>📚 Configurar mas niveles</h2>
+    <p style="color:#94a3b8;font-size:0.9rem;margin-bottom:12px;">Para cada nivel del curso, crea una herramienta externa nueva cambiando solo el <strong>Titulo</strong> y los <strong>Parametros Personalizados</strong>:</p>
+    <table class="tabla">
+        <tr>
+            <td><strong>Python Nivel 1</strong></td>
+            <td><code>nivel=1</code></td>
+        </tr>
+        <tr>
+            <td><strong>Python Nivel 2</strong></td>
+            <td><code>nivel=2</code></td>
+        </tr>
+        <tr>
+            <td><strong>Python Nivel 3</strong></td>
+            <td><code>nivel=3</code></td>
+        </tr>
+        <tr>
+            <td><strong>Python Nivel 4</strong></td>
+            <td><code>nivel=4</code></td>
+        </tr>
+        <tr>
+            <td><strong>Python Nivel 5</strong></td>
+            <td><code>nivel=5</code></td>
+        </tr>
+    </table>
+    <div class="alerta">
+        <strong>⚠️ Importante:</strong> La URL, Clave Consumidor y Secreto Compartido son <strong>los mismos</strong> para todos los niveles. Solo cambia Titulo y Parametros Personalizados.
+    </div>
+</div>
+
+<!-- TARJETA 4: Verificacion -->
+<div class="card">
+    <h2>✅ Verificar que funciona</h2>
+    <ol class="pasos">
+        <li>Hace clic en la herramienta desde CREA</li>
+        <li>Debe abrirse el quiz con el nombre del alumno</li>
+        <li>Completa el ejercicio y hace clic en <strong>Enviar nota a CREA</strong></li>
+        <li>En CREA, anda al <strong>Gradebook</strong> — la nota debe aparecer</li>
+    </ol>
+</div>
+
+<p class="generado">Generado el 05/06/2026 a las 12:45 — Guarda esta pagina como referencia</p>
+
+<script>
+function copiar(btn, texto) {
+    navigator.clipboard.writeText(texto).then(function() {
+        btn.textContent = 'Copiado!';
+        btn.classList.add('copiado');
+        setTimeout(function() {
+            btn.textContent = 'Copiar';
+            btn.classList.remove('copiado');
+        }, 2000);
+    });
+}
+</script>
+</body>
+</html>

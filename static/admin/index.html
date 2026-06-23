@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin — Pensamiento Computacional</title>
+    <style>
+        :root{--bg:#0f172a;--card-bg:#1e293b;--text:#f1f5f9;--text2:#94a3b8;--prim:#3b82f6;--prim-h:#2563eb;--border:#334155;--input-bg:#0f172a;--err:#ef4444;--ok:#22c55e;--warn:#f59e0b}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding:20px;max-width:960px;margin:0 auto}
+        header{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border);margin-bottom:24px}
+        h1{font-size:1.4rem}
+        .logout{background:0;border:1px solid var(--border);color:var(--text2);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:0.85rem}.logout:hover{color:var(--err);border-color:var(--err)}
+        .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px}
+        .stat{background:var(--card-bg);padding:20px;border-radius:12px;border:1px solid var(--border)}
+        .stat-num{font-size:2rem;font-weight:700}.stat-label{font-size:0.85rem;color:var(--text2);margin-top:4px}
+        .card{background:var(--card-bg);border-radius:12px;border:1px solid var(--border);padding:20px;margin-bottom:20px}
+        .card h2{font-size:1.1rem;margin-bottom:16px}
+        table{width:100%;border-collapse:collapse}
+        th,td{padding:10px 12px;text-align:left;font-size:0.88rem;border-bottom:1px solid var(--border)}
+        th{color:var(--text2);font-weight:600}
+        td{color:var(--text)}
+        .badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:0.78rem;font-weight:600}
+        .badge-ok{background:rgba(34,197,94,.15);color:var(--ok)}
+        .badge-pend{background:rgba(245,158,11,.15);color:var(--warn)}
+        .btn{display:inline-block;padding:6px 14px;border-radius:6px;border:1px solid var(--border);background:0;color:var(--text);cursor:pointer;font-size:0.82rem;margin-right:6px;transition:.2s}
+        .btn-ok{background:rgba(34,197,94,.15);border-color:var(--ok);color:var(--ok)}.btn-ok:hover{background:rgba(34,197,94,.25)}
+        .btn-err{background:rgba(239,68,68,.15);border-color:var(--err);color:var(--err)}.btn-err:hover{background:rgba(239,68,68,.25)}
+        .loading{text-align:center;padding:40px;color:var(--text2)}
+    </style>
+</head>
+<body>
+<header><h1>⚙️ Panel de Administración</h1><button class="logout" onclick="logout()">Cerrar sesión</button></header>
+<div class="stats" id="stats"></div>
+<div class="card">
+    <h2>📋 Docentes registrados</h2>
+    <div style="margin-bottom:12px">
+        <button class="btn" onclick="cargarDocentes(false)">Todos</button>
+        <button class="btn btn-ok" onclick="cargarDocentes(true)">Pendientes</button>
+    </div>
+    <div id="tabla-docentes"><div class="loading">Cargando...</div></div>
+</div>
+<script src="/static/js/seguridad.js"></script>
+<script>
+var token=localStorage.getItem('token'),rol=localStorage.getItem('rol');
+if(!token||rol!=='admin'){window.location.href='/login'}
+var headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'};
+
+function logout(){localStorage.clear();window.location.href='/login'}
+
+function api(url,opt){return fetch(url,Object.assign({headers:headers},opt||{})).then(function(r){return r.json().then(function(d){if(r.status===401||r.status===403){localStorage.clear();window.location.href='/login'}return d})})}
+
+function cargarEstadisticas(){
+    api('/api/admin/estadisticas').then(function(d){
+        document.getElementById('stats').innerHTML=
+            '<div class="stat"><div class="stat-num">'+d.total_docentes+'</div><div class="stat-label">Docentes totales</div></div>'+
+            '<div class="stat"><div class="stat-num" style="color:var(--ok)">'+d.docentes_activos+'</div><div class="stat-label">Activos</div></div>'+
+            '<div class="stat"><div class="stat-num" style="color:var(--warn)">'+d.docentes_pendientes+'</div><div class="stat-label">Pendientes</div></div>'+
+            '<div class="stat"><div class="stat-num">'+d.total_grupos+'</div><div class="stat-label">Grupos creados</div></div>';
+    });
+}
+
+function cargarDocentes(pendientes){
+    var url='/api/admin/docentes'+(pendientes?'?pendientes=true':'');
+    api(url).then(function(d){
+        if(!d.length){document.getElementById('tabla-docentes').innerHTML='<p style="color:var(--text2);text-align:center;padding:20px">No hay docentes para mostrar</p>';return}
+        var h='<table><tr><th>Cédula</th><th>Nombre</th><th>Email</th><th>Estado</th><th>Acciones</th></tr>';
+        d.forEach(function(doc){
+            var badge=doc.activo?'<span class="badge badge-ok">Activo</span>':'<span class="badge badge-pend">Pendiente</span>';
+            var acciones=doc.activo?
+                '<button class="btn btn-err" onclick="aprobar('+doc.id+',false)">Desaprobar</button>':
+                '<button class="btn btn-ok" onclick="aprobar('+doc.id+',true)">Aprobar</button>';
+            h+='<tr><td>'+doc.cedula+'</td><td>'+doc.nombre+'</td><td>'+doc.email||'-'+'</td><td>'+badge+'</td><td>'+acciones+'</td></tr>';
+        });
+        h+='</table>';
+        document.getElementById('tabla-docentes').innerHTML=h;
+    });
+}
+
+function aprobar(id,activo){
+    api('/api/admin/docentes/'+id+'/aprobar',{method:'POST',body:JSON.stringify({activo:activo})}).then(function(d){
+        if(d.ok){cargarEstadisticas();cargarDocentes(false)}
+    });
+}
+
+cargarEstadisticas();
+cargarDocentes(false);
+</script>
+</body>
+</html>

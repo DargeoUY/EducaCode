@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Docente - Algoritmia</title>
+<style>
+        :root { --bg: #f1f5f9; --card: #fff; --text: #1e293b; --muted: #64748b; --primary: #6366f1; --border: #e2e8f0; --n1: #3b82f6; --n2: #10b981; --n3: #f59e0b; --n4: #ec4899; --n5: #8b5cf6; --gen: #6366f1; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding: 0; }
+        header { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; padding: 30px; text-align: center; }
+        header h1 { font-size: 1.6rem; margin-bottom: 4px; }
+        header p { opacity: 0.9; font-size: 0.95rem; }
+        .tabs { display: flex; background: var(--card); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 10; overflow-x: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tabs button { flex: 1 0 auto; padding: 14px 16px; border: none; background: transparent; cursor: pointer; font-size: 0.82rem; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; min-width: 80px; font-family: inherit; }
+        .tabs button:hover { color: var(--primary); background: #f8fafc; }
+        .tabs button.activo { color: var(--primary); border-bottom-color: var(--primary); background: #eef2ff; }
+        .tabs .tab-n1.activo { color: var(--n1); border-bottom-color: var(--n1); background: #eff6ff; }
+        .tabs .tab-n2.activo { color: var(--n2); border-bottom-color: var(--n2); background: #ecfdf5; }
+        .tabs .tab-n3.activo { color: var(--n3); border-bottom-color: var(--n3); background: #fffbeb; }
+        .tabs .tab-n4.activo { color: var(--n4); border-bottom-color: var(--n4); background: #fdf2f8; }
+        .tabs .tab-n5.activo { color: var(--n5); border-bottom-color: var(--n5); background: #f5f3ff; }
+        .contenido { max-width: 960px; margin: 0 auto; padding: 20px; }
+        .pestana { display: none; }
+        .pestana.activa { display: block; }
+        .seccion { background: var(--card); padding: 25px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin: 0 0 15px; font-size: 1.3rem; }
+        h3 { color: #4f46e5; margin: 18px 0 8px; font-size: 1.05rem; }
+        h4 { margin: 10px 0 6px; font-size: 0.95rem; color: var(--text); }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85rem; }
+        th { background: var(--primary); color: white; padding: 9px 10px; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+        tr:nth-child(even) { background: #f8fafc; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; margin-right: 6px; }
+        .badge-n1 { background: #dbeafe; color: #1d4ed8; }
+        .badge-n2 { background: #dcfce7; color: #15803d; }
+        .badge-n3 { background: #fef3c7; color: #b45309; }
+        .badge-n4 { background: #fce7f3; color: #be185d; }
+        .badge-n5 { background: #e0e7ff; color: #4338ca; }
+        .pregunta { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 8px 8px 0; font-style: italic; margin: 10px 0; font-size: 1rem; }
+        .resumen { background: #eef2ff; border: 1px solid #c7d2fe; padding: 16px 20px; border-radius: 8px; font-size: 0.9rem; line-height: 1.8; }
+        .consejo { background: #dcfce7; border-left: 4px solid #10b981; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; }
+        .peligro { background: #fee2e2; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; }
+        .tiempo { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+        .ejemplo { background: #f8fafc; border: 1px dashed var(--border); padding: 12px 15px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; margin: 8px 0; white-space: pre-wrap; }
+        .btn-nav { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
+        .btn-ejercicios { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .btn-ejercicios:hover { background: #dbeafe; }
+        .btn-respuestas { background: #ecfdf5; color: #15803d; border: 1px solid #a7f3d0; }
+        .btn-respuestas:hover { background: #dcfce7; }
+        .nav-botones { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { padding: 6px 0 6px 28px; position: relative; }
+        .checklist li::before { content: "☐"; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+        ul, ol { padding-left: 22px; }
+        @media print { body { background: white; } .tabs,.nav-botones { display: none; } .pestana { display: block !important; page-break-before: always; } .pestana:first-of-type { page-break-before: avoid; } .seccion { box-shadow: none; border: 1px solid #e2e8f0; page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📘 Guía Docente — Algoritmia</h1>
+    <p>Recurso completo para los 5 niveles de pensamiento computacional</p>
+</header>
+
+<div class="tabs" id="tabs">
+    <button class="tab-gen activo" onclick="mostrarPestana('inicio')">🏠 Inicio</button>
+    <button class="tab-n1" onclick="mostrarPestana('n1')">🔹 Nivel 1</button>
+    <button class="tab-n2" onclick="mostrarPestana('n2')">🔹 Nivel 2</button>
+    <button class="tab-n3" onclick="mostrarPestana('n3')">🔹 Nivel 3</button>
+    <button class="tab-n4" onclick="mostrarPestana('n4')">🔹 Nivel 4</button>
+    <button class="tab-n5" onclick="mostrarPestana('n5')">🔹 Nivel 5</button>
+</div>
+
+<div class="contenido">
+
+<!-- ================================================================ -->
+<!-- PESTAÑA INICIO / GENERAL -->
+<!-- ================================================================ -->
+<div class="pestana activa" id="pestana-inicio">
+
+    <div class="seccion">
+        <h2>📋 Estructura del curso</h2>
+        <table>
+            <tr><th>Nivel</th><th>Tema</th><th>Archivo</th><th>Duración</th></tr>
+            <tr><td><span class="badge badge-n1">N1</span></td><td>El Arte de dar Instrucciones</td><td>Algoritmia - LVL 1.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n2">N2</span></td><td>Secuencias y Orden Lógico</td><td>Algoritmia - LVL 2.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n3">N3</span></td><td>Tomando Decisiones</td><td>Algoritmia - LVL 3.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n4">N4</span></td><td>Bucles y Repetición</td><td>Algoritmia - LVL 4.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n5">N5</span></td><td>Evaluación Integradora</td><td>Algoritmia - LVL 5.html</td><td>40 min</td></tr>
+        </table>
+    </div>
+
+    <div class="seccion">
+        <h2>⚙️ Configuración técnica</h2>
+        <h3>Requisitos previos</h3>
+        <ul class="checklist">
+            <li>Google Sheet de Algoritmia con pestañas <strong>Alumnos</strong> y <strong>Resultados</strong></li>
+            <li>Google Apps Script implementado como Web App</li>
+            <li>URL del script pegada en <code>GOOGLE_SCRIPT_URL</code> del LVL 5</li>
+            <li>Cargar los alumnos en la pestaña "Alumnos" (Cédula | Nombre | Apellido | Grupo)</li>
+            <li>Los 8 archivos de la carpeta <code>Algoritmia/</code> accesibles para los estudiantes</li>
+        </ul>
+
+        <h3>Cómo monitorear el progreso</h3>
+        <p>El Google Sheet se actualiza en tiempo real. En la pestaña <strong>Resultados</strong> podés ver:</p>
+        <ul>
+            <li>Quiénes ya comenzaron (Estado: "En curso")</li>
+            <li>Quiénes terminaron (Estado: "Finalizado") con su puntuación y nota</li>
+            <li>Cuántos intentos lleva cada alumno</li>
+            <li>El tiempo que tardaron</li>
+        </ul>
+        <div class="consejo">💡 <strong>Consejo:</strong> Ordená la columna "Puntuación" de mayor a menor para ver rápido quiénes necesitan refuerzo. La columna "Intento N°" te dice si ya repitieron la evaluación.</div>
+    </div>
+
+    <div class="seccion">
+        <h2>📝 Resumen Administrativo General (GURÍ / Portafolio)</h2>
+        <div class="resumen">
+            <p>El proyecto <strong>"Algoritmia"</strong> constituye una secuencia didáctica de cinco niveles para la enseñanza de pensamiento computacional, implementada mediante recursos digitales interactivos desarrollados en HTML, CSS y JavaScript. Cada nivel integra contenidos teóricos con desafíos lúdicos que abarcan: definición y propiedades de los algoritmos, secuenciación lógica, estructuras condicionales, bucles de repetición y una evaluación final integradora con temporizador, validación de identidad y sistema de ranking.</p>
+            <p>La herramienta registra automáticamente el desempeño de cada estudiante en una hoja de cálculo vinculada (Google Sheets), permitiendo al docente monitorear en tiempo real el progreso individual y grupal. La evaluación incorpora bonificación por velocidad de respuesta y genera una nota numérica del 1 al 10 basada en el puntaje obtenido. Se implementaron controles de integridad académica como detección de cambio de pestaña, límite de tres intentos por alumno y validación de identidad mediante cédula.</p>
+            <p>Los resultados esperados abarcan: comprensión del concepto de algoritmo y sus tres propiedades fundamentales, capacidad de secuenciar instrucciones en orden lógico, aplicación de estructuras condicionales para modelar decisiones, reconocimiento del valor de los bucles como herramienta de automatización, y demostración integrada de estas competencias en una evaluación que combina distintos formatos de pregunta (opción múltiple, completado de espacios, ordenamiento de secuencias y verdadero/falso).</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PESTAÑA NIVEL 1 -->
+<!-- ================================================================ -->
+<div class="pestana" id="pestana-n1">
+    <div class="seccion">
+        <h2><span class="badge badge-n1">Nivel 1</span> El Arte de dar Instrucciones</h2>
+        <div class="nav-botones">
+            <a href="Algoritmia - LVL 1-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+            <a href="Algoritmia - LVL 1-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+        </div>
+
+        <h3>💡 Pregunta disparadora</h3>
+        <div class="pregunta">"Si tuvieras que explicarle a un robot cómo atarse los cordones sin mostrarle nada, ¿podrías hacerlo sin que se equivoque? ¿Qué pasaría si le das los pasos en desorden?"</div>
+
+        <h3>🎯 Objetivos de aprendizaje</h3>
+        <ul>
+            <li>Definir el concepto de algoritmo con palabras propias</li>
+            <li>Identificar las 3 C de un buen algoritmo: Claro, Corto, Correcto</li>
+            <li>Reconocer que los algoritmos tienen un inicio y un fin (son finitos)</li>
+            <li>Comprender que el orden de los pasos determina el resultado</li>
+        </ul>
+
+        <h3>📚 Conceptos clave</h3>
+        <p><strong>Algoritmo</strong> · <strong>Secuencia</strong> · <strong>Finito</strong> · <strong>Las 3 C</strong> · <strong>Instrucción</strong> · <strong>Paso</strong></p>
+
+        <h3>📅 Planificación (40 min)</h3>
+
+        <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+        <div class="consejo">💡 <strong>Material complementario:</strong> este nivel incluye <code>Algoritmia - LVL 1-Ejercicios.html</code> (5 ejercicios para el cuaderno) y <code>Algoritmia - LVL 1-Respuestas.html</code> (clave de corrección docente). Entregar los ejercicios al final de la clase.</div>
+        <table>
+            <tr><td style="width:90px"><strong>00:00-03:00</strong></td><td>Lanzar la pregunta disparadora. Dejar que 3 o 4 estudiantes respondan. Anotar en el pizarrón las palabras clave que surjan: "orden", "pasos", "instrucciones".</td></tr>
+            <tr><td><strong>03:00-07:00</strong></td><td>Presentar ejemplos cotidianos de algoritmos: receta de cocina, manual de instrucciones, rutina matutina. Preguntar: "¿Qué tienen en común todos estos?"</td></tr>
+            <tr><td><strong>07:00-10:00</strong></td><td>Abrir el LVL 1 en el proyector. Leer juntos la sección 1 ("¿Qué es un Algoritmo?"). Resolver dudas de vocabulario.</td></tr>
+        </table>
+
+        <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>10:00-14:00</strong></td><td>Leer la sección 2 ("La Regla de las 3 C"). Para cada C, pedir un ejemplo del grupo. Escribirlos en el pizarrón en tres columnas.</td></tr>
+            <tr><td><strong>14:00-16:00</strong></td><td>Leer la sección 3 ("Ejemplo: Lavarse las manos"). Preguntar: "¿Qué pasa si cambio el paso 3 con el 1?" Debatir.</td></tr>
+            <tr><td><strong>16:00-26:00</strong></td><td>Trabajo individual en el quiz de 5 preguntas. El docente circula entre los estudiantes resolviendo dudas técnicas o de contenido.</td></tr>
+            <tr><td><strong>26:00-30:00</strong></td><td>Revisar en grupo las preguntas con mayor índice de error (visible en el Sheets). Explicar la respuesta correcta razonando en voz alta.</td></tr>
+        </table>
+
+        <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>30:00-35:00</strong></td><td>Cada estudiante escribe en su cuaderno un algoritmo de 5 pasos para una tarea cotidiana: cepillarse los dientes, hacer la mochila, cruzar la calle.</td></tr>
+            <tr><td><strong>35:00-38:00</strong></td><td>Intercambian cuadernos con un compañero. Evalúan si el algoritmo del otro cumple las 3 C.</td></tr>
+            <tr><td><strong>38:00-40:00</strong></td><td>2 voluntarios leen su algoritmo al grupo. El docente señala aciertos y oportunidades de mejora. Cierre con refuerzo positivo.</td></tr>
+        </table>
+
+        <h3>🔄 Ejemplos adicionales para usar en clase</h3>
+        <div class="ejemplo">ALGORITMO: Hacer un sanguche de jamón y queso
+1. Agarrar dos panes
+2. Untar mayonesa en un pan
+3. Poner una feta de jamón
+4. Poner una feta de queso
+5. Tapar con el otro pan
+→ ¿Qué pasa si primero ponés el queso y después la mayonesa? ¿Funciona igual?</div>
+
+        <h3>⚠️ Posibles dificultades</h3>
+        <div class="peligro">🚨 <strong>Confusión común:</strong> "Claro" vs "Corto". Un algoritmo puede ser corto pero poco claro (ej: "hacé el sanguche"). Reforzar que las 3 C trabajan juntas, no son independientes.</div>
+        <div class="consejo">💡 Si un estudiante dice "eso es obvio", pedile que le dicte a otro compañero cómo atarse los cordones. El compañero debe seguir las instrucciones AL PIE DE LA LETRA. Rápidamente descubren que lo "obvio" no lo es tanto.</div>
+
+        <h3>📝 Resumen Administrativo — Nivel 1</h3>
+        <div class="resumen">
+            <p>La clase correspondiente al Nivel 1 de Algoritmia abordó el concepto de algoritmo como serie de pasos ordenados, lógicos y finitos para resolver un problema. Se trabajó la regla de las 3 C (Claro, Corto, Correcto) mediante ejemplos cotidianos como lavarse las manos y preparar un sanguche. Los estudiantes interactuaron con un recurso digital que incluye contenidos teóricos y un desafío de 5 preguntas de opción múltiple. La actividad práctica de cierre consistió en la producción escrita de un algoritmo personal en el cuaderno, evaluado por pares bajo los criterios de las 3 C.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PESTAÑA NIVEL 2 -->
+<!-- ================================================================ -->
+<div class="pestana" id="pestana-n2">
+    <div class="seccion">
+        <h2><span class="badge badge-n2">Nivel 2</span> Secuencias y Orden Lógico</h2>
+        <div class="nav-botones">
+            <a href="Algoritmia - LVL 2-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+            <a href="Algoritmia - LVL 2-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+        </div>
+
+        <h3>💡 Pregunta disparadora</h3>
+        <div class="pregunta">"¿Alguna vez seguiste una receta de cocina? ¿Qué pasaría si mezclás los ingredientes antes de prender el horno? ¿Importa el orden?"</div>
+
+        <h3>🎯 Objetivos de aprendizaje</h3>
+        <ul>
+            <li>Comprender que el orden de los pasos modifica el resultado del algoritmo</li>
+            <li>Identificar los símbolos básicos de un diagrama de flujo (óvalo, rectángulo, rombo, flecha)</li>
+            <li>Leer e interpretar un diagrama de flujo simple</li>
+            <li>Reconocer la dependencia entre pasos consecutivos (secuencialidad)</li>
+        </ul>
+
+        <h3>📚 Conceptos clave</h3>
+        <p><strong>Secuencia</strong> · <strong>Diagrama de flujo</strong> · <strong>Óvalo</strong> · <strong>Rectángulo</strong> · <strong>Flecha</strong> · <strong>Dependencia</strong></p>
+
+        <h3>📅 Planificación (40 min)</h3>
+
+        <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+        <div class="consejo">💡 <strong>Material complementario:</strong> este nivel incluye <code>Algoritmia - LVL 2-Ejercicios.html</code> (5 ejercicios para el cuaderno) y <code>Algoritmia - LVL 2-Respuestas.html</code> (clave de corrección docente). Entregar los ejercicios al final de la clase.</div>
+        <table>
+            <tr><td style="width:90px"><strong>00:00-03:00</strong></td><td>Pregunta disparadora. Escribir en el pizarrón: "¿Importa el orden?" y anotar ejemplos que den los estudiantes.</td></tr>
+            <tr><td><strong>03:00-06:00</strong></td><td>Demostración física: pedir a un voluntario que "se ponga los zapatos". Luego preguntar: "¿Te pusiste primero las medias o los zapatos? ¿Se puede hacer al revés?" Vincular con el concepto de secuencialidad.</td></tr>
+            <tr><td><strong>06:00-10:00</strong></td><td>Abrir el LVL 2. Leer juntos la sección 1. Identificar la palabra "secuencialidad" y definirla.</td></tr>
+        </table>
+
+        <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>10:00-14:00</strong></td><td>Leer sección 2 (Diagramas de Flujo). Dibujar en el pizarrón los 4 símbolos. Para cada uno, pedir un ejemplo. Los estudiantes copian los símbolos en su cuaderno.</td></tr>
+            <tr><td><strong>14:00-17:00</strong></td><td>Leer sección 3 (Ejemplo: Preparar un mate). Preguntar: "¿Por qué la opción 1 no funciona?" Construir entre todos el diagrama de flujo del mate en el pizarrón.</td></tr>
+            <tr><td><strong>17:00-27:00</strong></td><td>Quiz individual de 5 preguntas. El docente monitorea el desempeño grupal.</td></tr>
+            <tr><td><strong>27:00-30:00</strong></td><td>Revisión de las 2 preguntas con más errores. Razonamiento en grupo.</td></tr>
+        </table>
+
+        <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>30:00-35:00</strong></td><td>Cada estudiante dibuja en su cuaderno un diagrama de flujo de 4 pasos para una tarea a elección (hacer la cama, calentar agua, mandar un mensaje). Debe usar al menos: inicio, proceso y fin.</td></tr>
+            <tr><td><strong>35:00-38:00</strong></td><td>Intercambio con un compañero: ¿se entiende el diagrama sin leer instrucciones adicionales?</td></tr>
+            <tr><td><strong>38:00-40:00</strong></td><td>El docente elige 2 diagramas, los proyecta (o dibuja en el pizarrón) y el grupo los analiza colectivamente.</td></tr>
+        </table>
+
+        <h3>🔄 Ejemplo adicional</h3>
+        <div class="ejemplo">DIAGRAMA DE FLUJO: Encender la computadora
+[INICIO (óvalo)] → [Presionar botón de encendido (rectángulo)] → [¿Prendió? (rombo)]
+   → SÍ: [Iniciar sesión (rectángulo)] → [FIN (óvalo)]
+   → NO: [Revisar enchufe (rectángulo)] → volver a "¿Prendió?"</div>
+
+        <h3>⚠️ Posibles dificultades</h3>
+        <div class="peligro">🚨 <strong>Confusión frecuente:</strong> confundir el rectángulo (proceso) con el rombo (decisión). Reforzar: "Si hay una pregunta de SÍ o NO, va en rombo. Si es una acción, va en rectángulo."</div>
+
+        <h3>📝 Resumen Administrativo — Nivel 2</h3>
+        <div class="resumen">
+            <p>En el Nivel 2 se profundizó en la importancia del orden secuencial dentro de un algoritmo y se introdujo la herramienta de diagramas de flujo como forma de representación visual del pensamiento lógico. Los estudiantes identificaron los cuatro símbolos fundamentales (óvalo, rectángulo, rombo y flecha) y los aplicaron en la construcción de diagramas propios. La actividad práctica de cierre consistió en el dibujo de un diagrama de flujo en el cuaderno, evaluado mediante coevaluación entre pares. El recurso digital aportó un quiz de 5 preguntas para verificar la comprensión conceptual.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PESTAÑA NIVEL 3 -->
+<!-- ================================================================ -->
+<div class="pestana" id="pestana-n3">
+    <div class="seccion">
+        <h2><span class="badge badge-n3">Nivel 3</span> Tomando Decisiones</h2>
+        <div class="nav-botones">
+            <a href="Algoritmia - LVL 3-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+            <a href="Algoritmia - LVL 3-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+        </div>
+
+        <h3>💡 Pregunta disparadora</h3>
+        <div class="pregunta">"Cuando salís de tu casa y ves el cielo nublado, ¿siempre llevás paraguas? ¿Qué condiciones te hacen decidir si lo llevás o no?"</div>
+
+        <h3>🎯 Objetivos de aprendizaje</h3>
+        <ul>
+            <li>Comprender qué es una estructura condicional (SI/ENTONCES/SINO)</li>
+            <li>Identificar condiciones que solo pueden ser Verdadero o Falso</li>
+            <li>Representar decisiones usando el símbolo del rombo en diagramas de flujo</li>
+            <li>Reconocer que no siempre es obligatorio incluir la parte SINO</li>
+        </ul>
+
+        <h3>📚 Conceptos clave</h3>
+        <p><strong>Condicional</strong> · <strong>SI/ENTONCES/SINO</strong> · <strong>Rombo</strong> · <strong>Decisión</strong> · <strong>Condición</strong> · <strong>Bifurcación</strong></p>
+
+        <h3>📅 Planificación (40 min)</h3>
+
+        <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+        <div class="consejo">💡 <strong>Material complementario:</strong> este nivel incluye <code>Algoritmia - LVL 3-Ejercicios.html</code> (5 ejercicios para el cuaderno) y <code>Algoritmia - LVL 3-Respuestas.html</code> (clave de corrección docente). Entregar los ejercicios al final de la clase.</div>
+        <table>
+            <tr><td style="width:90px"><strong>00:00-04:00</strong></td><td>Pregunta disparadora. Debatir: "¿Qué condiciones evaluamos sin darnos cuenta todos los días?" (hambre, sueño, frío, lluvia). Anotar en el pizarrón.</td></tr>
+            <tr><td><strong>04:00-07:00</strong></td><td>Juego rápido: el docente dice una condición ("Si tenés mascota, levantá la mano"). Los estudiantes responden físicamente. Varias rondas. Vincular con "el cuerpo ejecutando un algoritmo con condicionales".</td></tr>
+            <tr><td><strong>07:00-10:00</strong></td><td>Abrir LVL 3. Leer sección 1. Identificar las tres partes: SI, ENTONCES, SINO.</td></tr>
+        </table>
+
+        <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>10:00-14:00</strong></td><td>Leer sección 2. Dibujar en el pizarrón la estructura con tres columnas. Practicar con ejemplos orales: "SI tengo plata ENTONCES compro un helado SINO no compro nada". Pedir 5 ejemplos del grupo.</td></tr>
+            <tr><td><strong>14:00-17:00</strong></td><td>Leer sección 3 (El Símbolo del Rombo). Relacionar con el Nivel 2. Preguntar: "¿Cuántos caminos salen del rombo? ¿Siempre son dos?"</td></tr>
+            <tr><td><strong>17:00-27:00</strong></td><td>Quiz individual. El docente observa quiénes fallan en la pregunta 4 (¿es obligatorio el SINO?) y toma nota para reforzar.</td></tr>
+            <tr><td><strong>27:00-30:00</strong></td><td>Puesta en común de errores frecuentes. Énfasis en: "El SINO es opcional. No siempre hay que ponerlo."</td></tr>
+        </table>
+
+        <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>30:00-35:00</strong></td><td>Cada estudiante escribe en su cuaderno un algoritmo con al menos UNA decisión (rombo). Tema libre. Debe incluir inicio, proceso, decisión y fin.</td></tr>
+            <tr><td><strong>35:00-40:00</strong></td><td>Puesta en común. 3 voluntarios leen/dibujan su algoritmo. El grupo identifica cuál es la condición y si el SINO era necesario.</td></tr>
+        </table>
+
+        <h3>🔄 Ejemplo adicional</h3>
+        <div class="ejemplo">ALGORITMO: Cruzar la calle
+1. Llegar a la esquina
+2. Mirar el semáforo
+3. SI está en verde ENTONCES
+      Cruzar la calle
+   SINO
+      Esperar
+4. Llegar a la otra vereda</div>
+
+        <h3>⚠️ Posibles dificultades</h3>
+        <div class="peligro">🚨 <strong>Error común:</strong> creer que SIEMPRE debe haber SINO. Muchos algoritmos solo necesitan actuar si se cumple una condición (ej: "SI veo un perro, cruzo de vereda"). Si no se cumple, simplemente no se hace nada y se sigue adelante.</div>
+
+        <h3>📝 Resumen Administrativo — Nivel 3</h3>
+        <div class="resumen">
+            <p>El Nivel 3 introdujo las estructuras condicionales como herramienta para modelar la toma de decisiones dentro de un algoritmo. Se trabajó la estructura SI/ENTONCES/SINO mediante ejemplos de la vida cotidiana y se reforzó la representación visual con el símbolo del rombo en diagramas de flujo. Los estudiantes participaron en un juego de respuesta física ante condiciones para internalizar el concepto de bifurcación. El quiz digital evaluó la comprensión de los tres componentes del condicional y la correcta interpretación de cuándo el SINO es opcional.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PESTAÑA NIVEL 4 -->
+<!-- ================================================================ -->
+<div class="pestana" id="pestana-n4">
+    <div class="seccion">
+        <h2><span class="badge badge-n4">Nivel 4</span> Bucles y Repetición</h2>
+        <div class="nav-botones">
+            <a href="Algoritmia - LVL 4-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+            <a href="Algoritmia - LVL 4-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+        </div>
+
+        <h3>💡 Pregunta disparadora</h3>
+        <div class="pregunta">"Si tuvieras que escribir 'Estudio algoritmia' 100 veces en el pizarrón, ¿escribirías las 100 líneas una por una o buscarías una forma más rápida?"</div>
+
+        <h3>🎯 Objetivos de aprendizaje</h3>
+        <ul>
+            <li>Comprender qué es un bucle y para qué sirve</li>
+            <li>Diferenciar entre "Repetir N veces" (cantidad fija) y "Mientras que" (basado en condición)</li>
+            <li>Identificar el peligro del bucle infinito y cómo evitarlo</li>
+            <li>Valorar la eficiencia que aportan los bucles a un algoritmo</li>
+        </ul>
+
+        <h3>📚 Conceptos clave</h3>
+        <p><strong>Bucle</strong> · <strong>Repetición</strong> · <strong>Repetir N veces</strong> · <strong>Mientras que</strong> · <strong>Bucle infinito</strong> · <strong>Automatización</strong></p>
+
+        <h3>📅 Planificación (40 min)</h3>
+
+        <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+        <div class="consejo">💡 <strong>Material complementario:</strong> este nivel incluye <code>Algoritmia - LVL 4-Ejercicios.html</code> (5 ejercicios para el cuaderno) y <code>Algoritmia - LVL 4-Respuestas.html</code> (clave de corrección docente). Entregar los ejercicios al final de la clase.</div>
+        <table>
+            <tr><td style="width:90px"><strong>00:00-04:00</strong></td><td>Pregunta disparadora. El docente simula escribir 100 veces en el pizarrón (empieza y para a la tercera). Preguntar: "¿No hay una forma más inteligente de hacer esto?" Los estudiantes sugieren ideas.</td></tr>
+            <tr><td><strong>04:00-07:00</strong></td><td>Ejemplo físico: un estudiante da 10 saltos. Preguntar: "¿Le pedí que salte 10 veces o le pedí que siga saltando hasta que yo diga 'basta'?" Diferenciar las dos formas de repetir.</td></tr>
+            <tr><td><strong>07:00-10:00</strong></td><td>Abrir LVL 4. Leer sección 1. Definir bucle. Mostrar la diferencia entre escribir 100 líneas de código vs 3 líneas con un bucle.</td></tr>
+        </table>
+
+        <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>10:00-14:00</strong></td><td>Leer sección 2 (Tipos de Bucles). Crear dos columnas en el pizarrón: "REPETIR N VECES" y "MIENTRAS QUE". Llenar con ejemplos del grupo.</td></tr>
+            <tr><td><strong>14:00-17:00</strong></td><td>Leer sección 3 (Ejemplo: sumar del 1 al 5). Mostrar la diferencia visual entre el algoritmo sin bucle (largo) y con bucle (corto). Preguntar: "¿Y si fueran 1000 números?"</td></tr>
+            <tr><td><strong>17:00-27:00</strong></td><td>Quiz individual. Atención especial a la pregunta sobre el bucle infinito.</td></tr>
+            <tr><td><strong>27:00-30:00</strong></td><td>Reforzar el concepto de bucle infinito. Mostrar ejemplo: "Mientras el sol brille, seguí caminando". Preguntar: "¿Cuándo termina?" Nunca. "¿Es útil este algoritmo?" No.</td></tr>
+        </table>
+
+        <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>30:00-35:00</strong></td><td>Cada estudiante escribe un algoritmo que incluya un bucle. Ej: "Algoritmo para llenar 5 vasos de agua" (repetir 5 veces: servir agua en un vaso).</td></tr>
+            <tr><td><strong>35:00-40:00</strong></td><td>Puesta en común y cierre. Preguntar: "¿En qué tareas de tu vida diaria usás bucles sin darte cuenta?" (barrer, lavar platos, hacer la tarea).</td></tr>
+        </table>
+
+        <h3>🔄 Ejemplo adicional</h3>
+        <div class="ejemplo">ALGORITMO: Inflar 10 globos para una fiesta
+1. Agarrar un globo
+2. REPETIR 10 veces:
+      Inflar el globo
+      Atarlo
+      Agarrar otro globo
+3. Guardar los globos inflados
+
+→ ¡10 globos inflados con solo 3 instrucciones!</div>
+
+        <h3>⚠️ Posibles dificultades</h3>
+        <div class="peligro">🚨 <strong>Error común:</strong> pensar que "Repetir N veces" y "Mientras que" son lo mismo. La diferencia clave: en "Repetir N veces" sé de antemano CUÁNTAS repeticiones. En "Mientras que" no sé cuántas; depende de una condición.</div>
+
+        <h3>📝 Resumen Administrativo — Nivel 4</h3>
+        <div class="resumen">
+            <p>El Nivel 4 introdujo el concepto de bucle como estructura de repetición que permite automatizar tareas sin duplicar instrucciones. Se trabajaron los dos tipos principales de bucles (repetición por cantidad fija y repetición condicionada) mediante ejemplos cotidianos y ejercicios comparativos. Se enfatizó el peligro del bucle infinito como error de diseño algorítmico. La actividad práctica de cierre requirió que cada estudiante escribiera un algoritmo con al menos una estructura de repetición, demostrando comprensión de la eficiencia que aportan los bucles.</p>
+        </div>
+    </div>
+</div>
+
+<!-- ================================================================ -->
+<!-- PESTAÑA NIVEL 5 -->
+<!-- ================================================================ -->
+<div class="pestana" id="pestana-n5">
+    <div class="seccion">
+        <h2><span class="badge badge-n5">Nivel 5</span> Evaluación Integradora</h2>
+
+        <h3>💡 Pregunta disparadora</h3>
+        <div class="pregunta">"Después de todo lo que aprendiste, ¿te animás a demostrar que podés pensar como un ingeniero de algoritmos?"</div>
+
+        <h3>🎯 Objetivos de aprendizaje</h3>
+        <ul>
+            <li>Demostrar comprensión integrada de los 4 niveles anteriores</li>
+            <li>Aplicar el pensamiento algorítmico en distintos formatos de pregunta</li>
+            <li>Gestionar el tiempo de resolución (30 minutos) de forma autónoma</li>
+            <li>Reflexionar sobre el propio desempeño mediante la nota y el ranking</li>
+        </ul>
+
+        <h3>📚 Estructura de la evaluación</h3>
+        <table>
+            <tr><th>Tipo de pregunta</th><th>Cantidad</th><th>Puntos c/u</th><th>Total</th></tr>
+            <tr><td>Opción múltiple</td><td>7</td><td>10</td><td>70</td></tr>
+            <tr><td>Completar espacio</td><td>3</td><td>15</td><td>45</td></tr>
+            <tr><td>Ordenar secuencia</td><td>2</td><td>20</td><td>40</td></tr>
+            <tr><td>Verdadero / Falso</td><td>1</td><td>5</td><td>5</td></tr>
+            <tr><td colspan="2"><strong>Total</strong></td><td colspan="2"><strong>160 puntos</strong></td></tr>
+        </table>
+
+        <h3>📅 Planificación (40 min)</h3>
+
+        <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>00:00-03:00</strong></td><td>Explicar la dinámica de la evaluación: 12 preguntas aleatorias, 30 minutos, pueden saltear preguntas, no pueden cambiar de pestaña. Responder dudas logísticas, NO de contenido.</td></tr>
+            <tr><td><strong>03:00-07:00</strong></td><td>Cada estudiante ingresa su cédula. El sistema valida contra el Google Sheets. Si algún estudiante tiene problemas de validación, el docente lo asiste individualmente.</td></tr>
+            <tr><td><strong>07:00-10:00</strong></td><td>Último repaso rápido: preguntar oralmente "¿Qué es un algoritmo? ¿Las 3 C? ¿Qué símbolo representa una decisión? ¿Para qué sirve un bucle?"</td></tr>
+        </table>
+
+        <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>10:00-30:00</strong></td><td>Evaluación individual. Los estudiantes trabajan en silencio. El docente monitorea desde el Google Sheets quiénes ya terminaron y quiénes están demorados. <strong>No se responde ninguna pregunta de contenido durante estos 20 minutos.</strong></td></tr>
+        </table>
+
+        <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+        <table>
+            <tr><td style="width:90px"><strong>30:00-33:00</strong></td><td>Proyectar el ranking del grupo (desde el Sheets, ordenado por puntuación). Celebrar los 3 primeros puestos. No mostrar puntuaciones bajas individualmente.</td></tr>
+            <tr><td><strong>33:00-37:00</strong></td><td>Revisar en grupo las 2 preguntas que estadísticamente tuvieron más errores (el docente las ve en el Sheets). Explicar la respuesta correcta.</td></tr>
+            <tr><td><strong>37:00-40:00</strong></td><td>Cierre reflexivo: cada estudiante escribe en su cuaderno "Lo que mejor entendí fue..." y "Todavía me cuesta...".</td></tr>
+        </table>
+
+        <h3>📊 Rúbrica de la evaluación (Nivel 5)</h3>
+        <table>
+            <tr><th>Nota</th><th>Puntaje</th><th>Interpretación</th></tr>
+            <tr><td>10</td><td>144-160</td><td>Excelente: domina todos los conceptos</td></tr>
+            <tr><td>9</td><td>128-143</td><td>Muy bueno: algún error menor</td></tr>
+            <tr><td>8</td><td>112-127</td><td>Bueno: comprensión sólida con algunos errores</td></tr>
+            <tr><td>7</td><td>96-111</td><td>Aceptable: maneja lo básico, necesita reforzar</td></tr>
+            <tr><td>6</td><td>80-95</td><td>Suficiente: aprueba pero con debilidades</td></tr>
+            <tr><td>5</td><td>64-79</td><td>Regular: requiere repaso guiado</td></tr>
+            <tr><td>4</td><td>48-63</td><td>Insuficiente: conceptos no adquiridos</td></tr>
+            <tr><td>3</td><td>32-47</td><td>Muy insuficiente</td></tr>
+            <tr><td>2</td><td>16-31</td><td>No comprende los temas</td></tr>
+            <tr><td>1</td><td>0-15</td><td>Sin evidencias de aprendizaje</td></tr>
+        </table>
+
+        <h3>⚠️ Consideraciones importantes</h3>
+        <div class="peligro">🚨 <strong>Antes de empezar:</strong> verificar que TODOS los alumnos estén cargados en el Google Sheets con su cédula correcta. Si un alumno no puede validar su identidad, no podrá realizar la evaluación.</div>
+        <div class="consejo">💡 El temporizador de 30 minutos es automático. Si un estudiante se queda sin tiempo, la evaluación se entrega sola con lo que haya respondido. Avisar esto antes de comenzar para que gestionen su ritmo.</div>
+        <div class="peligro">🚨 <strong>Cambio de pestaña:</strong> si un alumno sale de la pestaña del navegador (Alt+Tab, cambiar a otra app), la evaluación se cancela automáticamente y cuenta como intento. Explicar esto claramente al inicio.</div>
+
+        <h3>📝 Resumen Administrativo — Nivel 5</h3>
+        <div class="resumen">
+            <p>La evaluación integradora del curso de Algoritmia consistió en 12 preguntas de formato variado (opción múltiple, completado de espacios, ordenamiento de secuencias y verdadero/falso) que abarcaron la totalidad de los contenidos trabajados en los niveles previos. El sistema digital implementó temporizador de 30 minutos, validación de identidad por cédula, detección de cambio de pestaña como medida de integridad académica y límite de tres intentos por estudiante. Los resultados se registraron automáticamente en una hoja de cálculo vinculada, generando una nota del 1 al 10 y un ranking comparativo por grupo. La instancia de cierre incluyó una reflexión metacognitiva individual sobre fortalezas y áreas de mejora.</p>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+    function mostrarPestana(id) {
+        document.querySelectorAll('.pestana').forEach(p => p.classList.remove('activa'));
+        document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('activo'));
+        document.getElementById('pestana-' + id).classList.add('activa');
+        document.querySelector('.tab-' + (id === 'inicio' ? 'gen' : id)).classList.add('activo');
+    }
+</script>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

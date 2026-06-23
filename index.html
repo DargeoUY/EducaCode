@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Docente — Cursos</title>
+    <link rel="stylesheet" href="style/panel.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>📚 Panel Docente</h1>
+        <p>Hace clic en un curso para ver sus recursos</p>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:12px;flex-wrap:wrap">
+            <a href="/ide" style="background:var(--primario,#3b82f6);color:#fff;padding:8px 18px;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600">💻 IDE Multi-Lenguaje</a>
+            <a href="/login" style="background:rgba(255,255,255,0.08);color:#f1f5f9;padding:8px 18px;border-radius:8px;text-decoration:none;font-size:0.85rem;font-weight:600;border:1px solid rgba(255,255,255,0.12)">🔐 Login</a>
+        </div>
+    </header>
+
+    <div class="cursos" id="cursos-grid">
+
+        <!-- Diseño Web -->
+        <div class="curso dw" onclick="enfocar(this)">
+            <button class="btn-cerrar" onclick="event.stopPropagation();desenfocar()">×</button>
+            <div class="curso-icono">🌐</div>
+            <h2>Diseño Web <span class="tag tag-dw">HTML + CSS + JS</span></h2>
+            <p>De cero a programador web. 15 niveles con clases, ejercicios y evaluaciones.</p>
+            <div class="contenido">
+                <div class="mini-grid">
+                    <div class="mini-card mc-html">
+                        <div class="mini-icono"><img src="ico-img/html5.png" alt="HTML"></div>
+                        <h3>HTML</h3>
+                        <p>Niveles 1 al 5 · Estructura, etiquetas, enlaces, tablas y formularios.</p>
+                        <div class="mini-links">
+                            <a href="Diseño_Web/DiseñoWeb-LVL 1.html" target="_blank">Nivel 1 — Mi Primera Página</a>
+                            <a href="Diseño_Web/DiseñoWeb-LVL 2.html" target="_blank">Nivel 2 — Conectando la Web</a>
+                            <a href="Diseño_Web/DiseñoWeb-LVL 3.html" target="_blank">Nivel 3 — Estructurando Datos</a>
+                            <a href="Diseño_Web/DiseñoWeb-LVL 4.html" target="_blank">Nivel 4 — Capturando Datos</a>
+                            <a href="Diseño_Web/DiseñoWeb-LVL 5.html" target="_blank">🧪 Nivel 5 — Evaluación</a>
+                        </div>
+                    </div>
+                    <div class="mini-card mc-css">
+                        <div class="mini-icono"><img src="ico-img/css3.png" alt="CSS"></div>
+                        <h3>CSS</h3>
+                        <p>Niveles 6 al 10 · Selectores, cajas, Flexbox y diseño responsive.</p>
+                        <div class="mini-links">
+                            <a href="Diseño_Web/DiseñoWeb-CSS-LVL 1.html" target="_blank">Nivel 6 — Dando Estilo</a>
+                            <a href="Diseño_Web/DiseñoWeb-CSS-LVL 2.html" target="_blank">Nivel 7 — Modelo de Cajas</a>
+                            <a href="Diseño_Web/DiseñoWeb-CSS-LVL 3.html" target="_blank">Nivel 8 — Flexbox</a>
+                            <a href="Diseño_Web/DiseñoWeb-CSS-LVL 4.html" target="_blank">Nivel 9 — Diseño Responsive</a>
+                            <a href="Diseño_Web/DiseñoWeb-CSS-LVL 5.html" target="_blank">🧪 Nivel 10 — Evaluación</a>
+                        </div>
+                    </div>
+                    <div class="mini-card mc-js">
+                        <div class="mini-icono"><img src="ico-img/js.png" alt="JavaScript"></div>
+                        <h3>JavaScript</h3>
+                        <p>Niveles 11 al 15 · Variables, eventos, DOM, condicionales y bucles.</p>
+                        <div class="mini-links">
+                            <a href="Diseño_Web/DiseñoWeb-JS-LVL 1.html" target="_blank">Nivel 11 — Primeros Pasos</a>
+                            <a href="Diseño_Web/DiseñoWeb-JS-LVL 2.html" target="_blank">Nivel 12 — Interactuando</a>
+                            <a href="Diseño_Web/DiseñoWeb-JS-LVL 3.html" target="_blank">Nivel 13 — Decisiones</a>
+                            <a href="Diseño_Web/DiseñoWeb-JS-LVL 4.html" target="_blank">Nivel 14 — Bucles</a>
+                            <a href="Diseño_Web/DiseñoWeb-JS-LVL 5.html" target="_blank">🧪 Nivel 15 — Evaluación</a>
+                        </div>
+                    </div>
+                </div>
+                <a href="Diseño_Web/Guia Docente - Diseño Web.html" target="_blank" style="display:block;margin-top:16px;padding:10px 14px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;background:rgba(59,130,246,.1);color:var(--dw);border:1px solid rgba(59,130,246,.2);text-align:center">📘 Guía Docente completa</a>
+            </div>
+        </div>
+
+        <!-- Algoritmia -->
+        <div class="curso al" onclick="enfocar(this)">
+            <button class="btn-cerrar" onclick="event.stopPropagation();desenfocar()">×</button>
+            <div class="curso-icono">🧠</div>
+            <h2>Algoritmia <span class="tag tag-al">Pensamiento Computacional</span></h2>
+            <p>Algoritmos, secuencias, diagramas de flujo, condicionales y bucles.</p>
+            <div class="contenido">
+                <a href="Algoritmia/Guia Docente - Algoritmia.html" target="_blank" style="display:block;padding:10px 14px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;background:rgba(16,185,129,.1);color:var(--al);border:1px solid rgba(16,185,129,.2);margin-bottom:10px;text-align:center">📘 Guía Docente</a>
+                <a href="Algoritmia/Algoritmia - LVL 1.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(16,185,129,.07);color:#6ee7b7;border:1px solid rgba(16,185,129,.12);margin-bottom:3px">Nivel 1 — El Arte de dar Instrucciones</a>
+                <a href="Algoritmia/Algoritmia - LVL 2.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(16,185,129,.07);color:#6ee7b7;border:1px solid rgba(16,185,129,.12);margin-bottom:3px">Nivel 2 — Secuencias y Orden Lógico</a>
+                <a href="Algoritmia/Algoritmia - LVL 3.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(16,185,129,.07);color:#6ee7b7;border:1px solid rgba(16,185,129,.12);margin-bottom:3px">Nivel 3 — Tomando Decisiones</a>
+                <a href="Algoritmia/Algoritmia - LVL 4.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(16,185,129,.07);color:#6ee7b7;border:1px solid rgba(16,185,129,.12);margin-bottom:3px">Nivel 4 — Bucles y Repetición</a>
+                <a href="Algoritmia/Algoritmia - LVL 5.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(16,185,129,.07);color:#6ee7b7;border:1px solid rgba(16,185,129,.12)">🧪 Nivel 5 — Evaluación Final</a>
+            </div>
+        </div>
+
+        <!-- Python -->
+        <div class="curso py" onclick="enfocar(this)">
+            <button class="btn-cerrar" onclick="event.stopPropagation();desenfocar()">×</button>
+            <div class="curso-icono">🐍</div>
+            <h2>Python <span class="tag tag-py">Programación</span></h2>
+            <p>Fundamentos: print(), input(), variables, if/else, for, while.</p>
+            <div class="contenido">
+                <a href="Python/Guia Docente - Python.html" target="_blank" style="display:block;padding:10px 14px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;background:rgba(245,158,11,.1);color:var(--py);border:1px solid rgba(245,158,11,.2);margin-bottom:10px;text-align:center">📘 Guía Docente</a>
+                <a href="Python/Python - LVL 1.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(245,158,11,.07);color:#fcd34d;border:1px solid rgba(245,158,11,.12);margin-bottom:3px">Nivel 1 — Primeros Pasos</a>
+                <a href="Python/Python - LVL 2.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(245,158,11,.07);color:#fcd34d;border:1px solid rgba(245,158,11,.12);margin-bottom:3px">Nivel 2 — Interactuando</a>
+                <a href="Python/Python - LVL 3.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(245,158,11,.07);color:#fcd34d;border:1px solid rgba(245,158,11,.12);margin-bottom:3px">Nivel 3 — Decisiones</a>
+                <a href="Python/Python - LVL 4.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(245,158,11,.07);color:#fcd34d;border:1px solid rgba(245,158,11,.12);margin-bottom:3px">Nivel 4 — Bucles</a>
+                <a href="Python/Python - LVL 5.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(245,158,11,.07);color:#fcd34d;border:1px solid rgba(245,158,11,.12)">🧪 Nivel 5 — Evaluación Final</a>
+            </div>
+        </div>
+
+        <!-- Pseudocódigo -->
+        <div class="curso ps" onclick="enfocar(this)">
+            <button class="btn-cerrar" onclick="event.stopPropagation();desenfocar()">×</button>
+            <div class="curso-icono">📋</div>
+            <h2>Pseudocódigo <span class="tag tag-ps">Planificación</span></h2>
+            <p>Escribir, Leer, Si/Sino, Para, Mientras. Planificar antes de programar.</p>
+            <div class="contenido">
+                <a href="Pseudocodigo/Guia Docente - Pseudocodigo.html" target="_blank" style="display:block;padding:10px 14px;border-radius:8px;text-decoration:none;font-size:.85rem;font-weight:600;background:rgba(139,92,246,.1);color:var(--ps);border:1px solid rgba(139,92,246,.2);margin-bottom:10px;text-align:center">📘 Guía Docente</a>
+                <a href="Pseudocodigo/Pseudocodigo - LVL 1.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(139,92,246,.07);color:#c4b5fd;border:1px solid rgba(139,92,246,.12);margin-bottom:3px">Nivel 1 — El Idioma de los Robots</a>
+                <a href="Pseudocodigo/Pseudocodigo - LVL 2.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(139,92,246,.07);color:#c4b5fd;border:1px solid rgba(139,92,246,.12);margin-bottom:3px">Nivel 2 — Tomando Decisiones</a>
+                <a href="Pseudocodigo/Pseudocodigo - LVL 3.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(139,92,246,.07);color:#c4b5fd;border:1px solid rgba(139,92,246,.12);margin-bottom:3px">Nivel 3 — El Bucle PARA</a>
+                <a href="Pseudocodigo/Pseudocodigo - LVL 4.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(139,92,246,.07);color:#c4b5fd;border:1px solid rgba(139,92,246,.12);margin-bottom:3px">Nivel 4 — El Bucle MIENTRAS</a>
+                <a href="Pseudocodigo/Pseudocodigo - LVL 5.html" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(139,92,246,.07);color:#c4b5fd;border:1px solid rgba(139,92,246,.12)">🧪 Nivel 5 — Evaluación Final</a>
+            </div>
+        </div>
+
+        <!-- LTI -->
+        <div class="curso lti" onclick="enfocar(this)">
+            <button class="btn-cerrar" onclick="event.stopPropagation();desenfocar()">×</button>
+            <div class="curso-icono">🔗</div>
+            <h2>LTI CREA <span class="tag" style="background:rgba(236,72,153,.2);color:#ec4899">Evaluaciones</span></h2>
+            <p>Configura quizzes con envio automatico de notas a CREA.</p>
+            <div class="contenido">
+                <a href="https://lti-crea-backend.onrender.com/setup" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(236,72,153,.07);color:#f9a8d4;border:1px solid rgba(236,72,153,.12);margin-bottom:3px">🔧 Configurador de actividades</a>
+                <a href="https://lti-crea-backend.onrender.com/test" target="_blank" style="display:block;padding:7px 10px;border-radius:6px;text-decoration:none;font-size:.81rem;font-weight:500;background:rgba(236,72,153,.07);color:#f9a8d4;border:1px solid rgba(236,72,153,.12)">🧪 Simulador de prueba (sin CREA)</a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer">Panel Docente — Pensamiento Computacional</div>
+</div>
+
+<script src="/static/js/seguridad.js"></script>
+<script>
+var cursoActivo = null;
+
+function enfocar(card) {
+    if (cursoActivo === card) return;
+    desenfocar();
+    cursoActivo = card;
+    document.getElementById("cursos-grid").classList.add("foco");
+    card.classList.add("activo");
+    card.querySelector(".contenido").classList.add("abierto");
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+function desenfocar() {
+    if (!cursoActivo) return;
+    document.getElementById("cursos-grid").classList.remove("foco");
+    cursoActivo.querySelector(".contenido").classList.remove("abierto");
+    cursoActivo.classList.remove("activo");
+    cursoActivo = null;
+}
+
+document.addEventListener("keydown", function(e) { if (e.key === "Escape") desenfocar(); });
+</script>
+</body>
+</html>

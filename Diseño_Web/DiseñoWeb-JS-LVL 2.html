@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 12: Interactuando con la Página</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🖱️</div>
+        <h1>Clase 12: Interactuando con la Página <span class="badge-nivel">Nivel 12</span></h1>
+        <p>Eventos, onclick y getElementById</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> Eventos: reaccionando al usuario</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>Un evento</strong> es algo que sucede en la página: un clic, una tecla presionada, mover el mouse, cargar la página. El navegador está constantemente "escuchando" estos eventos y JavaScript nos permite <strong>reaccionar</strong> a ellos.
+            </div>
+        </div>
+        <p>El evento más común es <strong>onclick</strong>, que se dispara cuando el usuario hace clic en un elemento. Otros eventos importantes son <code>onmouseover</code> (pasar el mouse), <code>onkeydown</code> (presionar tecla) y <code>onload</code> (cuando la página termina de cargar).</p>
+
+        <h3>Ejemplo de onclick:</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;button onclick="alert('¡Hiciste clic!')"&gt;Haceme clic&lt;/button&gt;</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> getElementById(): encontrando elementos</h2>
+        <p><code>document.getElementById("id")</code> es uno de los métodos más importantes de JavaScript. Permite <strong>encontrar cualquier elemento HTML</strong> mediante su atributo <code>id</code> y manipularlo desde el código.</p>
+
+        <h3>Ejemplo: cambiar texto al hacer clic</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;p id="mensaje"&gt;Texto original&lt;/p&gt;
+&lt;button onclick="cambiarTexto()"&gt;Cambiar&lt;/button&gt;
+
+&lt;script&gt;
+function cambiarTexto() {
+    document.getElementById("mensaje").innerHTML = "¡Texto cambiado!";
+}
+&lt;/script&gt;</pre>
+        </div>
+        <p>El <code>id</code> debe ser <strong>único</strong> en toda la página. No puede haber dos elementos con el mismo <code>id</code>.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Modificando contenido</h2>
+        <p>Una vez que obtenemos un elemento con <code>getElementById()</code>, podemos cambiar su contenido con dos propiedades:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📄</div>
+                <strong>.innerHTML</strong>
+                <p>Lee o escribe el contenido <strong>HTML</strong> del elemento. Permite incluir etiquetas: <code>elemento.innerHTML = "&lt;strong&gt;Negrita&lt;/strong&gt;";</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📝</div>
+                <strong>.textContent</strong>
+                <p>Lee o escribe solo el <strong>texto plano</strong> del elemento. Las etiquetas HTML no se interpretan: <code>elemento.textContent = "Texto seguro";</code></p>
+            </div>
+        </div>
+
+        <h3>Ejemplo práctico: botón que cambia un título</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;h1 id="titulo"&gt;Bienvenido&lt;/h1&gt;
+&lt;button onclick="cambiarTitulo()"&gt;Cambiar título&lt;/button&gt;
+
+&lt;script&gt;
+function cambiarTitulo() {
+    let titulo = document.getElementById("titulo");
+    titulo.innerHTML = "¡Hola Mundo!";
+}
+&lt;/script&gt;</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> Modificando estilos desde JS</h2>
+        <p>JavaScript también puede cambiar la <strong>apariencia visual</strong> de los elementos mediante la propiedad <code>.style</code>. Esto permite crear páginas dinámicas que reaccionan al usuario.</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🎨</div>
+                <strong>.style.color</strong>
+                <p>Cambia el color del texto: <code>elemento.style.color = "red";</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🖼️</div>
+                <strong>.style.backgroundColor</strong>
+                <p>Cambia el color de fondo: <code>elemento.style.backgroundColor = "yellow";</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📏</div>
+                <strong>.style.fontSize</strong>
+                <p>Cambia el tamaño de letra: <code>elemento.style.fontSize = "24px";</code></p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: botón que cambia el color de fondo</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;div id="caja" style="width:200px;height:200px;background:blue;"&gt;&lt;/div&gt;
+&lt;button onclick="cambiarColor()"&gt;Cambiar a rojo&lt;/button&gt;
+
+&lt;script&gt;
+function cambiarColor() {
+    document.getElementById("caja").style.backgroundColor = "red";
+}
+&lt;/script&gt;</pre>
+        </div>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Manejador de Eventos</h2>
+            <p>Demostrá lo que aprendiste sobre eventos, onclick y getElementById.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué evento se dispara cuando el usuario hace clic en un elemento?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) onclick, que se activa al hacer clic con el mouse</button>
+            <button class="btn-opcion" data-indice="1">B) onload, que se ejecuta cuando la página carga</button>
+            <button class="btn-opcion" data-indice="2">C) onkeydown, que detecta cuando se presiona una tecla</button>
+            <button class="btn-opcion" data-indice="3">D) onmouseover, que se dispara al pasar el mouse encima</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 12: Interactuando con la Página</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué evento se dispara cuando el usuario hace clic en un elemento?",
+                opciones: [
+                    "A) onclick, que se activa al hacer clic con el mouse",
+                    "B) onload, que se ejecuta cuando la página carga",
+                    "C) onkeydown, que detecta cuando se presiona una tecla",
+                    "D) onmouseover, que se dispara al pasar el mouse encima"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Qué método obtiene un elemento por su atributo id?",
+                opciones: [
+                    "A) document.querySelector()",
+                    "B) document.getElementById()",
+                    "C) document.getElementByClass()",
+                    "D) document.getElementByName()"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué propiedad cambia el contenido HTML de un elemento?",
+                opciones: [
+                    "A) .textContent, que modifica solo el texto plano",
+                    "B) .innerHTML, que permite incluir etiquetas HTML",
+                    "C) .outerHTML, que reemplaza el elemento completo",
+                    "D) .value, que solo funciona en inputs"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Cómo se cambia el color de fondo de un elemento con id \"caja\" a rojo?",
+                opciones: [
+                    "A) document.getElementById(\"caja\").style.color = \"red\"",
+                    "B) document.getElementById(\"caja\").style.bgColor = \"red\"",
+                    "C) document.getElementById(\"caja\").style.backgroundColor = \"red\"",
+                    "D) document.getElementById(\"caja\").color = \"red\""
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Dónde se ejecuta JavaScript?",
+                opciones: [
+                    "A) En el servidor web que aloja la página",
+                    "B) En el navegador del usuario",
+                    "C) En la base de datos de la aplicación",
+                    "D) En el sistema operativo directamente"
+                ],
+                correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

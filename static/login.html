@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — Pensamiento Computacional</title>
+    <style>
+        :root{--bg:#0f172a;--card-bg:#1e293b;--text:#f1f5f9;--text2:#94a3b8;--prim:#3b82f6;--prim-h:#2563eb;--border:#334155;--input-bg:#0f172a;--err:#ef4444;--ok:#22c55e}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center}
+        .card{background:var(--card-bg);border-radius:16px;padding:40px;width:100%;max-width:420px;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,.3)}
+        h1{font-size:1.6rem;margin-bottom:4px;text-align:center}
+        p{color:var(--text2);text-align:center;margin-bottom:28px;font-size:0.9rem}
+        label{display:block;font-size:0.85rem;margin-bottom:6px;color:var(--text2);font-weight:500}
+        input{width:100%;padding:12px 14px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.95rem;outline:none;transition:border-color .2s}
+        input:focus{border-color:var(--prim)}
+        button{width:100%;padding:12px;background:var(--prim);color:#fff;border:none;border-radius:8px;font-size:0.95rem;font-weight:600;cursor:pointer;margin-top:20px;transition:background .2s}
+        button:hover{background:var(--prim-h)}
+        .links{text-align:center;margin-top:20px;font-size:0.85rem}
+        .links a{color:var(--prim);text-decoration:none;margin:0 6px}
+        .links a:hover{text-decoration:underline}
+        .error{background:rgba(239,68,68,.1);color:var(--err);padding:10px;border-radius:6px;margin-bottom:16px;text-align:center;font-size:0.85rem;display:none}
+        .tabs{display:flex;margin-bottom:24px;border-bottom:1px solid var(--border)}
+        .tab{flex:1;text-align:center;padding:10px;cursor:pointer;font-size:0.9rem;color:var(--text2);border-bottom:2px solid transparent;transition:.2s}
+        .tab.act{color:var(--text);border-bottom-color:var(--prim);font-weight:600}
+        .tab-content{display:none}
+        .tab-content.act{display:block}
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>📚 Pensamiento Computacional</h1>
+    <p>Ingresá para acceder a los cursos</p>
+    <div class="tabs">
+        <div class="tab act" data-tab="docente">Docente</div>
+        <div class="tab" data-tab="admin">Admin</div>
+    </div>
+    <div class="error" id="error"></div>
+    <div class="tab-content act" id="tab-docente">
+        <form id="form-docente">
+            <label>Cédula</label>
+            <input type="text" id="doc-cedula" placeholder="12345678" required>
+            <label style="margin-top:14px">Contraseña</label>
+            <input type="password" id="doc-password" placeholder="••••••••" required>
+            <button type="submit">Ingresar</button>
+        </form>
+        <div class="links">
+            <a href="/admin/registrar">Solicitar registro</a>
+        </div>
+    </div>
+    <div class="tab-content" id="tab-admin">
+        <form id="form-admin">
+            <label>Usuario</label>
+            <input type="text" id="adm-usuario" placeholder="admin" required>
+            <label style="margin-top:14px">Contraseña</label>
+            <input type="password" id="adm-password" placeholder="••••••••" required>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+    <div class="links">
+        <a href="/">Volver al inicio</a>
+    </div>
+</div>
+<script src="/static/js/seguridad.js"></script>
+<script>
+document.querySelectorAll('.tab').forEach(function(t){t.addEventListener('click',function(){
+    document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('act')});
+    document.querySelectorAll('.tab-content').forEach(function(x){x.classList.remove('act')});
+    t.classList.add('act');
+    document.getElementById('tab-' + t.dataset.tab).classList.add('act');
+    document.getElementById('error').style.display = 'none';
+})});
+
+document.getElementById('form-docente').addEventListener('submit',function(e){e.preventDefault();
+    var ced=document.getElementById('doc-cedula').value.trim(),pw=document.getElementById('doc-password').value;
+    fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({cedula:ced,password:pw})})
+    .then(function(r){return r.json().then(function(d){return {status:r.status,data:d}})})
+    .then(function(r){if(r.status===200&&r.data.ok){localStorage.setItem('token',r.data.token);localStorage.setItem('rol',r.data.rol);localStorage.setItem('nombre',r.data.nombre);window.location.href='/docente/index.html'}
+    else{showError(r.data.detail||'Credenciales inválidas')}})
+    .catch(function(){showError('Error de conexión')});
+});
+
+document.getElementById('form-admin').addEventListener('submit',function(e){e.preventDefault();
+    var usr=document.getElementById('adm-usuario').value.trim(),pw=document.getElementById('adm-password').value;
+    fetch('/api/auth/admin-login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({usuario:usr,password:pw})})
+    .then(function(r){return r.json().then(function(d){return {status:r.status,data:d}})})
+    .then(function(r){if(r.status===200&&r.data.ok){localStorage.setItem('token',r.data.token);localStorage.setItem('rol',r.data.rol);localStorage.setItem('nombre',r.data.nombre);window.location.href='/admin/index.html'}
+    else{showError(r.data.detail||'Credenciales inválidas')}})
+    .catch(function(){showError('Error de conexión')});
+});
+
+function showError(m){var e=document.getElementById('error');e.textContent=m;e.style.display='block';setTimeout(function(){e.style.display='none'},4000)}
+</script>
+</body>
+</html>

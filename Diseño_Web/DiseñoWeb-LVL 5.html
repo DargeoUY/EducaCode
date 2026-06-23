@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivel 5: Evaluación Final - Validador Web</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        .aviso-script {
+            background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px; padding: 10px 14px; font-size: 0.8rem; color: #f59e0b;
+            text-align: left; margin-top: 15px; max-width: 400px; margin-left: auto; margin-right: auto;
+        }
+        .aviso-script code { background: rgba(245, 158, 11, 0.2); color: #f59e0b; font-size: 0.75rem; word-break: break-all; }
+        .alerta-error {
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px; padding: 12px 16px; color: #ef4444; font-weight: 600;
+            font-size: 0.9rem; margin-top: 12px; max-width: 400px; margin-left: auto; margin-right: auto;
+        }
+        .alerta-exito {
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px; padding: 12px 16px; color: #10b981; font-weight: 600;
+            font-size: 0.9rem; margin-top: 12px; max-width: 400px; margin-left: auto; margin-right: auto;
+        }
+        .datos-validados {
+            background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px; padding: 14px 18px; margin-top: 15px; max-width: 400px;
+            margin-left: auto; margin-right: auto; text-align: left; font-size: 0.9rem; color: var(--texto);
+        }
+        .datos-validados strong { color: var(--primario-claro); }
+        .spinner {
+            display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite;
+            vertical-align: middle; margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .explicacion-box {
+            background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px; padding: 10px 14px; margin-top: 8px;
+            font-size: 0.9rem; color: #3b82f6; text-align: left; font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🧪</div>
+        <h1>Nivel 5: Evaluación Final <span class="badge-nivel">Integrador</span></h1>
+        <p>Poné a prueba todo lo aprendido con distintos tipos de desafíos</p>
+    </header>
+
+    <!-- PANTALLA DE INICIO -->
+    <div class="pantalla-inicio" id="pantalla-inicio">
+        <h2>🔐 Validación de identidad</h2>
+        <p>Ingresá tu cédula de identidad para verificar tus datos</p>
+        <div class="form-datos" id="form-cedula">
+            <div class="grupo-input">
+                <label for="input-cedula">Cédula de identidad (sin puntos ni guiones)</label>
+                <input type="password" id="input-cedula" class="input-dato"
+                       placeholder="Ej: 4123456789" autocomplete="off" maxlength="10" inputmode="numeric">
+            </div>
+            <button class="btn-comenzar" id="btn-validar" onclick="validarCedula()">🔍 Validar cédula</button>
+        </div>
+        <div id="resultado-validacion"></div>
+        <div id="datos-alumno" style="display:none;">
+            <div class="datos-validados" id="info-alumno"></div>
+            <button class="btn-comenzar" id="btn-comenzar" onclick="comenzarEvaluacion()">🚀 Comenzar evaluación</button>
+        </div>
+        <div class="aviso-script" id="aviso-script" style="display:none;"></div>
+
+        <div class="seccion-ranking" id="ranking-login">
+            <h3>🏅 Top 10 General</h3>
+            <div id="contenedor-ranking-login"><p class="ranking-vacio">Cargando ranking...</p></div>
+        </div>
+    </div>
+
+    <!-- BLOQUE DE JUEGO -->
+    <div id="bloque-juego" class="oculto">
+        <div class="juego-encabezado">
+            <h2>🧪 Evaluación Final</h2>
+            <p id="descripcion-juego">12 preguntas · 160 puntos máximos</p>
+        </div>
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/12</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 / 160</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">⏱️ Tiempo</span>
+                <strong id="temporizador">30:00</strong>
+            </div>
+        </div>
+
+        <div id="tipo-badge"></div>
+        <div id="pantalla-etiqueta"></div>
+        <p class="instruccion-ayuda" id="instruccion-ayuda"></p>
+
+        <div class="contenedor-botones" id="contenedor-multiple"></div>
+        <div id="contenedor-completar" style="display:none;"></div>
+        <div id="contenedor-ordenar" style="display:none;"></div>
+        <div class="contenedor-botones" id="contenedor-verdadero" style="display:none;"></div>
+
+        <button class="btn-saltear" id="btn-saltear" onclick="saltearPregunta()">⏭️ Saltear pregunta</button>
+        <div id="resultado-juego"></div>
+    </div>
+
+    <!-- PANTALLA FINAL -->
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo" id="trofeo-final">🏆</div>
+        <h2 id="titulo-final">¡Evaluación completada!</h2>
+        <p id="mensaje-final"></p>
+        <div class="nota-final" id="nota-final">— / 10</div>
+        <div class="estadisticas-finales">
+            <div class="stat"><span class="stat-numero" id="stat-puntaje">0</span><span class="stat-etiqueta">Puntaje</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-aciertos">0/12</span><span class="stat-etiqueta">Aciertos</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-salteadas">0</span><span class="stat-etiqueta">Salteadas</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-tiempo-usado">0:00</span><span class="stat-etiqueta">Tiempo</span></div>
+        </div>
+        <div class="seccion-ranking">
+            <h3>🏅 Ranking General</h3>
+            <div id="contenedor-ranking"><p class="ranking-vacio">Cargando ranking...</p></div>
+        </div>
+        <button class="btn-reiniciar" onclick="location.reload()">🔄 Volver a intentar</button>
+    </div>
+
+    <script>
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  CONFIGURACIÓN: Pegá acá la URL de tu Google Script    ║
+        // ╚══════════════════════════════════════════════════════════╝
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzj6kcVfAX5vYAMtNy7y-IWNm_rGAtBZ5aJBAcUXkIvrNx9sqCCfUGnX0nb9g97A2Bv/exec";
+
+        const TIEMPO_MAXIMO = 30 * 60; // 30 minutos en segundos
+
+        const bancoPreguntas = [
+            {
+                tipo: "multiple", badge: "Opción múltiple", claseBadge: "badge-multiple",
+                ayuda: "Elegí la opción correcta entre las 4 alternativas.",
+                enunciado: "¿Cuál es la etiqueta correcta para crear el <strong>título más importante</strong> de una página web?",
+                opciones: [
+                    "A) &lt;h1&gt; — representa el encabezado principal de la página",
+                    "B) &lt;title&gt; — define el texto que aparece en la pestaña del navegador",
+                    "C) &lt;header&gt; — agrupa el contenido de la parte superior",
+                    "D) &lt;head&gt; — contiene la información de configuración del documento"
+                ],
+                correcta: 0, puntos: 10,
+                explicacion: "&lt;h1&gt; es el encabezado de mayor jerarquía. Se ve en grande en la pantalla. &lt;title&gt; solo se ve en la pestaña del navegador, no en el contenido visible."
+            },
+            {
+                tipo: "completar", badge: "Completar espacio", claseBadge: "badge-completar",
+                ayuda: "Escribí tu respuesta en el cuadro y presioná <strong>Enter</strong> o el botón <strong>Verificar</strong>.",
+                enunciado: "Escribí la etiqueta HTML que se usa para definir un <strong>párrafo</strong> de texto (sin los signos &lt; &gt;):",
+                pista: "Es una sola letra...",
+                respuestasAceptadas: ["p", "<p>", "</p>", "P"], puntos: 15,
+                explicacion: "La etiqueta &lt;p&gt; (de 'paragraph') es la que el navegador interpreta como un párrafo. Agrega automáticamente un margen antes y después del texto."
+            },
+            {
+                tipo: "multiple", badge: "Opción múltiple", claseBadge: "badge-multiple",
+                ayuda: "Elegí la opción correcta entre las 4 alternativas.",
+                enunciado: "¿Qué atributo es <strong>obligatorio</strong> en la etiqueta &lt;a&gt; para definir el destino del enlace?",
+                opciones: [
+                    "A) href — define la URL de destino del hipervínculo",
+                    "B) src — indica la fuente o recurso del enlace",
+                    "C) link — establece la conexión entre documentos",
+                    "D) url — especifica la dirección web de destino"
+                ],
+                correcta: 0, puntos: 10,
+                explicacion: "El atributo href (Hypertext REFerence) es obligatorio en &lt;a&gt;. Sin él, el enlace no lleva a ningún lado. src se usa en imágenes (&lt;img&gt;), no en enlaces."
+            },
+            {
+                tipo: "ordenar", badge: "Ordenar secuencia", claseBadge: "badge-ordenar",
+                ayuda: "Hacé <strong>clic uno por uno</strong> en los items en el orden correcto. Cada item se numerará al seleccionarlo. Si te equivocás, usá <strong>Reiniciar orden</strong>.",
+                enunciado: "Ordená las etiquetas para armar correctamente una tabla, <strong>desde la más externa a la más interna</strong>:",
+                items: [
+                    { texto: "&lt;td&gt; — celda de datos", id: "td" },
+                    { texto: "&lt;tr&gt; — fila de tabla", id: "tr" },
+                    { texto: "&lt;/table&gt; — cierre de tabla", id: "ctable" },
+                    { texto: "&lt;table&gt; — apertura de tabla", id: "table" },
+                    { texto: "&lt;th&gt; — celda de encabezado", id: "th" }
+                ],
+                ordenCorrecto: ["table", "tr", "th", "td", "ctable"], puntos: 20,
+                explicacion: "La jerarquía es: &lt;table&gt; contiene &lt;tr&gt; (filas), que a su vez contienen &lt;th&gt; (encabezados) o &lt;td&gt; (datos). Todo cierra en orden inverso."
+            },
+            {
+                tipo: "multiple", badge: "Opción múltiple", claseBadge: "badge-multiple",
+                ayuda: "Elegí la opción correcta entre las 4 alternativas.",
+                enunciado: "¿Cuál de estas etiquetas es <strong>huérfana</strong> (no necesita etiqueta de cierre)?",
+                opciones: [
+                    "A) &lt;img&gt; — se cierra sola, no existe &lt;/img&gt;",
+                    "B) &lt;p&gt; — debe cerrarse siempre con &lt;/p&gt;",
+                    "C) &lt;div&gt; — necesita su cierre &lt;/div&gt;",
+                    "D) &lt;a&gt; — requiere &lt;/a&gt; para funcionar"
+                ],
+                correcta: 0, puntos: 10,
+                explicacion: "&lt;img&gt; es una etiqueta huérfana: no necesita &lt;/img&gt;. Otras huérfanas comunes son &lt;br&gt; (salto de línea) e &lt;input&gt;."
+            },
+            {
+                tipo: "completar", badge: "Completar espacio", claseBadge: "badge-completar",
+                ayuda: "Escribí tu respuesta en el cuadro y presioná <strong>Enter</strong> o <strong>Verificar</strong>.",
+                enunciado: "Escribí el nombre del <strong>atributo</strong> de &lt;input&gt; que muestra un texto gris de sugerencia dentro del campo:",
+                pista: "Empieza con 'p', en inglés significa 'marcador de posición'...",
+                respuestasAceptadas: ["placeholder", "PLACEHOLDER", "Placeholder"], puntos: 15,
+                explicacion: "El atributo placeholder muestra un texto de ayuda dentro del campo que desaparece cuando el usuario empieza a escribir. Ej: placeholder='Ingresá tu nombre'."
+            },
+            {
+                tipo: "verdadero", badge: "Verdadero o Falso", claseBadge: "badge-verdadero",
+                ayuda: "Leé la afirmación y decidí si es <strong>Verdadera</strong> o <strong>Falsa</strong>.",
+                enunciado: "La etiqueta &lt;head&gt; muestra contenido visible en la pantalla del navegador.",
+                esVerdadero: false, puntos: 5,
+                explicacion: "Es FALSO. &lt;head&gt; contiene metadatos (título de pestaña, estilos, configuraciones) que NO se muestran en pantalla. El contenido visible va en &lt;body&gt;."
+            },
+            {
+                tipo: "multiple", badge: "Opción múltiple", claseBadge: "badge-multiple",
+                ayuda: "Elegí la opción correcta entre las 4 alternativas.",
+                enunciado: "¿Qué etiqueta se usa para definir una <strong>celda de encabezado</strong> dentro de una tabla?",
+                opciones: [
+                    "A) &lt;th&gt; — el navegador la muestra en negrita y centrada",
+                    "B) &lt;td&gt; — define celdas de datos comunes",
+                    "C) &lt;tr&gt; — crea una fila completa horizontal",
+                    "D) &lt;thead&gt; — agrupa las filas de encabezado"
+                ],
+                correcta: 0, puntos: 10,
+                explicacion: "&lt;th&gt; (Table Header) se usa para los títulos de columna. El navegador los muestra automáticamente en negrita y centrados. &lt;td&gt; es para datos normales."
+            },
+            {
+                tipo: "completar", badge: "Completar espacio", claseBadge: "badge-completar",
+                ayuda: "Escribí tu respuesta y presioná <strong>Enter</strong> o <strong>Verificar</strong>.",
+                enunciado: "Escribí el <strong>valor del atributo type</strong> que enmascara los caracteres con puntos negros en un &lt;input&gt;:",
+                pista: "Se usa para proteger información confidencial...",
+                respuestasAceptadas: ["password", "PASSWORD", "Password"], puntos: 15,
+                explicacion: "type='password' oculta lo que escribe el usuario mostrando puntos (•••). Ideal para contraseñas. type='text' lo mostraría visible."
+            },
+            {
+                tipo: "ordenar", badge: "Ordenar secuencia", claseBadge: "badge-ordenar",
+                ayuda: "Hacé <strong>clic uno por uno</strong> en los items en el orden correcto. Cada item se numerará al seleccionarlo. Usá <strong>Reiniciar orden</strong> si te equivocás.",
+                enunciado: "Ordená los elementos de un documento HTML <strong>del más externo al más interno</strong>:",
+                items: [
+                    { texto: "&lt;head&gt; — metadatos", id: "head" },
+                    { texto: "&lt;body&gt; — contenido visible", id: "body" },
+                    { texto: "&lt;p&gt; — párrafo de texto", id: "p" },
+                    { texto: "&lt;!DOCTYPE html&gt; — declaración", id: "doctype" },
+                    { texto: "&lt;html&gt; — raíz del documento", id: "html" }
+                ],
+                ordenCorrecto: ["doctype", "html", "head", "body", "p"], puntos: 20,
+                explicacion: "La estructura HTML va de afuera hacia adentro: DOCTYPE declara el tipo, &lt;html&gt; es la raíz, &lt;head&gt; y &lt;body&gt; son hermanos, y &lt;p&gt; vive dentro de &lt;body&gt;."
+            },
+            {
+                tipo: "multiple", badge: "Opción múltiple", claseBadge: "badge-multiple",
+                ayuda: "Elegí la opción correcta entre las 4 alternativas.",
+                enunciado: "¿Qué etiqueta contenedora es <strong>obligatoria</strong> para agrupar todos los campos de un formulario?",
+                opciones: [
+                    "A) &lt;form&gt; — envuelve y permite enviar los datos ingresados",
+                    "B) &lt;div&gt; — contenedor genérico sin funcionalidad de envío",
+                    "C) &lt;fieldset&gt; — agrupa visualmente pero no reemplaza a form",
+                    "D) &lt;section&gt; — define una sección semántica del documento"
+                ],
+                correcta: 0, puntos: 10,
+                explicacion: "&lt;form&gt; es obligatorio para agrupar campos de entrada. Sin él, el botón submit no sabría qué datos enviar. &lt;div&gt; solo agrupa visualmente, no funcionalmente."
+            },
+            {
+                tipo: "multiple", badge: "Opción múltiple", claseBadge: "badge-multiple",
+                ayuda: "Elegí la opción correcta entre las 4 alternativas.",
+                enunciado: "¿Para qué sirve la etiqueta &lt;ol&gt; en HTML?",
+                opciones: [
+                    "A) Crea una lista ordenada con números automáticos (1, 2, 3...)",
+                    "B) Crea una lista desordenada con viñetas de puntos",
+                    "C) Inserta una línea horizontal decorativa en la página",
+                    "D) Define un párrafo con sangría automática al inicio"
+                ],
+                correcta: 0, puntos: 10,
+                explicacion: "&lt;ol&gt; (Ordered List) numera automáticamente cada &lt;li&gt;. Para viñetas sin números se usa &lt;ul&gt; (Unordered List)."
+            }
+        ];
+
+        const puntajeMaximo = bancoPreguntas.reduce((sum, p) => sum + p.puntos, 0);
+        let indicePregunta = 0, puntajeTotal = 0, aciertos = 0, salteadas = 0;
+        let juegoTerminado = false, respondiendo = false;
+        let ordenSeleccionado = [];
+        let datosAlumno = {};
+        let preguntasAleatorias = [];
+        let tiempoRestante = TIEMPO_MAXIMO;
+        let intervaloTimer = null;
+
+        // ========== SHUFFLE ==========
+        function mezclarArray(arr) {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // ========== VALIDACION DE CEDULA ==========
+        async function validarCedula() {
+            const cedula = document.getElementById("input-cedula").value.trim();
+            const btnValidar = document.getElementById("btn-validar");
+            const resultadoDiv = document.getElementById("resultado-validacion");
+
+            if (!cedula) {
+                resultadoDiv.innerHTML = '<div class="alerta-error">⚠️ Ingresá tu número de cédula.</div>';
+                return;
+            }
+            if (!/^\d+$/.test(cedula)) {
+                resultadoDiv.innerHTML = '<div class="alerta-error">⚠️ La cédula debe contener solo números, sin puntos ni guiones.</div>';
+                return;
+            }
+
+            if (!GOOGLE_SCRIPT_URL) {
+                activarModoLibre(cedula);
+                return;
+            }
+
+            btnValidar.disabled = true;
+            btnValidar.innerHTML = '<span class="spinner"></span> Validando...';
+            resultadoDiv.innerHTML = "";
+
+            try {
+                const resp = await fetch(GOOGLE_SCRIPT_URL + "?accion=validar&cedula=" + encodeURIComponent(cedula));
+                const data = await resp.json();
+
+                if (data.autorizado) {
+                    datosAlumno.cedula = cedula;
+                    datosAlumno.nombre = data.nombre;
+                    datosAlumno.apellido = data.apellido;
+                    datosAlumno.grupo = data.grupo;
+
+                    document.getElementById("info-alumno").innerHTML =
+                        `<p><strong>👤 Nombre:</strong> ${data.nombre} ${data.apellido}</p>
+                         <p><strong>📚 Grupo:</strong> ${data.grupo}</p>
+                         <p><strong>🎯 Intentos previos:</strong> ${data.intentos} de 3</p>`;
+
+                    resultadoDiv.innerHTML = '<div class="alerta-exito">✅ Identidad verificada. ¡Podés comenzar!</div>';
+                    document.getElementById("form-cedula").style.display = "none";
+                    document.getElementById("datos-alumno").style.display = "block";
+                } else {
+                    resultadoDiv.innerHTML = `<div class="alerta-error">🚫 ${data.motivo}</div>`;
+                }
+            } catch (err) {
+                resultadoDiv.innerHTML = '<div class="alerta-error">⚠️ Error de conexión con el servidor. Intentá de nuevo.</div>';
+            }
+
+            btnValidar.disabled = false;
+            btnValidar.innerHTML = '🔍 Validar cédula';
+        }
+
+        function activarModoLibre(cedula) {
+            datosAlumno.cedula = cedula;
+            document.getElementById("form-cedula").style.display = "none";
+            const divDatos = document.getElementById("datos-alumno");
+            divDatos.style.display = "block";
+            divDatos.insertAdjacentHTML("afterbegin", `
+                <div class="form-datos" id="form-manual">
+                    <div class="grupo-input">
+                        <label for="input-nombre">Nombre</label>
+                        <input type="text" id="input-nombre" class="input-dato" placeholder="Tu nombre" autocomplete="off">
+                    </div>
+                    <div class="grupo-input">
+                        <label for="input-apellido">Apellido</label>
+                        <input type="text" id="input-apellido" class="input-dato" placeholder="Tu apellido" autocomplete="off">
+                    </div>
+                    <div class="grupo-input">
+                        <label for="input-grupo">Grupo</label>
+                        <input type="text" id="input-grupo" class="input-dato" placeholder="Ej: 5to A" autocomplete="off">
+                    </div>
+                </div>
+            `);
+            document.getElementById("aviso-script").innerHTML = "";
+            document.getElementById("btn-comenzar").onclick = function() {
+                const nombre = document.getElementById("input-nombre").value.trim();
+                const apellido = document.getElementById("input-apellido").value.trim();
+                const grupo = document.getElementById("input-grupo").value.trim();
+                if (!nombre || !apellido || !grupo) {
+                    alert("Completá todos los campos: Nombre, Apellido y Grupo.");
+                    return;
+                }
+                datosAlumno.nombre = nombre;
+                datosAlumno.apellido = apellido;
+                datosAlumno.grupo = grupo;
+                comenzarEvaluacion();
+            };
+        }
+
+        document.getElementById("input-cedula").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") validarCedula();
+        });
+
+        // ========== COMENZAR EVALUACION ==========
+        async function comenzarEvaluacion() {
+            if (!datosAlumno.nombre || !datosAlumno.apellido || !datosAlumno.grupo) return;
+
+            // Mezclar preguntas
+            preguntasAleatorias = mezclarArray(bancoPreguntas);
+
+            document.getElementById("pantalla-inicio").classList.add("oculto");
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("descripcion-juego").innerText =
+                `${preguntasAleatorias.length} preguntas · ${puntajeMaximo} puntos máximos`;
+
+            // Registrar inicio en Sheets (el intento cuenta desde ahora)
+            if (GOOGLE_SCRIPT_URL) {
+                const fechaInicio = new Date().toLocaleString("es-AR", {
+                    day: "2-digit", month: "2-digit", year: "numeric",
+                    hour: "2-digit", minute: "2-digit", second: "2-digit"
+                });
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST", mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        accion: "iniciar",
+                        cedula: datosAlumno.cedula,
+                        nombre: datosAlumno.nombre,
+                        apellido: datosAlumno.apellido,
+                        grupo: datosAlumno.grupo,
+                        fechaHora: fechaInicio
+                    })
+                }).catch(() => {});
+            }
+
+            // Iniciar temporizador de 30 minutos
+            iniciarTemporizador();
+            iniciarDeteccionCambioPestana();
+            window.addEventListener("beforeunload", advertirCierre);
+            cargarPreguntaActual();
+        }
+
+        // ========== TEMPORIZADOR ==========
+        function iniciarTemporizador() {
+            actualizarDisplayTemporizador();
+            intervaloTimer = setInterval(() => {
+                tiempoRestante--;
+                actualizarDisplayTemporizador();
+                if (tiempoRestante <= 0) {
+                    clearInterval(intervaloTimer);
+                    finalizarEvaluacion("⏰ ¡Se acabó el tiempo!");
+                }
+            }, 1000);
+        }
+
+        function actualizarDisplayTemporizador() {
+            const min = Math.floor(tiempoRestante / 60);
+            const seg = tiempoRestante % 60;
+            const el = document.getElementById("temporizador");
+            el.innerText = min + ":" + String(seg).padStart(2, "0");
+
+            if (tiempoRestante <= 60) {
+                el.classList.add("temporizador-alerta");
+            }
+        }
+
+        // ========== DETECCION CAMBIO DE PESTAÑA ==========
+        function iniciarDeteccionCambioPestana() {
+            document.addEventListener("visibilitychange", manejarCambioVisibilidad);
+        }
+
+        function detenerDeteccionCambioPestana() {
+            document.removeEventListener("visibilitychange", manejarCambioVisibilidad);
+        }
+
+        function manejarCambioVisibilidad() {
+            if (document.hidden && !juegoTerminado) {
+                detenerDeteccionCambioPestana();
+                finalizarEvaluacion("🚫 Evaluación cancelada: cambiaste de pestaña o ventana.");
+            }
+        }
+
+        function advertirCierre(e) {
+            if (!juegoTerminado) {
+                e.preventDefault();
+                e.returnValue = "";
+            }
+        }
+
+        // ========== CARGA DE PREGUNTA ==========
+        function cargarPreguntaActual() {
+            if (indicePregunta >= preguntasAleatorias.length) {
+                finalizarEvaluacion();
+                return;
+            }
+
+            const pregunta = preguntasAleatorias[indicePregunta];
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + preguntasAleatorias.length;
+            actualizarBarraProgreso();
+            document.getElementById("pantalla-etiqueta").innerHTML = pregunta.enunciado;
+            document.getElementById("tipo-badge").innerHTML =
+                `<span class="tipo-pregunta-badge ${pregunta.claseBadge}">${pregunta.badge} · ${pregunta.puntos} pts</span>`;
+            document.getElementById("instruccion-ayuda").innerHTML = pregunta.ayuda || "";
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("btn-saltear").disabled = false;
+            ocultarTodosLosContenedores();
+
+            switch (pregunta.tipo) {
+                case "multiple": cargarMultipleChoice(pregunta); break;
+                case "completar": cargarCompletar(pregunta); break;
+                case "ordenar": cargarOrdenar(pregunta); break;
+                case "verdadero": cargarVerdaderoFalso(pregunta); break;
+            }
+            respondiendo = false;
+        }
+
+        function ocultarTodosLosContenedores() {
+            document.getElementById("contenedor-multiple").style.display = "none";
+            document.getElementById("contenedor-completar").style.display = "none";
+            document.getElementById("contenedor-ordenar").style.display = "none";
+            document.getElementById("contenedor-verdadero").style.display = "none";
+        }
+
+        function actualizarBarraProgreso() {
+            document.getElementById("barra-progreso").style.width =
+                (indicePregunta / preguntasAleatorias.length * 100) + "%";
+        }
+
+        // ========== SALTEAR ==========
+        function saltearPregunta() {
+            if (respondiendo || juegoTerminado) return;
+            if (!confirm("¿Seguro que querés saltear esta pregunta? No sumarás puntos.")) return;
+            respondiendo = true;
+            salteadas++;
+            document.getElementById("btn-saltear").disabled = true;
+            const mensaje = document.getElementById("resultado-juego");
+            mensaje.innerHTML = '<span class="icono-resultado">⏭️</span> Pregunta salteada.';
+            mensaje.className = "resultado-error";
+            setTimeout(avanzarPregunta, 1000);
+        }
+
+        // ========== MULTIPLE CHOICE ==========
+        function cargarMultipleChoice(pregunta) {
+            const contenedor = document.getElementById("contenedor-multiple");
+            contenedor.innerHTML = "";
+            contenedor.style.display = "flex";
+            pregunta.opciones.forEach((opcion, i) => {
+                const btn = document.createElement("button");
+                btn.className = "btn-opcion";
+                btn.innerHTML = opcion;
+                btn.addEventListener("click", () => evaluarMultiple(i, pregunta));
+                contenedor.appendChild(btn);
+            });
+        }
+
+        function evaluarMultiple(indice, pregunta) {
+            if (respondiendo || juegoTerminado) return;
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+
+            const esCorrecta = (indice === pregunta.correcta);
+            const mensaje = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll("#contenedor-multiple .btn-opcion");
+            botones.forEach(btn => btn.disabled = true);
+
+            if (esCorrecta) {
+                botones[indice].classList.add("acierto");
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">✅</span> ¡Correcto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                botones[indice].classList.add("error");
+                botones[pregunta.correcta].classList.add("revelar");
+                mensaje.innerHTML = `<span class="icono-resultado">❌</span> Incorrecto. La respuesta correcta es la <strong>opción ${"ABCD"[pregunta.correcta]}</strong>.
+                    <div class="explicacion-box">💡 ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        // ========== COMPLETAR ==========
+        function cargarCompletar(pregunta) {
+            const contenedor = document.getElementById("contenedor-completar");
+            contenedor.style.display = "block";
+            contenedor.innerHTML = `
+                <input type="text" id="input-completar" class="input-completar"
+                       placeholder="${pregunta.pista || 'Escribí tu respuesta'}" autocomplete="off">
+                <br>
+                <button class="btn-verificar" id="btn-verificar" onclick="verificarCompletar()">✅ Verificar</button>
+            `;
+            document.getElementById("input-completar").addEventListener("keydown", function(e) {
+                if (e.key === "Enter") verificarCompletar();
+            });
+            setTimeout(() => document.getElementById("input-completar").focus(), 100);
+        }
+
+        function verificarCompletar() {
+            if (respondiendo || juegoTerminado) return;
+            const pregunta = preguntasAleatorias[indicePregunta];
+            const input = document.getElementById("input-completar");
+            const respuesta = input.value.trim();
+            if (!respuesta) return;
+
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+            const btnVerificar = document.getElementById("btn-verificar");
+            if (btnVerificar) btnVerificar.disabled = true;
+            input.disabled = true;
+
+            const esCorrecta = pregunta.respuestasAceptadas.some(r => r.toLowerCase() === respuesta.toLowerCase());
+            const mensaje = document.getElementById("resultado-juego");
+
+            if (esCorrecta) {
+                input.classList.add("correcto");
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">✅</span> ¡Correcto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                input.classList.add("incorrecto");
+                mensaje.innerHTML = `<span class="icono-resultado">❌</span> Incorrecto. La respuesta era: <code>${pregunta.respuestasAceptadas[0]}</code>
+                    <div class="explicacion-box">💡 ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        // ========== ORDENAR ==========
+        function cargarOrdenar(pregunta) {
+            const contenedor = document.getElementById("contenedor-ordenar");
+            contenedor.style.display = "block";
+            contenedor.innerHTML = `
+                <div class="contenedor-ordenar" id="lista-ordenar"></div>
+                <button class="btn-reset-orden" onclick="resetearOrden()">🔄 Reiniciar orden</button>
+            `;
+            const lista = document.getElementById("lista-ordenar");
+            ordenSeleccionado = [];
+            pregunta.items.forEach((item, i) => {
+                const div = document.createElement("div");
+                div.className = "item-ordenar";
+                div.innerHTML = item.texto;
+                div.dataset.id = item.id;
+                div.dataset.indice = i;
+                div.addEventListener("click", () => seleccionarItemOrden(div, pregunta));
+                lista.appendChild(div);
+            });
+        }
+
+        function seleccionarItemOrden(elemento, pregunta) {
+            if (respondiendo || juegoTerminado) return;
+            const id = elemento.dataset.id;
+
+            // Si ya está seleccionado, desmarcarlo junto con todos los posteriores
+            if (elemento.classList.contains("seleccionado")) {
+                const pos = ordenSeleccionado.indexOf(id);
+                if (pos >= 0) {
+                    const removidos = ordenSeleccionado.splice(pos);
+                    document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                        if (removidos.includes(item.dataset.id)) {
+                            item.classList.remove("seleccionado");
+                            delete item.dataset.orden;
+                        }
+                    });
+                    // Renumerar los que permanecen seleccionados
+                    document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                        if (item.classList.contains("seleccionado")) {
+                            const idx = ordenSeleccionado.indexOf(item.dataset.id);
+                            item.dataset.orden = (idx + 1) + "°";
+                        }
+                    });
+                }
+                return;
+            }
+
+            elemento.classList.add("seleccionado");
+            ordenSeleccionado.push(id);
+            elemento.dataset.orden = ordenSeleccionado.length + "°";
+            if (ordenSeleccionado.length === pregunta.items.length) verificarOrden(pregunta);
+        }
+
+        function resetearOrden() {
+            if (respondiendo || juegoTerminado) return;
+            ordenSeleccionado = [];
+            document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                item.classList.remove("seleccionado");
+                delete item.dataset.orden;
+            });
+        }
+
+        function verificarOrden(pregunta) {
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+
+            const esCorrecta = ordenSeleccionado.length === pregunta.ordenCorrecto.length &&
+                ordenSeleccionado.every((id, i) => id === pregunta.ordenCorrecto[i]);
+            const mensaje = document.getElementById("resultado-juego");
+
+            document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                item.style.pointerEvents = "none";
+            });
+
+            if (esCorrecta) {
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">✅</span> ¡Orden perfecto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                    item.classList.add("correcto-orden");
+                });
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                    const posCorrecta = pregunta.ordenCorrecto.indexOf(item.dataset.id);
+                    const posAlumno = ordenSeleccionado.indexOf(item.dataset.id);
+                    item.classList.add(posCorrecta === posAlumno ? "correcto-orden" : "incorrecto-orden");
+                });
+                mensaje.innerHTML = `<span class="icono-resultado">❌</span> Orden incorrecto. La secuencia correcta es:<br><code>${
+                    pregunta.ordenCorrecto.map(id => {
+                        const item = pregunta.items.find(it => it.id === id);
+                        return item ? item.texto.split(" —")[0] : id;
+                    }).join(" → ")
+                }</code><div class="explicacion-box">💡 ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        // ========== VERDADERO / FALSO ==========
+        function cargarVerdaderoFalso(pregunta) {
+            const contenedor = document.getElementById("contenedor-verdadero");
+            contenedor.innerHTML = "";
+            contenedor.style.display = "flex";
+            ["✅ Verdadero", "❌ Falso"].forEach((texto, i) => {
+                const btn = document.createElement("button");
+                btn.className = "btn-opcion";
+                btn.innerHTML = texto;
+                btn.addEventListener("click", () => evaluarVerdaderoFalso(i === 0, pregunta));
+                contenedor.appendChild(btn);
+            });
+        }
+
+        function evaluarVerdaderoFalso(respuesta, pregunta) {
+            if (respondiendo || juegoTerminado) return;
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+
+            const esCorrecta = (respuesta === pregunta.esVerdadero);
+            const mensaje = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll("#contenedor-verdadero .btn-opcion");
+            botones.forEach(btn => btn.disabled = true);
+            const indiceCorrecto = pregunta.esVerdadero ? 0 : 1;
+            const indiceElegido = respuesta ? 0 : 1;
+
+            if (esCorrecta) {
+                botones[indiceElegido].classList.add("acierto");
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">✅</span> ¡Correcto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                botones[indiceElegido].classList.add("error");
+                botones[indiceCorrecto].classList.add("revelar");
+                mensaje.innerHTML = `<span class="icono-resultado">❌</span> Incorrecto. La afirmación es <strong>${pregunta.esVerdadero ? "Verdadera" : "Falsa"}</strong>.
+                    <div class="explicacion-box">💡 ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        function avanzarPregunta() {
+            indicePregunta++;
+            cargarPreguntaActual();
+        }
+
+        // ========== FINALIZAR ==========
+        function finalizarEvaluacion(motivo) {
+            if (juegoTerminado) return;
+            juegoTerminado = true;
+            clearInterval(intervaloTimer);
+            detenerDeteccionCambioPestana();
+            window.removeEventListener("beforeunload", advertirCierre);
+
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+
+            const tiempoUsado = TIEMPO_MAXIMO - tiempoRestante;
+            const minUsados = Math.floor(tiempoUsado / 60);
+            const segUsados = tiempoUsado % 60;
+
+            const fechaHora = new Date().toLocaleString("es-AR", {
+                day: "2-digit", month: "2-digit", year: "numeric",
+                hour: "2-digit", minute: "2-digit", second: "2-digit"
+            });
+
+            const nota = Math.max(1, Math.round((puntajeTotal / puntajeMaximo) * 10));
+
+            document.getElementById("stat-puntaje").innerText = puntajeTotal;
+            document.getElementById("stat-aciertos").innerText = aciertos + "/" + preguntasAleatorias.length;
+            document.getElementById("stat-salteadas").innerText = salteadas;
+            document.getElementById("stat-tiempo-usado").innerText = minUsados + ":" + String(segUsados).padStart(2, "0");
+            document.getElementById("nota-final").innerText = nota + " / 10";
+
+            const porcentaje = Math.round((puntajeTotal / puntajeMaximo) * 100);
+            let emoji, titulo, mensaje;
+            if (motivo) {
+                titulo = motivo;
+                mensaje = "Se terminaron los 30 minutos.";
+                emoji = "⏰";
+            } else if (porcentaje >= 90) {
+                emoji = "🏆"; titulo = "¡Excelente!"; mensaje = "Dominás HTML a la perfección.";
+            } else if (porcentaje >= 70) {
+                emoji = "🌟"; titulo = "¡Muy bien!"; mensaje = "Tenés buenos conocimientos, seguí practicando.";
+            } else if (porcentaje >= 50) {
+                emoji = "📚"; titulo = "¡Buen intento!"; mensaje = "Repasá los temas y volvé a intentarlo.";
+            } else {
+                emoji = "💪"; titulo = "No te rindas"; mensaje = "Volvé a estudiar los niveles anteriores.";
+            }
+
+            document.getElementById("trofeo-final").innerText = emoji;
+            document.getElementById("titulo-final").innerText = titulo;
+            document.getElementById("mensaje-final").innerText = mensaje;
+
+            if (porcentaje === 100) lanzarConfeti();
+
+            guardarEnSheets(fechaHora, nota, tiempoUsado);
+            cargarRanking(datosAlumno.grupo);
+        }
+
+        // ========== GOOGLE SHEETS ==========
+        function guardarEnSheets(fechaHora, nota, tiempoUsado) {
+            if (!GOOGLE_SCRIPT_URL) return;
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST", mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    accion: "finalizar",
+                    cedula: datosAlumno.cedula,
+                    nombre: datosAlumno.nombre,
+                    apellido: datosAlumno.apellido,
+                    grupo: datosAlumno.grupo,
+                    puntuacion: puntajeTotal,
+                    fechaHora: fechaHora,
+                    nota: nota,
+                    tiempoUsado: tiempoUsado
+                })
+            }).catch(() => {});
+        }
+
+        function cargarRankingLogin() {
+            const contenedor = document.getElementById("contenedor-ranking-login");
+            if (!GOOGLE_SCRIPT_URL) {
+                contenedor.innerHTML = "";
+                return;
+            }
+
+            fetch(GOOGLE_SCRIPT_URL)
+                .then(r => r.json())
+                .then(ranking => {
+                    if (!ranking || ranking.length === 0) {
+                        contenedor.innerHTML = `<div class="ranking-vacio">📊 Aún no hay registros. ¡Sé el primero!</div>`;
+                        return;
+                    }
+                    contenedor.innerHTML = armarTablaRanking(ranking, true);
+                })
+                .catch(() => {
+                    contenedor.innerHTML = `<div class="ranking-vacio">⚠️ No se pudo cargar el ranking.</div>`;
+                });
+        }
+
+        function cargarRanking(grupo) {
+            const contenedor = document.getElementById("contenedor-ranking");
+            if (!GOOGLE_SCRIPT_URL) {
+                contenedor.innerHTML = `<div class="ranking-vacio">📊 El ranking no está disponible en este momento.</div>`;
+                return;
+            }
+
+            const url = GOOGLE_SCRIPT_URL + (grupo ? "?grupo=" + encodeURIComponent(grupo) : "");
+            fetch(url)
+                .then(r => r.json())
+                .then(ranking => {
+                    if (!ranking || ranking.length === 0) {
+                        contenedor.innerHTML = `<div class="ranking-vacio">📊 Aún no hay registros. ¡Sé el primero!</div>`;
+                        return;
+                    }
+                    contenedor.innerHTML = armarTablaRanking(ranking);
+                })
+                .catch(() => {
+                    contenedor.innerHTML = `<div class="ranking-vacio">⚠️ No se pudo cargar el ranking.</div>`;
+                });
+        }
+
+        function armarTablaRanking(ranking, simplificado) {
+                    if (!ranking || ranking.length === 0) {
+                        return `<div class="ranking-vacio">📊 Aún no hay registros en el ranking. ¡Sé el primero!</div>`;
+                    }
+
+                    const medallas = ["🥇", "🥈", "🥉"];
+                    let html = `<table class="tabla-ranking"><thead><tr>
+                        <th>#</th><th>Nombre</th><th>Apellido</th><th>Grupo</th>
+                        <th>Puntaje</th>`;
+
+                    if (!simplificado) {
+                        html += `<th>Bonus</th><th>Total</th>`;
+                    }
+
+                    html += `<th>Nota</th>`;
+
+                    if (!simplificado) {
+                        html += `<th>Intento</th>`;
+                    }
+
+                    html += `</tr></thead><tbody>`;
+
+                    ranking.forEach((entry, i) => {
+                        const esAlumno = entry.nombre === datosAlumno.nombre &&
+                            entry.apellido === datosAlumno.apellido && entry.grupo === datosAlumno.grupo;
+                        const medalla = i < 3 ? medallas[i] : "";
+                        const valorPuntaje = simplificado ? entry.rankingScore : entry.puntuacion;
+                        html += `<tr class="${esAlumno ? 'fila-destacada' : ''}">
+                            <td class="posicion">${medalla || (i + 1)}</td>
+                            <td>${entry.nombre}</td><td>${entry.apellido}</td><td>${entry.grupo}</td>
+                            <td><strong>${valorPuntaje}</strong></td>`;
+
+                        if (!simplificado) {
+                            html += `<td style="color:#10b981;">+${entry.bonus || 0}</td>
+                                     <td><strong>${entry.rankingScore || entry.puntuacion}</strong></td>`;
+                        }
+
+                        html += `<td>${entry.nota ? entry.nota + '/10' : '—'}</td>`;
+
+                        if (!simplificado) {
+                            html += `<td>${entry.intento || 1}°</td>`;
+                        }
+
+                        html += `</tr>`;
+                    });
+
+                    html += "</tbody></table>";
+                    return html;
+        }
+
+        // ========== CONFETI ==========
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        // ========== TEMA ==========
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+
+        // Cargar ranking global al abrir la página
+        cargarRankingLogin();
+    </script>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

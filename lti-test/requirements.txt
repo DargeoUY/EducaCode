@@ -1,0 +1,6 @@
+flask==3.0.*
+requests==2.31.*
+lti==0.9.*
+oauthlib==3.2.*
+gunicorn==21.2.*
+flask-cors==4.0.*

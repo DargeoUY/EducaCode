@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nivel 15: Evaluación Final - JavaScript</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        .aviso-script {
+            background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 8px; padding: 10px 14px; font-size: 0.8rem; color: #f59e0b;
+            text-align: left; margin-top: 15px; max-width: 400px; margin-left: auto; margin-right: auto;
+        }
+        .aviso-script code { background: rgba(245, 158, 11, 0.2); color: #f59e0b; font-size: 0.75rem; word-break: break-all; }
+        .alerta-error {
+            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px; padding: 12px 16px; color: #ef4444; font-weight: 600;
+            font-size: 0.9rem; margin-top: 12px; max-width: 400px; margin-left: auto; margin-right: auto;
+        }
+        .alerta-exito {
+            background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px; padding: 12px 16px; color: #10b981; font-weight: 600;
+            font-size: 0.9rem; margin-top: 12px; max-width: 400px; margin-left: auto; margin-right: auto;
+        }
+        .datos-validados {
+            background: rgba(99, 102, 241, 0.08); border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px; padding: 14px 18px; margin-top: 15px; max-width: 400px;
+            margin-left: auto; margin-right: auto; text-align: left; font-size: 0.9rem; color: var(--texto);
+        }
+        .datos-validados strong { color: var(--primario-claro); }
+        .spinner {
+            display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite;
+            vertical-align: middle; margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .explicacion-box {
+            background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 8px; padding: 10px 14px; margin-top: 8px;
+            font-size: 0.9rem; color: #3b82f6; text-align: left; font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">&#x2600;&#xFE0F;</button>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">&#x1F9EA;</div>
+        <h1>Evaluaci&oacute;n Integradora: JavaScript <span class="badge-nivel">Nivel 15</span></h1>
+        <p>Examen final del m&oacute;dulo de Programaci&oacute;n Web</p>
+    </header>
+
+    <!-- PANTALLA DE INICIO -->
+    <div class="pantalla-inicio" id="pantalla-inicio">
+        <h2>&#x1F510; Validaci&oacute;n de identidad</h2>
+        <p>Ingres&aacute; tu c&eacute;dula de identidad para verificar tus datos</p>
+        <div class="form-datos" id="form-cedula">
+            <div class="grupo-input">
+                <label for="input-cedula">C&eacute;dula de identidad (sin puntos ni guiones)</label>
+                <input type="password" id="input-cedula" class="input-dato"
+                       placeholder="Ej: 4123456789" autocomplete="off" maxlength="10" inputmode="numeric">
+            </div>
+            <button class="btn-comenzar" id="btn-validar" onclick="validarCedula()">&#x1F50D; Validar c&eacute;dula</button>
+        </div>
+        <div id="resultado-validacion"></div>
+        <div id="datos-alumno" style="display:none;">
+            <div class="datos-validados" id="info-alumno"></div>
+            <button class="btn-comenzar" id="btn-comenzar" onclick="comenzarEvaluacion()">&#x1F680; Comenzar evaluaci&oacute;n</button>
+        </div>
+        <div class="aviso-script" id="aviso-script" style="display:none;"></div>
+
+        <div class="seccion-ranking" id="ranking-login">
+            <h3>&#x1F3C5; Top 10 General</h3>
+            <div id="contenedor-ranking-login"><p class="ranking-vacio">Cargando ranking...</p></div>
+        </div>
+    </div>
+
+    <!-- BLOQUE DE JUEGO -->
+    <div id="bloque-juego" class="oculto">
+        <div class="juego-encabezado">
+            <h2>&#x1F9EA; Evaluaci&oacute;n Integradora: JavaScript</h2>
+            <p id="descripcion-juego">12 preguntas &middot; 140 puntos m&aacute;ximos</p>
+        </div>
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/12</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 / 140</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">&#x23F1;&#xFE0F; Tiempo</span>
+                <strong id="temporizador">30:00</strong>
+            </div>
+        </div>
+
+        <div id="tipo-badge"></div>
+        <div id="pantalla-etiqueta"></div>
+        <p class="instruccion-ayuda" id="instruccion-ayuda"></p>
+
+        <div class="contenedor-botones" id="contenedor-multiple"></div>
+        <div id="contenedor-completar" style="display:none;"></div>
+        <div id="contenedor-ordenar" style="display:none;"></div>
+        <div class="contenedor-botones" id="contenedor-verdadero" style="display:none;"></div>
+
+        <button class="btn-saltear" id="btn-saltear" onclick="saltearPregunta()">&#x23ED;&#xFE0F; Saltear pregunta</button>
+        <div id="resultado-juego"></div>
+    </div>
+
+    <!-- PANTALLA FINAL -->
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo" id="trofeo-final">&#x1F3C6;</div>
+        <h2 id="titulo-final">&iexcl;Evaluaci&oacute;n completada!</h2>
+        <p id="mensaje-final"></p>
+        <div class="nota-final" id="nota-final">&mdash; / 10</div>
+        <div class="estadisticas-finales">
+            <div class="stat"><span class="stat-numero" id="stat-puntaje">0</span><span class="stat-etiqueta">Puntaje</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-aciertos">0/12</span><span class="stat-etiqueta">Aciertos</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-salteadas">0</span><span class="stat-etiqueta">Salteadas</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-tiempo-usado">0:00</span><span class="stat-etiqueta">Tiempo</span></div>
+        </div>
+        <div class="seccion-ranking">
+            <h3>&#x1F3C5; Ranking General</h3>
+            <div id="contenedor-ranking"><p class="ranking-vacio">Cargando ranking...</p></div>
+        </div>
+        <button class="btn-reiniciar" onclick="location.reload()">&#x1F504; Volver a intentar</button>
+    </div>
+
+    <script>
+        // ╔══════════════════════════════════════════════════════════╗
+        // ║  CONFIGURACIÓN: Pegá acá la URL de tu Google Script    ║
+        // ╚══════════════════════════════════════════════════════════╝
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzj6kcVfAX5vYAMtNy7y-IWNm_rGAtBZ5aJBAcUXkIvrNx9sqCCfUGnX0nb9g97A2Bv/exec";
+
+        const TIEMPO_MAXIMO = 30 * 60; // 30 minutos en segundos
+
+        const bancoPreguntas = [
+            {
+                tipo: "multiple", badge: "Opci&oacute;n m&uacute;ltiple", claseBadge: "badge-multiple",
+                ayuda: "Eleg&iacute; la opci&oacute;n correcta entre las 4 alternativas.",
+                enunciado: "&iquest;Cu&aacute;l es la etiqueta correcta para crear un <strong>enlace</strong> en HTML?",
+                opciones: [
+                    "A) &lt;a&gt; con el atributo href para definir el destino del enlace",
+                    "B) &lt;link&gt; con el atributo url para la direcci&oacute;n web",
+                    "C) &lt;nav&gt; con el atributo to para navegar internamente",
+                    "D) &lt;goto&gt; con el atributo page para cambiar de p&aacute;gina"
+                ],
+                correcta: 0, puntos: 10,
+                explicacion: "&lt;a href=\"url\"&gt; es la etiqueta de ancla (anchor). href significa Hypertext REFerence y define la URL de destino del enlace."
+            },
+            {
+                tipo: "verdadero", badge: "Verdadero o Falso", claseBadge: "badge-verdadero",
+                ayuda: "Le&eacute; la afirmaci&oacute;n y decid&iacute; si es <strong>Verdadera</strong> o <strong>Falsa</strong>.",
+                enunciado: "En HTML, los elementos &lt;h1&gt; a &lt;h6&gt; definen encabezados, donde &lt;h1&gt; es el de mayor importancia y &lt;h6&gt; el de menor.",
+                esVerdadero: true, puntos: 5,
+                explicacion: "Es VERDADERO. &lt;h1&gt; es el t&iacute;tulo principal y solo debe haber uno por p&aacute;gina. Los niveles h2-h6 se usan para subt&iacute;tulos jer&aacute;rquicos."
+            },
+            {
+                tipo: "multiple", badge: "Opci&oacute;n m&uacute;ltiple", claseBadge: "badge-multiple",
+                ayuda: "Eleg&iacute; la opci&oacute;n correcta entre las 4 alternativas.",
+                enunciado: "&iquest;Qu&eacute; propiedad CSS se usa para <strong>centrar horizontalmente</strong> los items dentro de un contenedor flex?",
+                opciones: [
+                    "A) align-items: center; — centra en el eje cruzado (vertical)",
+                    "B) justify-content: center; — centra en el eje principal (horizontal)",
+                    "C) text-align: center; — centra solo el texto, no los items flex",
+                    "D) flex-center: horizontal; — propiedad espec&iacute;fica de centrado"
+                ],
+                correcta: 1, puntos: 10,
+                explicacion: "justify-content controla la alineaci&oacute;n en el eje principal. Con flex-direction: row (por defecto), justify-content: center centra horizontalmente los items."
+            },
+            {
+                tipo: "completar", badge: "Completar espacio", claseBadge: "badge-completar",
+                ayuda: "Escrib&iacute; tu respuesta en el cuadro y presion&aacute; <strong>Enter</strong> o <strong>Verificar</strong>.",
+                enunciado: "Escrib&iacute; el nombre de la <strong>unidad CSS relativa</strong> al ancho de la ventana del navegador (dos letras):",
+                pista: "Significa \"viewport width\" en ingl&eacute;s...",
+                respuestasAceptadas: ["vw", "VW", "Vw"], puntos: 15,
+                explicacion: "vw (viewport width) es relativa al ancho de la ventana. 1vw = 1% del ancho visible. Tambi&eacute;n existe vh (viewport height) para el alto. Son ideales para dise&ntilde;o responsive."
+            },
+            {
+                tipo: "multiple", badge: "Opci&oacute;n m&uacute;ltiple", claseBadge: "badge-multiple",
+                ayuda: "Eleg&iacute; la opci&oacute;n correcta entre las 4 alternativas.",
+                enunciado: "&iquest;Qu&eacute; palabra clave se usa en JavaScript para declarar una <strong>constante</strong> (variable que no puede cambiar)?",
+                opciones: [
+                    "A) let — permite modificar el valor despu&eacute;s de declararla",
+                    "B) var — la forma antigua que tiene alcance de funci&oacute;n",
+                    "C) const — crea una variable de solo lectura que no se reasigna",
+                    "D) static — mantiene el valor fijo durante la ejecuci&oacute;n"
+                ],
+                correcta: 2, puntos: 10,
+                explicacion: "const declara una constante: su valor no puede ser reasignado. let se usa para variables que s&iacute; pueden cambiar. var es la forma antigua (hoy no recomendada)."
+            },
+            {
+                tipo: "completar", badge: "Completar espacio", claseBadge: "badge-completar",
+                ayuda: "Escrib&iacute; tu respuesta y presion&aacute; <strong>Enter</strong> o <strong>Verificar</strong>.",
+                enunciado: "Escrib&iacute; el comando JavaScript que <strong>muestra un mensaje en la consola</strong> del navegador (sin los par&eacute;ntesis):",
+                pista: "Empieza con \"console\", se usa para depurar c&oacute;digo...",
+                respuestasAceptadas: ["console.log", "CONSOLE.LOG", "Console.log", "console.log()", "console .log"], puntos: 15,
+                explicacion: "console.log() es la herramienta principal para depurar. Muestra mensajes en la consola del navegador (F12 &gt; Consola). Es indispensable para encontrar errores."
+            },
+            {
+                tipo: "multiple", badge: "Opci&oacute;n m&uacute;ltiple", claseBadge: "badge-multiple",
+                ayuda: "Eleg&iacute; la opci&oacute;n correcta entre las 4 alternativas.",
+                enunciado: "&iquest;Qu&eacute; evento de JavaScript se dispara cuando el usuario <strong>hace clic</strong> en un elemento?",
+                opciones: [
+                    "A) onmouseover — se activa al pasar el mouse por encima",
+                    "B) onkeydown — detecta cuando se presiona una tecla",
+                    "C) onload — se ejecuta cuando la p&aacute;gina termina de cargar",
+                    "D) onclick — se activa al hacer clic con el mouse"
+                ],
+                correcta: 3, puntos: 10,
+                explicacion: "onclick es el evento m&aacute;s com&uacute;n. Se usa en botones, enlaces y cualquier elemento interactivo: &lt;button onclick=\"miFuncion()\"&gt;Clic&lt;/button&gt;."
+            },
+            {
+                tipo: "multiple", badge: "Opci&oacute;n m&uacute;ltiple", claseBadge: "badge-multiple",
+                ayuda: "Eleg&iacute; la opci&oacute;n correcta entre las 4 alternativas.",
+                enunciado: "&iquest;Qu&eacute; m&eacute;todo de JavaScript se usa para <strong>encontrar un elemento HTML por su id</strong>?",
+                opciones: [
+                    "A) document.querySelector(\"#id\") — selector gen&eacute;rico tipo CSS",
+                    "B) document.getElementById(\"id\") — m&eacute;todo espec&iacute;fico para IDs",
+                    "C) document.getElementByName(\"id\") — busca por atributo name",
+                    "D) document.find(\"id\") — funci&oacute;n de b&uacute;squeda general"
+                ],
+                correcta: 1, puntos: 10,
+                explicacion: "getElementById() es el m&eacute;todo principal para encontrar elementos por su ID. Devuelve un solo elemento (los IDs deben ser &uacute;nicos en la p&aacute;gina)."
+            },
+            {
+                tipo: "multiple", badge: "Opci&oacute;n m&uacute;ltiple", claseBadge: "badge-multiple",
+                ayuda: "Eleg&iacute; la opci&oacute;n correcta entre las 4 alternativas.",
+                enunciado: "&iquest;Qu&eacute; estructura de JavaScript permite <strong>tomar decisiones</strong> ejecutando c&oacute;digo diferente seg&uacute;n una condici&oacute;n?",
+                opciones: [
+                    "A) for — repite un bloque de c&oacute;digo un n&uacute;mero fijo de veces",
+                    "B) function — define un bloque de c&oacute;digo reutilizable",
+                    "C) if / else — ejecuta un bloque u otro seg&uacute;n la condici&oacute;n",
+                    "D) while — repite mientras una condici&oacute;n sea verdadera"
+                ],
+                correcta: 2, puntos: 10,
+                explicacion: "if (condici&oacute;n) { ... } else { ... } permite bifurcar el flujo del programa. if eval&uacute;a una condici&oacute;n booleana y ejecuta el bloque correspondiente."
+            },
+            {
+                tipo: "completar", badge: "Completar espacio", claseBadge: "badge-completar",
+                ayuda: "Escrib&iacute; tu respuesta y presion&aacute; <strong>Enter</strong> o <strong>Verificar</strong>.",
+                enunciado: "Escrib&iacute; el <strong>operador de comparaci&oacute;n</strong> que verifica igualdad estricta (valor Y tipo) en JavaScript (tres caracteres):",
+                pista: "Son tres signos igual seguidos...",
+                respuestasAceptadas: ["===", "= = ="], puntos: 15,
+                explicacion: "=== es la igualdad estricta: compara valor y tipo. 5 === 5 es true, pero 5 === \"5\" es false (n&uacute;mero vs string). == compara solo valor (menos seguro)."
+            },
+            {
+                tipo: "multiple", badge: "Opci&oacute;n m&uacute;ltiple", claseBadge: "badge-multiple",
+                ayuda: "Eleg&iacute; la opci&oacute;n correcta entre las 4 alternativas.",
+                enunciado: "&iquest;Cu&aacute;l es la sintaxis correcta de un <strong>bucle for</strong> en JavaScript?",
+                opciones: [
+                    "A) for (i = 0; i < 10) { } — falta el incremento",
+                    "B) for (let i = 0; i < 10; i++) { } — inicio, condici&oacute;n e incremento",
+                    "C) for { let i = 0; i < 10; i++ } — faltan los par&eacute;ntesis",
+                    "D) for (let i = 0, i < 10, i++) { } — usa comas en vez de punto y coma"
+                ],
+                correcta: 1, puntos: 10,
+                explicacion: "El for tiene 3 partes separadas por ; : inicializaci&oacute;n (let i = 0), condici&oacute;n (i < 10) e incremento (i++). El bucle se ejecuta mientras la condici&oacute;n sea true."
+            },
+            {
+                tipo: "ordenar", badge: "Ordenar secuencia", claseBadge: "badge-ordenar",
+                ayuda: "Hac&eacute; <strong>clic uno por uno</strong> en los items en el orden correcto. Cada item se numerar&aacute; al seleccionarlo. Si te equivoc&aacute;s, us&aacute; <strong>Reiniciar orden</strong>.",
+                enunciado: "Orden&aacute; los pasos para <strong>crear y recorrer un array</strong> en JavaScript, del primero al &uacute;ltimo:",
+                items: [
+                    { texto: "Acceder a elementos con array[&iacute;ndice]", id: "acceder" },
+                    { texto: "Declarar el array con let arr = [\"a\", \"b\", \"c\"]", id: "declarar" },
+                    { texto: "Usar arr.length para saber la cantidad", id: "length" },
+                    { texto: "Recorrerlo con for (let i = 0; i &lt; arr.length; i++)", id: "recorrer" }
+                ],
+                ordenCorrecto: ["declarar", "acceder", "length", "recorrer"], puntos: 20,
+                explicacion: "1) Declarar el array, 2) Acceder a elementos por &iacute;ndice, 3) Usar .length para saber cu&aacute;ntos hay, 4) Recorrer con for usando .length como l&iacute;mite."
+            }
+        ];
+
+        const puntajeMaximo = bancoPreguntas.reduce((sum, p) => sum + p.puntos, 0);
+        let indicePregunta = 0, puntajeTotal = 0, aciertos = 0, salteadas = 0;
+        let juegoTerminado = false, respondiendo = false;
+        let ordenSeleccionado = [];
+        let datosAlumno = {};
+        let preguntasAleatorias = [];
+        let tiempoRestante = TIEMPO_MAXIMO;
+        let intervaloTimer = null;
+
+        // ========== SHUFFLE ==========
+        function mezclarArray(arr) {
+            const a = arr.slice();
+            for (let i = a.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [a[i], a[j]] = [a[j], a[i]];
+            }
+            return a;
+        }
+
+        // ========== VALIDACION DE CEDULA ==========
+        async function validarCedula() {
+            const cedula = document.getElementById("input-cedula").value.trim();
+            const btnValidar = document.getElementById("btn-validar");
+            const resultadoDiv = document.getElementById("resultado-validacion");
+
+            if (!cedula) {
+                resultadoDiv.innerHTML = '<div class="alerta-error">&#x26A0;&#xFE0F; Ingres&aacute; tu n&uacute;mero de c&eacute;dula.</div>';
+                return;
+            }
+            if (!/^\d+$/.test(cedula)) {
+                resultadoDiv.innerHTML = '<div class="alerta-error">&#x26A0;&#xFE0F; La c&eacute;dula debe contener solo n&uacute;meros, sin puntos ni guiones.</div>';
+                return;
+            }
+
+            if (!GOOGLE_SCRIPT_URL) {
+                activarModoLibre(cedula);
+                return;
+            }
+
+            btnValidar.disabled = true;
+            btnValidar.innerHTML = '<span class="spinner"></span> Validando...';
+            resultadoDiv.innerHTML = "";
+
+            try {
+                const resp = await fetch(GOOGLE_SCRIPT_URL + "?accion=validar&cedula=" + encodeURIComponent(cedula));
+                const data = await resp.json();
+
+                if (data.autorizado) {
+                    datosAlumno.cedula = cedula;
+                    datosAlumno.nombre = data.nombre;
+                    datosAlumno.apellido = data.apellido;
+                    datosAlumno.grupo = data.grupo;
+
+                    document.getElementById("info-alumno").innerHTML =
+                        `<p><strong>&#x1F464; Nombre:</strong> ${data.nombre} ${data.apellido}</p>
+                         <p><strong>&#x1F4DA; Grupo:</strong> ${data.grupo}</p>
+                         <p><strong>&#x1F3AF; Intentos previos:</strong> ${data.intentos} de 3</p>`;
+
+                    resultadoDiv.innerHTML = '<div class="alerta-exito">&#x2705; Identidad verificada. &iexcl;Pod&eacute;s comenzar!</div>';
+                    document.getElementById("form-cedula").style.display = "none";
+                    document.getElementById("datos-alumno").style.display = "block";
+                } else {
+                    resultadoDiv.innerHTML = `<div class="alerta-error">&#x1F6AB; ${data.motivo}</div>`;
+                }
+            } catch (err) {
+                resultadoDiv.innerHTML = '<div class="alerta-error">&#x26A0;&#xFE0F; Error de conexi&oacute;n con el servidor. Intent&aacute; de nuevo.</div>';
+            }
+
+            btnValidar.disabled = false;
+            btnValidar.innerHTML = '&#x1F50D; Validar c&eacute;dula';
+        }
+
+        function activarModoLibre(cedula) {
+            datosAlumno.cedula = cedula;
+            document.getElementById("form-cedula").style.display = "none";
+            const divDatos = document.getElementById("datos-alumno");
+            divDatos.style.display = "block";
+            divDatos.insertAdjacentHTML("afterbegin", `
+                <div class="form-datos" id="form-manual">
+                    <div class="grupo-input">
+                        <label for="input-nombre">Nombre</label>
+                        <input type="text" id="input-nombre" class="input-dato" placeholder="Tu nombre" autocomplete="off">
+                    </div>
+                    <div class="grupo-input">
+                        <label for="input-apellido">Apellido</label>
+                        <input type="text" id="input-apellido" class="input-dato" placeholder="Tu apellido" autocomplete="off">
+                    </div>
+                    <div class="grupo-input">
+                        <label for="input-grupo">Grupo</label>
+                        <input type="text" id="input-grupo" class="input-dato" placeholder="Ej: 5to A" autocomplete="off">
+                    </div>
+                </div>
+            `);
+            document.getElementById("aviso-script").innerHTML = "";
+            document.getElementById("btn-comenzar").onclick = function() {
+                const nombre = document.getElementById("input-nombre").value.trim();
+                const apellido = document.getElementById("input-apellido").value.trim();
+                const grupo = document.getElementById("input-grupo").value.trim();
+                if (!nombre || !apellido || !grupo) {
+                    alert("Complet&aacute; todos los campos: Nombre, Apellido y Grupo.");
+                    return;
+                }
+                datosAlumno.nombre = nombre;
+                datosAlumno.apellido = apellido;
+                datosAlumno.grupo = grupo;
+                comenzarEvaluacion();
+            };
+        }
+
+        document.getElementById("input-cedula").addEventListener("keydown", function(e) {
+            if (e.key === "Enter") validarCedula();
+        });
+
+        // ========== COMENZAR EVALUACION ==========
+        async function comenzarEvaluacion() {
+            if (!datosAlumno.nombre || !datosAlumno.apellido || !datosAlumno.grupo) return;
+
+            preguntasAleatorias = mezclarArray(bancoPreguntas);
+
+            document.getElementById("pantalla-inicio").classList.add("oculto");
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("descripcion-juego").innerText =
+                `${preguntasAleatorias.length} preguntas &middot; ${puntajeMaximo} puntos m&aacute;ximos`;
+
+            if (GOOGLE_SCRIPT_URL) {
+                const fechaInicio = new Date().toLocaleString("es-AR", {
+                    day: "2-digit", month: "2-digit", year: "numeric",
+                    hour: "2-digit", minute: "2-digit", second: "2-digit"
+                });
+                fetch(GOOGLE_SCRIPT_URL, {
+                    method: "POST", mode: "no-cors",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        accion: "iniciar",
+                        cedula: datosAlumno.cedula,
+                        nombre: datosAlumno.nombre,
+                        apellido: datosAlumno.apellido,
+                        grupo: datosAlumno.grupo,
+                        fechaHora: fechaInicio
+                    })
+                }).catch(() => {});
+            }
+
+            iniciarTemporizador();
+            iniciarDeteccionCambioPestana();
+            window.addEventListener("beforeunload", advertirCierre);
+            cargarPreguntaActual();
+        }
+
+        // ========== TEMPORIZADOR ==========
+        function iniciarTemporizador() {
+            actualizarDisplayTemporizador();
+            intervaloTimer = setInterval(() => {
+                tiempoRestante--;
+                actualizarDisplayTemporizador();
+                if (tiempoRestante <= 0) {
+                    clearInterval(intervaloTimer);
+                    finalizarEvaluacion("&#x23F0; &iexcl;Se acab&oacute; el tiempo!");
+                }
+            }, 1000);
+        }
+
+        function actualizarDisplayTemporizador() {
+            const min = Math.floor(tiempoRestante / 60);
+            const seg = tiempoRestante % 60;
+            const el = document.getElementById("temporizador");
+            el.innerText = min + ":" + String(seg).padStart(2, "0");
+
+            if (tiempoRestante <= 60) {
+                el.classList.add("temporizador-alerta");
+            }
+        }
+
+        // ========== DETECCION CAMBIO DE PESTAÑA ==========
+        function iniciarDeteccionCambioPestana() {
+            document.addEventListener("visibilitychange", manejarCambioVisibilidad);
+        }
+
+        function detenerDeteccionCambioPestana() {
+            document.removeEventListener("visibilitychange", manejarCambioVisibilidad);
+        }
+
+        function manejarCambioVisibilidad() {
+            if (document.hidden && !juegoTerminado) {
+                detenerDeteccionCambioPestana();
+                finalizarEvaluacion("&#x1F6AB; Evaluaci&oacute;n cancelada: cambiaste de pesta&ntilde;a o ventana.");
+            }
+        }
+
+        function advertirCierre(e) {
+            if (!juegoTerminado) {
+                e.preventDefault();
+                e.returnValue = "";
+            }
+        }
+
+        // ========== CARGA DE PREGUNTA ==========
+        function cargarPreguntaActual() {
+            if (indicePregunta >= preguntasAleatorias.length) {
+                finalizarEvaluacion();
+                return;
+            }
+
+            const pregunta = preguntasAleatorias[indicePregunta];
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + preguntasAleatorias.length;
+            actualizarBarraProgreso();
+            document.getElementById("pantalla-etiqueta").innerHTML = pregunta.enunciado;
+            document.getElementById("tipo-badge").innerHTML =
+                `<span class="tipo-pregunta-badge ${pregunta.claseBadge}">${pregunta.badge} &middot; ${pregunta.puntos} pts</span>`;
+            document.getElementById("instruccion-ayuda").innerHTML = pregunta.ayuda || "";
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("btn-saltear").disabled = false;
+            ocultarTodosLosContenedores();
+
+            switch (pregunta.tipo) {
+                case "multiple": cargarMultipleChoice(pregunta); break;
+                case "completar": cargarCompletar(pregunta); break;
+                case "ordenar": cargarOrdenar(pregunta); break;
+                case "verdadero": cargarVerdaderoFalso(pregunta); break;
+            }
+            respondiendo = false;
+        }
+
+        function ocultarTodosLosContenedores() {
+            document.getElementById("contenedor-multiple").style.display = "none";
+            document.getElementById("contenedor-completar").style.display = "none";
+            document.getElementById("contenedor-ordenar").style.display = "none";
+            document.getElementById("contenedor-verdadero").style.display = "none";
+        }
+
+        function actualizarBarraProgreso() {
+            document.getElementById("barra-progreso").style.width =
+                (indicePregunta / preguntasAleatorias.length * 100) + "%";
+        }
+
+        // ========== SALTEAR ==========
+        function saltearPregunta() {
+            if (respondiendo || juegoTerminado) return;
+            if (!confirm("&iquest;Seguro que quer&eacute;s saltear esta pregunta? No sumar&aacute;s puntos.")) return;
+            respondiendo = true;
+            salteadas++;
+            document.getElementById("btn-saltear").disabled = true;
+            const mensaje = document.getElementById("resultado-juego");
+            mensaje.innerHTML = '<span class="icono-resultado">&#x23ED;&#xFE0F;</span> Pregunta salteada.';
+            mensaje.className = "resultado-error";
+            setTimeout(avanzarPregunta, 1000);
+        }
+
+        // ========== MULTIPLE CHOICE ==========
+        function cargarMultipleChoice(pregunta) {
+            const contenedor = document.getElementById("contenedor-multiple");
+            contenedor.innerHTML = "";
+            contenedor.style.display = "flex";
+            pregunta.opciones.forEach((opcion, i) => {
+                const btn = document.createElement("button");
+                btn.className = "btn-opcion";
+                btn.innerHTML = opcion;
+                btn.addEventListener("click", () => evaluarMultiple(i, pregunta));
+                contenedor.appendChild(btn);
+            });
+        }
+
+        function evaluarMultiple(indice, pregunta) {
+            if (respondiendo || juegoTerminado) return;
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+
+            const esCorrecta = (indice === pregunta.correcta);
+            const mensaje = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll("#contenedor-multiple .btn-opcion");
+            botones.forEach(btn => btn.disabled = true);
+
+            if (esCorrecta) {
+                botones[indice].classList.add("acierto");
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">&#x2705;</span> &iexcl;Correcto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                botones[indice].classList.add("error");
+                botones[pregunta.correcta].classList.add("revelar");
+                mensaje.innerHTML = `<span class="icono-resultado">&#x274C;</span> Incorrecto. La respuesta correcta es la <strong>opci&oacute;n ${"ABCD"[pregunta.correcta]}</strong>.
+                    <div class="explicacion-box">&#x1F4A1; ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        // ========== COMPLETAR ==========
+        function cargarCompletar(pregunta) {
+            const contenedor = document.getElementById("contenedor-completar");
+            contenedor.style.display = "block";
+            contenedor.innerHTML = `
+                <input type="text" id="input-completar" class="input-completar"
+                       placeholder="${pregunta.pista || 'Escrib&iacute; tu respuesta'}" autocomplete="off">
+                <br>
+                <button class="btn-verificar" id="btn-verificar" onclick="verificarCompletar()">&#x2705; Verificar</button>
+            `;
+            document.getElementById("input-completar").addEventListener("keydown", function(e) {
+                if (e.key === "Enter") verificarCompletar();
+            });
+            setTimeout(() => document.getElementById("input-completar").focus(), 100);
+        }
+
+        function verificarCompletar() {
+            if (respondiendo || juegoTerminado) return;
+            const pregunta = preguntasAleatorias[indicePregunta];
+            const input = document.getElementById("input-completar");
+            const respuesta = input.value.trim();
+            if (!respuesta) return;
+
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+            const btnVerificar = document.getElementById("btn-verificar");
+            if (btnVerificar) btnVerificar.disabled = true;
+            input.disabled = true;
+
+            const esCorrecta = pregunta.respuestasAceptadas.some(r => r.toLowerCase() === respuesta.toLowerCase());
+            const mensaje = document.getElementById("resultado-juego");
+
+            if (esCorrecta) {
+                input.classList.add("correcto");
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">&#x2705;</span> &iexcl;Correcto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                input.classList.add("incorrecto");
+                mensaje.innerHTML = `<span class="icono-resultado">&#x274C;</span> Incorrecto. La respuesta era: <code>${pregunta.respuestasAceptadas[0]}</code>
+                    <div class="explicacion-box">&#x1F4A1; ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        // ========== ORDENAR ==========
+        function cargarOrdenar(pregunta) {
+            const contenedor = document.getElementById("contenedor-ordenar");
+            contenedor.style.display = "block";
+            contenedor.innerHTML = `
+                <div class="contenedor-ordenar" id="lista-ordenar"></div>
+                <button class="btn-reset-orden" onclick="resetearOrden()">&#x1F504; Reiniciar orden</button>
+            `;
+            const lista = document.getElementById("lista-ordenar");
+            ordenSeleccionado = [];
+            pregunta.items.forEach((item, i) => {
+                const div = document.createElement("div");
+                div.className = "item-ordenar";
+                div.innerHTML = item.texto;
+                div.dataset.id = item.id;
+                div.dataset.indice = i;
+                div.addEventListener("click", () => seleccionarItemOrden(div, pregunta));
+                lista.appendChild(div);
+            });
+        }
+
+        function seleccionarItemOrden(elemento, pregunta) {
+            if (respondiendo || juegoTerminado) return;
+            const id = elemento.dataset.id;
+
+            if (elemento.classList.contains("seleccionado")) {
+                const pos = ordenSeleccionado.indexOf(id);
+                if (pos >= 0) {
+                    const removidos = ordenSeleccionado.splice(pos);
+                    document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                        if (removidos.includes(item.dataset.id)) {
+                            item.classList.remove("seleccionado");
+                            delete item.dataset.orden;
+                        }
+                    });
+                    document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                        if (item.classList.contains("seleccionado")) {
+                            const idx = ordenSeleccionado.indexOf(item.dataset.id);
+                            item.dataset.orden = (idx + 1) + "&deg;";
+                        }
+                    });
+                }
+                return;
+            }
+
+            elemento.classList.add("seleccionado");
+            ordenSeleccionado.push(id);
+            elemento.dataset.orden = ordenSeleccionado.length + "&deg;";
+            if (ordenSeleccionado.length === pregunta.items.length) verificarOrden(pregunta);
+        }
+
+        function resetearOrden() {
+            if (respondiendo || juegoTerminado) return;
+            ordenSeleccionado = [];
+            document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                item.classList.remove("seleccionado");
+                delete item.dataset.orden;
+            });
+        }
+
+        function verificarOrden(pregunta) {
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+
+            const esCorrecta = ordenSeleccionado.length === pregunta.ordenCorrecto.length &&
+                ordenSeleccionado.every((id, i) => id === pregunta.ordenCorrecto[i]);
+            const mensaje = document.getElementById("resultado-juego");
+
+            document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                item.style.pointerEvents = "none";
+            });
+
+            if (esCorrecta) {
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">&#x2705;</span> &iexcl;Orden perfecto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                    item.classList.add("correcto-orden");
+                });
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                document.querySelectorAll("#lista-ordenar .item-ordenar").forEach(item => {
+                    const posCorrecta = pregunta.ordenCorrecto.indexOf(item.dataset.id);
+                    const posAlumno = ordenSeleccionado.indexOf(item.dataset.id);
+                    item.classList.add(posCorrecta === posAlumno ? "correcto-orden" : "incorrecto-orden");
+                });
+                mensaje.innerHTML = `<span class="icono-resultado">&#x274C;</span> Orden incorrecto. La secuencia correcta es:<br><code>${
+                    pregunta.ordenCorrecto.map(id => {
+                        const item = pregunta.items.find(it => it.id === id);
+                        return item ? item.texto.split(" &mdash;")[0] : id;
+                    }).join(" &rarr; ")
+                }</code><div class="explicacion-box">&#x1F4A1; ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        // ========== VERDADERO / FALSO ==========
+        function cargarVerdaderoFalso(pregunta) {
+            const contenedor = document.getElementById("contenedor-verdadero");
+            contenedor.innerHTML = "";
+            contenedor.style.display = "flex";
+            ["&#x2705; Verdadero", "&#x274C; Falso"].forEach((texto, i) => {
+                const btn = document.createElement("button");
+                btn.className = "btn-opcion";
+                btn.innerHTML = texto;
+                btn.addEventListener("click", () => evaluarVerdaderoFalso(i === 0, pregunta));
+                contenedor.appendChild(btn);
+            });
+        }
+
+        function evaluarVerdaderoFalso(respuesta, pregunta) {
+            if (respondiendo || juegoTerminado) return;
+            respondiendo = true;
+            document.getElementById("btn-saltear").disabled = true;
+
+            const esCorrecta = (respuesta === pregunta.esVerdadero);
+            const mensaje = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll("#contenedor-verdadero .btn-opcion");
+            botones.forEach(btn => btn.disabled = true);
+            const indiceCorrecto = pregunta.esVerdadero ? 0 : 1;
+            const indiceElegido = respuesta ? 0 : 1;
+
+            if (esCorrecta) {
+                botones[indiceElegido].classList.add("acierto");
+                puntajeTotal += pregunta.puntos;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntajeTotal + " / " + puntajeMaximo;
+                mensaje.innerHTML = `<span class="icono-resultado">&#x2705;</span> &iexcl;Correcto! +${pregunta.puntos} pts`;
+                mensaje.className = "resultado-exito";
+                setTimeout(avanzarPregunta, 1800);
+            } else {
+                botones[indiceElegido].classList.add("error");
+                botones[indiceCorrecto].classList.add("revelar");
+                mensaje.innerHTML = `<span class="icono-resultado">&#x274C;</span> Incorrecto. La afirmaci&oacute;n es <strong>${pregunta.esVerdadero ? "Verdadera" : "Falsa"}</strong>.
+                    <div class="explicacion-box">&#x1F4A1; ${pregunta.explicacion || ""}</div>`;
+                mensaje.className = "resultado-error";
+                setTimeout(avanzarPregunta, 10000);
+            }
+        }
+
+        function avanzarPregunta() {
+            indicePregunta++;
+            cargarPreguntaActual();
+        }
+
+        // ========== FINALIZAR ==========
+        function finalizarEvaluacion(motivo) {
+            if (juegoTerminado) return;
+            juegoTerminado = true;
+            clearInterval(intervaloTimer);
+            detenerDeteccionCambioPestana();
+            window.removeEventListener("beforeunload", advertirCierre);
+
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+
+            const tiempoUsado = TIEMPO_MAXIMO - tiempoRestante;
+            const minUsados = Math.floor(tiempoUsado / 60);
+            const segUsados = tiempoUsado % 60;
+
+            const fechaHora = new Date().toLocaleString("es-AR", {
+                day: "2-digit", month: "2-digit", year: "numeric",
+                hour: "2-digit", minute: "2-digit", second: "2-digit"
+            });
+
+            const nota = Math.max(1, Math.round((puntajeTotal / puntajeMaximo) * 10));
+
+            document.getElementById("stat-puntaje").innerText = puntajeTotal;
+            document.getElementById("stat-aciertos").innerText = aciertos + "/" + preguntasAleatorias.length;
+            document.getElementById("stat-salteadas").innerText = salteadas;
+            document.getElementById("stat-tiempo-usado").innerText = minUsados + ":" + String(segUsados).padStart(2, "0");
+            document.getElementById("nota-final").innerText = nota + " / 10";
+
+            const porcentaje = Math.round((puntajeTotal / puntajeMaximo) * 100);
+            let emoji, titulo, mensaje;
+            if (motivo) {
+                titulo = motivo;
+                mensaje = "Se terminaron los 30 minutos.";
+                emoji = "&#x23F0;";
+            } else if (porcentaje >= 90) {
+                emoji = "&#x1F3C6;"; titulo = "&iexcl;Excelente!"; mensaje = "Domin&aacute;s HTML, CSS y JavaScript.";
+            } else if (porcentaje >= 70) {
+                emoji = "&#x1F31F;"; titulo = "&iexcl;Muy bien!"; mensaje = "Ten&eacute;s buenos conocimientos, segu&iacute; practicando.";
+            } else if (porcentaje >= 50) {
+                emoji = "&#x1F4DA;"; titulo = "&iexcl;Buen intento!"; mensaje = "Repas&aacute; los temas y volv&eacute; a intentarlo.";
+            } else {
+                emoji = "&#x1F4AA;"; titulo = "No te rindas"; mensaje = "Volv&eacute; a estudiar los niveles anteriores.";
+            }
+
+            document.getElementById("trofeo-final").innerText = emoji;
+            document.getElementById("titulo-final").innerText = titulo;
+            document.getElementById("mensaje-final").innerText = mensaje;
+
+            if (porcentaje === 100) lanzarConfeti();
+
+            guardarEnSheets(fechaHora, nota, tiempoUsado);
+            cargarRanking(datosAlumno.grupo);
+        }
+
+        // ========== GOOGLE SHEETS ==========
+        function guardarEnSheets(fechaHora, nota, tiempoUsado) {
+            if (!GOOGLE_SCRIPT_URL) return;
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST", mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    accion: "finalizar",
+                    cedula: datosAlumno.cedula,
+                    nombre: datosAlumno.nombre,
+                    apellido: datosAlumno.apellido,
+                    grupo: datosAlumno.grupo,
+                    puntuacion: puntajeTotal,
+                    fechaHora: fechaHora,
+                    nota: nota,
+                    tiempoUsado: tiempoUsado
+                })
+            }).catch(() => {});
+        }
+
+        function cargarRankingLogin() {
+            const contenedor = document.getElementById("contenedor-ranking-login");
+            if (!GOOGLE_SCRIPT_URL) {
+                contenedor.innerHTML = "";
+                return;
+            }
+
+            fetch(GOOGLE_SCRIPT_URL)
+                .then(r => r.json())
+                .then(ranking => {
+                    if (!ranking || ranking.length === 0) {
+                        contenedor.innerHTML = `<div class="ranking-vacio">&#x1F4CA; A&uacute;n no hay registros. &iexcl;S&eacute; el primero!</div>`;
+                        return;
+                    }
+                    contenedor.innerHTML = armarTablaRanking(ranking, true);
+                })
+                .catch(() => {
+                    contenedor.innerHTML = `<div class="ranking-vacio">&#x26A0;&#xFE0F; No se pudo cargar el ranking.</div>`;
+                });
+        }
+
+        function cargarRanking(grupo) {
+            const contenedor = document.getElementById("contenedor-ranking");
+            if (!GOOGLE_SCRIPT_URL) {
+                contenedor.innerHTML = `<div class="ranking-vacio">&#x1F4CA; El ranking no est&aacute; disponible en este momento.</div>`;
+                return;
+            }
+
+            const url = GOOGLE_SCRIPT_URL + (grupo ? "?grupo=" + encodeURIComponent(grupo) : "");
+            fetch(url)
+                .then(r => r.json())
+                .then(ranking => {
+                    if (!ranking || ranking.length === 0) {
+                        contenedor.innerHTML = `<div class="ranking-vacio">&#x1F4CA; A&uacute;n no hay registros. &iexcl;S&eacute; el primero!</div>`;
+                        return;
+                    }
+                    contenedor.innerHTML = armarTablaRanking(ranking);
+                })
+                .catch(() => {
+                    contenedor.innerHTML = `<div class="ranking-vacio">&#x26A0;&#xFE0F; No se pudo cargar el ranking.</div>`;
+                });
+        }
+
+        function armarTablaRanking(ranking, simplificado) {
+                    if (!ranking || ranking.length === 0) {
+                        return `<div class="ranking-vacio">&#x1F4CA; A&uacute;n no hay registros en el ranking. &iexcl;S&eacute; el primero!</div>`;
+                    }
+
+                    const medallas = ["&#x1F947;", "&#x1F948;", "&#x1F949;"];
+                    let html = `<table class="tabla-ranking"><thead><tr>
+                        <th>#</th><th>Nombre</th><th>Apellido</th><th>Grupo</th>
+                        <th>Puntaje</th>`;
+
+                    if (!simplificado) {
+                        html += `<th>Bonus</th><th>Total</th>`;
+                    }
+
+                    html += `<th>Nota</th>`;
+
+                    if (!simplificado) {
+                        html += `<th>Intento</th>`;
+                    }
+
+                    html += `</tr></thead><tbody>`;
+
+                    ranking.forEach((entry, i) => {
+                        const esAlumno = entry.nombre === datosAlumno.nombre &&
+                            entry.apellido === datosAlumno.apellido && entry.grupo === datosAlumno.grupo;
+                        const medalla = i < 3 ? medallas[i] : "";
+                        const valorPuntaje = simplificado ? entry.rankingScore : entry.puntuacion;
+                        html += `<tr class="${esAlumno ? 'fila-destacada' : ''}">
+                            <td class="posicion">${medalla || (i + 1)}</td>
+                            <td>${entry.nombre}</td><td>${entry.apellido}</td><td>${entry.grupo}</td>
+                            <td><strong>${valorPuntaje}</strong></td>`;
+
+                        if (!simplificado) {
+                            html += `<td style="color:#10b981;">+${entry.bonus || 0}</td>
+                                     <td><strong>${entry.rankingScore || entry.puntuacion}</strong></td>`;
+                        }
+
+                        html += `<td>${entry.nota ? entry.nota + '/10' : '&mdash;'}</td>`;
+
+                        if (!simplificado) {
+                            html += `<td>${entry.intento || 1}&deg;</td>`;
+                        }
+
+                        html += `</tr>`;
+                    });
+
+                    html += "</tbody></table>";
+                    return html;
+        }
+
+        // ========== CONFETI ==========
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        // ========== TEMA ==========
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "&#x1F319;";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "&#x1F319;" : "&#x2600;&#xFE0F;";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+
+        cargarRankingLogin();
+    </script>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

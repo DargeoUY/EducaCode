@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 6: Dando Estilo con CSS</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🎨</div>
+        <h1>Clase 6: Dando Estilo con CSS <span class="badge-nivel">Nivel 6</span></h1>
+        <p>Selectores, colores y fuentes</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> ¿Qué es CSS?</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>CSS (Cascading Style Sheets):</strong> Es el lenguaje de diseño de la web. Mientras que HTML define <strong>qué</strong> contenido mostrar, CSS define <strong>cómo</strong> se ve ese contenido. CSS controla colores, fuentes, tamaños, márgenes, posiciones y mucho más. <strong>CSS no es un lenguaje de marcado, es un lenguaje de estilos.</strong>
+            </div>
+        </div>
+        <p>CSS funciona mediante <strong>reglas</strong>. Cada regla tiene un <strong>selector</strong> (a qué elemento apunta) y un bloque de <strong>declaraciones</strong> (qué propiedades cambiar).</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Selectores: apuntando a los elementos</h2>
+        <p>Los selectores le dicen a CSS a qué elementos HTML aplicar los estilos. Hay tres tipos fundamentales:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🏷️</div>
+                <strong>Selector de etiqueta</strong>
+                <p>Selecciona todos los elementos de ese tipo. Ej: <code>p {}</code> aplica a todos los &lt;p&gt;.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📌</div>
+                <strong>Selector de clase</strong>
+                <p>Selecciona elementos con esa clase. Se escribe con un punto. Ej: <code>.destacado {}</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🆔</div>
+                <strong>Selector de ID</strong>
+                <p>Selecciona un elemento único por su id. Se escribe con numeral. Ej: <code>#encabezado {}</code></p>
+            </div>
+        </div>
+
+        <h3>Ejemplo de los tres selectores:</h3>
+        <div class="bloque-codigo">
+            <pre>/* Selector de etiqueta: aplica a TODOS los párrafos */
+p {
+    color: blue;
+}
+
+/* Selector de clase: aplica a elementos con class="destacado" */
+.destacado {
+    background-color: yellow;
+}
+
+/* Selector de ID: aplica al elemento con id="titulo-principal" */
+#titulo-principal {
+    font-size: 32px;
+}</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Colores en CSS</h2>
+        <p>CSS ofrece varias formas de definir colores. Las más comunes son:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔤</div>
+                <strong>Nombres de color</strong>
+                <p>Palabras clave como <code>red</code>, <code>blue</code>, <code>green</code>, <code>tomato</code>. Hay 140 nombres predefinidos.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">#️⃣</div>
+                <strong>Hexadecimal</strong>
+                <p>Se escribe con # seguido de 6 caracteres. Ej: <code>#ff0000</code> (rojo), <code>#00ff00</code> (verde), <code>#0000ff</code> (azul).</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🎛️</div>
+                <strong>RGB / RGBA</strong>
+                <p>Valores de rojo, verde y azul (0-255). Ej: <code>rgb(255, 0, 0)</code>. Con <code>rgba()</code> agregás transparencia.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: mismo color, distintas formas:</h3>
+        <div class="bloque-codigo">
+            <pre>/* Estas tres reglas producen el mismo color rojo */
+h1 {
+    color: red;                 /* nombre */
+    color: #ff0000;             /* hexadecimal */
+    color: rgb(255, 0, 0);      /* rgb */
+}</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> Fuentes y texto</h2>
+        <p>CSS permite controlar completamente la apariencia del texto con propiedades específicas:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔤</div>
+                <strong>font-family</strong>
+                <p>Define el tipo de letra. Ej: <code>font-family: Arial, sans-serif;</code>. Se pueden listar varias como respaldo.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📏</div>
+                <strong>font-size</strong>
+                <p>Controla el tamaño de la fuente. Ej: <code>font-size: 18px;</code> o <code>font-size: 1.2em;</code>.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">↔️</div>
+                <strong>text-align</strong>
+                <p>Alinea el texto: <code>left</code>, <code>center</code>, <code>right</code> o <code>justify</code>.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🎨</div>
+                <strong>color</strong>
+                <p>Cambia el color del texto. No confundir con <code>background-color</code> que cambia el fondo.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: párrafo con estilos:</h3>
+        <div class="bloque-codigo">
+            <pre>p {
+    font-family: 'Georgia', serif;
+    font-size: 16px;
+    text-align: justify;
+    color: #333333;
+}</pre>
+        </div>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Maestro del Estilo</h2>
+            <p>Demostrá lo que aprendiste sobre selectores, colores y fuentes.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Cómo se selecciona un elemento por su etiqueta en CSS?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) Escribiendo el nombre de la etiqueta, ej: p {}</button>
+            <button class="btn-opcion" data-indice="1">B) Usando un punto antes del nombre, ej: .p {}</button>
+            <button class="btn-opcion" data-indice="2">C) Usando un numeral antes del nombre, ej: #p {}</button>
+            <button class="btn-opcion" data-indice="3">D) Escribiendo la palabra "tag" antes, ej: tag:p {}</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 6: Dando Estilo con CSS</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Cómo se selecciona un elemento por su etiqueta en CSS?",
+                opciones: [
+                    "A) Escribiendo el nombre de la etiqueta, ej: p {}",
+                    "B) Usando un punto antes del nombre, ej: .p {}",
+                    "C) Usando un numeral antes del nombre, ej: #p {}",
+                    "D) Escribiendo la palabra \"tag\" antes, ej: tag:p {}"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Qué símbolo se usa para seleccionar una clase en CSS?",
+                opciones: [
+                    "A) El numeral #, ej: #destacado",
+                    "B) El signo $, ej: $destacado",
+                    "C) El punto ., ej: .destacado",
+                    "D) El arroba @, ej: @destacado"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Cuál es la forma correcta de aplicar color rojo en CSS?",
+                opciones: [
+                    "A) text-color: red;",
+                    "B) font-color: red;",
+                    "C) color: red;",
+                    "D) foreground: red;"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Qué propiedad CSS cambia el tamaño de la fuente?",
+                opciones: [
+                    "A) text-size",
+                    "B) font-size",
+                    "C) letter-size",
+                    "D) text-style"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Dónde se escribe el código CSS en un documento HTML?",
+                opciones: [
+                    "A) Solo dentro del &lt;body&gt; con la etiqueta &lt;css&gt;",
+                    "B) Dentro de la etiqueta &lt;style&gt; o en un archivo .css externo",
+                    "C) Únicamente en la etiqueta &lt;head&gt; como texto plano",
+                    "D) Directamente dentro de la etiqueta &lt;html&gt;"
+                ],
+                correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

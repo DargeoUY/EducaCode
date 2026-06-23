@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmia - Nivel 3: Tomando Decisiones</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🔀</div>
+        <h1>Algoritmia Nivel 3: Tomando Decisiones <span class="badge-nivel">Nivel 3</span></h1>
+        <p>Aprendiendo a crear algoritmos que eligen su propio camino</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> ¿Qué es un Condicional?</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">🔀</span>
+            <div>
+                <strong>Un condicional</strong> es una estructura que permite al algoritmo <strong>tomar decisiones</strong> según si una condición se cumple o no. Es la forma de decir "SI pasa esto, ENTONCES hacé aquello, SINO hacé esto otro".
+            </div>
+        </div>
+        <p>En la vida real usamos condicionales todo el tiempo: "SI tengo hambre, ENTONCES como. SINO, sigo trabajando." Los algoritmos también necesitan decidir.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> La Estructura SI/ENTONCES/SINO</h2>
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">❓</div>
+                <strong>SI (condición)</strong>
+                <p>Se evalúa una condición que solo puede ser Verdadera o Falsa. Ej: "¿Está lloviendo?"</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">✅</div>
+                <strong>ENTONCES</strong>
+                <p>Lo que se hace si la condición es verdadera. Ej: "Llevo paraguas".</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">❌</div>
+                <strong>SINO</strong>
+                <p>Lo que se hace si la condición es falsa. Ej: "No llevo paraguas".</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo en la vida cotidiana:</h3>
+        <div class="bloque-codigo">
+            <pre>ALGORITMO: Salir de casa
+1. Mirar por la ventana
+2. SI está lloviendo ENTONCES
+      Llevar paraguas
+   SINO
+      No llevar paraguas
+3. Salir de casa</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> El Símbolo del Rombo</h2>
+        <p>En los diagramas de flujo, las decisiones se representan con un <strong>rombo (◇)</strong>. Del rombo salen dos flechas: una para el camino del <strong>SÍ</strong> y otra para el del <strong>NO</strong>.</p>
+        <p>No siempre hace falta la parte SINO. A veces solo queremos hacer algo si se cumple una condición, y si no, simplemente seguimos adelante.</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Ingeniero de Algoritmos</h2>
+            <p>Demostrá que sabés cómo hacer que un algoritmo tome decisiones.</p>
+        </div>
+        <div class="panel-progreso">
+            <div class="progreso-item"><span class="progreso-etiqueta">Pregunta</span><strong id="numero-pregunta">1/5</strong></div>
+            <div class="barra-progreso-contenedor"><div class="barra-progreso" id="barra-progreso"></div></div>
+            <div class="progreso-item"><span class="progreso-etiqueta">Puntaje</span><strong id="puntaje">0 pts</strong></div>
+            <div class="progreso-item"><span class="progreso-etiqueta">Tiempo</span><strong id="cronometro">0s</strong></div>
+        </div>
+        <div id="pantalla-etiqueta">¿Qué estructura permite que un algoritmo tome decisiones?</div>
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) Un condicional (SI/ENTONCES/SINO)</button>
+            <button class="btn-opcion" data-indice="1">B) Una secuencia de pasos numerados</button>
+            <button class="btn-opcion" data-indice="2">C) Un bucle que se repite para siempre</button>
+            <button class="btn-opcion" data-indice="3">D) Un diagrama dibujado a mano</button>
+        </div>
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste el Nivel 3: Tomando Decisiones</p>
+        <div class="estadisticas-finales">
+            <div class="stat"><span class="stat-numero" id="stat-puntaje">0</span><span class="stat-etiqueta">Puntos</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-tiempo">0s</span><span class="stat-etiqueta">Tiempo</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-aciertos">0/5</span><span class="stat-etiqueta">Aciertos</span></div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué estructura permite que un algoritmo tome decisiones según una condición?",
+                opciones: [
+                    "A) Un condicional (SI/ENTONCES/SINO)",
+                    "B) Una secuencia de pasos numerados",
+                    "C) Un bucle que se repite para siempre",
+                    "D) Un diagrama dibujado a mano"
+                ], correcta: 0
+            },
+            {
+                enunciado: "En el algoritmo 'Salir de casa', ¿qué pasa si NO está lloviendo?",
+                opciones: [
+                    "A) Se ejecuta la parte ENTONCES (llevar paraguas)",
+                    "B) Se ejecuta la parte SINO (no llevar paraguas)",
+                    "C) El algoritmo se detiene y muestra un error",
+                    "D) Se ejecutan ambas partes al mismo tiempo"
+                ], correcta: 1
+            },
+            {
+                enunciado: "¿Qué símbolo del diagrama de flujo representa una decisión?",
+                opciones: [
+                    "A) Un rectángulo",
+                    "B) Un óvalo",
+                    "C) Un rombo",
+                    "D) Un círculo"
+                ], correcta: 2
+            },
+            {
+                enunciado: "¿Es obligatorio que un condicional tenga la parte SINO?",
+                opciones: [
+                    "A) Sí, siempre debe tener SINO",
+                    "B) No, a veces solo necesitamos actuar si se cumple la condición",
+                    "C) Depende del color de las flechas",
+                    "D) Solo en algoritmos de más de 10 pasos"
+                ], correcta: 1
+            },
+            {
+                enunciado: "En una decisión, ¿cuántos caminos pueden salir del rombo?",
+                opciones: [
+                    "A) Uno solo, siempre el mismo",
+                    "B) Dos: uno para SÍ y otro para NO",
+                    "C) Infinitos caminos",
+                    "D) Tres: SÍ, NO y TAL VEZ"
+                ], correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0, tiempoSegundos = 0, intervaloTiempo = null;
+        let juegoTerminado = false, puntaje = 0, aciertos = 0, respondiendo = false;
+
+        function activarCronometro() { intervaloTiempo = setInterval(() => { if (!juegoTerminado) { tiempoSegundos++; document.getElementById("cronometro").innerText = tiempoSegundos + "s"; } }, 1000); }
+        function actualizarBarraProgreso() { document.getElementById("barra-progreso").style.width = (indicePregunta / bancoPreguntas.length * 100) + "%"; }
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true; if (intervaloTiempo === null) activarCronometro();
+            const p = bancoPreguntas[indicePregunta]; const es = (indiceOpcion === p.correcta);
+            const msg = document.getElementById("resultado-juego"); const btns = document.querySelectorAll(".btn-opcion");
+            btns.forEach(b => b.disabled = true);
+            const bel = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const bco = document.querySelector(`.btn-opcion[data-indice="${p.correcta}"]`);
+            if (es) { bel.classList.add("acierto"); puntaje += 100; aciertos++; document.getElementById("puntaje").innerText = puntaje + " pts"; msg.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts'; msg.className = "resultado-exito"; indicePregunta++; actualizarBarraProgreso(); if (indicePregunta < bancoPreguntas.length) setTimeout(cargarSiguientePregunta, 1200); else { juegoTerminado = true; clearInterval(intervaloTiempo); setTimeout(mostrarPantallaFinal, 1200); } }
+            else { bel.classList.add("error"); bco.classList.add("revelar"); tiempoSegundos += 10; document.getElementById("cronometro").innerText = tiempoSegundos + "s"; msg.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s.'; msg.className = "resultado-error"; setTimeout(() => { btns.forEach(b => b.disabled = false); bel.classList.remove("error"); bco.classList.remove("revelar"); respondiendo = false; }, 2000); }
+        }
+        function cargarSiguientePregunta() { actualizarPreguntaEnPantalla(); document.querySelectorAll(".btn-opcion").forEach(b => { b.disabled = false; b.classList.remove("acierto"); }); document.getElementById("resultado-juego").innerHTML = ""; document.getElementById("resultado-juego").className = ""; respondiendo = false; }
+        function actualizarPreguntaEnPantalla() { document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length; document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado; document.querySelectorAll(".btn-opcion").forEach((b, i) => { b.innerText = bancoPreguntas[indicePregunta].opciones[i]; b.dataset.indice = i; }); }
+        function mostrarPantallaFinal() { document.getElementById("numero-pregunta").innerText = "5/5"; document.getElementById("pantalla-etiqueta").innerText = "🏆 ¡Nivel 3 Completado!"; document.getElementById("opciones-juego").style.display = "none"; document.getElementById("resultado-juego").innerHTML = `¡Felicitaciones! Entendiste cómo los algoritmos toman decisiones.<br>Tu tiempo: <strong>${tiempoSegundos} segundos</strong>.`; document.getElementById("resultado-juego").style.color = "#38bdf8"; }
+        function reiniciarJuego() { indicePregunta = 0; tiempoSegundos = 0; puntaje = 0; aciertos = 0; juegoTerminado = false; respondiendo = false; intervaloTiempo = null; document.getElementById("bloque-juego").classList.remove("oculto"); document.getElementById("pantalla-final").classList.add("oculto"); document.getElementById("opciones-juego").style.display = "flex"; document.getElementById("numero-pregunta").innerText = "1/5"; document.getElementById("cronometro").innerText = "0s"; document.getElementById("puntaje").innerText = "0 pts"; document.getElementById("barra-progreso").style.width = "0%"; document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado; document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!"; document.getElementById("resultado-juego").style.color = ""; document.querySelectorAll(".btn-opcion").forEach((b, i) => { b.innerText = bancoPreguntas[0].opciones[i]; b.disabled = false; b.className = "btn-opcion"; b.dataset.indice = i; }); }
+        document.querySelectorAll(".btn-opcion").forEach(b => { b.addEventListener("click", function() { evaluar(parseInt(this.dataset.indice)); }); });
+    </script>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño Web CSS N1 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(16,185,129,0.1);border:2px solid #10b981;padding:14px 20px;border-radius:8px;text-align:center;color:#10b981;font-weight:700;margin-bottom:20px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>Diseño Web CSS Nivel 1 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios de CSS Nivel 1</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del CSS Nivel 1.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> Selectores CSS</h2><div class="bloque-codigo"><pre>A) p { color: blue; }
+B) .destacado { background-color: yellow; }
+C) #encabezado { border: 1px solid black; }</pre></div><p><strong>Criterios:</strong> A usa selector de etiqueta sin punto ni numeral. B usa punto antes del nombre de clase. C usa numeral antes del id.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> Colores en CSS</h2><div class="bloque-codigo"><pre>/* Forma 1: nombre — simple y legible, ideal para colores básicos */
+color: red;
+
+/* Forma 2: hexadecimal — preciso, el más usado en desarrollo web */
+color: #ff0000;
+
+/* Forma 3: rgb — útil cuando necesitás transparencia con rgba() */
+color: rgb(255, 0, 0);</pre></div><p><strong>Criterios:</strong> el estudiante debe nombrar las tres formas y dar un ejemplo válido de cada una. Valorar si explica cuándo usar cada una.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Propiedades de texto</h2><div class="bloque-codigo"><pre>p {
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    text-align: center;
+    color: #333;
+}</pre></div><p><strong>Criterios:</strong> debe incluir las 4 propiedades exactas. <code>sans-serif</code> como respaldo en font-family es un plus.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> ¿Dónde va el CSS?</h2><p>Las dos formas principales son: <strong style="color:#10b981;">1) CSS interno:</strong> dentro de la etiqueta <code>&lt;style&gt;</code> en el <code>&lt;head&gt;</code> del HTML. <strong style="color:#10b981;">2) CSS externo:</strong> en un archivo separado con extensión <code>.css</code> vinculado con <code>&lt;link rel="stylesheet" href="estilos.css"&gt;</code> en el <code>&lt;head&gt;</code>. El método externo es el más recomendado porque separa el diseño del contenido y permite reutilizar los mismos estilos en varias páginas.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Selector de clase vs ID</h2><p><strong style="color:#10b981;">Clase (.):</strong> se puede aplicar a <strong>múltiples elementos</strong> en la misma página. Ideal para estilos reutilizables (ej: botones, tarjetas, destacados). <strong style="color:#10b981;">ID (#):</strong> debe ser <strong>único</strong> en toda la página (solo un elemento puede tener ese id). Ideal para secciones específicas (ej: #encabezado, #barra-lateral). En CSS, el ID tiene mayor especificidad que la clase, por lo que sus estilos prevalecen si hay conflicto.</p></div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

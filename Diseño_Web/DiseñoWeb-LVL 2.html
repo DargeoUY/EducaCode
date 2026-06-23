@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 2: Conectando la Web - Enlaces, Imágenes y Listas</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🔗</div>
+        <h1>Clase 2: Conectando la Web <span class="badge-nivel">Nivel 2</span></h1>
+        <p>Aprendiendo a usar atributos para añadir enlaces, imágenes y listas organizadas</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> Los Atributos y los Hipervínculos</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">🔗</span>
+            <div>
+                <strong>Enlaces (&lt;a&gt;):</strong> Para conectar nuestra página con el resto del mundo usamos la etiqueta de anclaje. Pero no viaja sola; necesita un <strong>atributo</strong> llamado <code>href</code> que le dice al navegador la dirección web (URL) exacta de destino.
+            </div>
+        </div>
+        <p>Los <strong>atributos</strong> son palabras especiales que se escriben dentro de la etiqueta de apertura para darle instrucciones adicionales al navegador. Siempre tienen el formato <code>atributo="valor"</code>.</p>
+        <h3>Ejemplo de enlace:</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;a href="https://www.google.com"&gt;Ir a Google&lt;/a&gt;</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Elementos Visuales: Las Imágenes</h2>
+        <p>La etiqueta <code>&lt;img&gt;</code> es una <strong>etiqueta huérfana</strong> (no tiene etiqueta de cierre). Utiliza dos atributos obligatorios para funcionar correctamente:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📁</div>
+                <strong>src</strong>
+                <p>Indica la ruta o nombre del archivo de imagen (ej. "foto.jpg"). Es obligatorio.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🖼️</div>
+                <strong>alt</strong>
+                <p>Texto alternativo que describe la imagen si falla la carga o para lectores de pantalla.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo de imagen:</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;img src="avatar.png" alt="Foto de perfil del usuario"&gt;</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Organización de Datos: Listas</h2>
+        <p>Para agrupar elementos ordenadamente en la pantalla, HTML nos ofrece dos estructuras principales. Ambas usan la etiqueta interna <code>&lt;li&gt;</code> para cada ítem:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📋</div>
+                <strong>&lt;ul&gt;</strong>
+                <p>Lista <strong>desordenada</strong>. Muestra los elementos con viñetas de puntos, sin orden numérico.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔢</div>
+                <strong>&lt;ol&gt;</strong>
+                <p>Lista <strong>ordenada</strong>. El navegador asigna automáticamente un número secuencial (1, 2, 3...).</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo de lista ordenada:</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;ol&gt;
+  &lt;li&gt;Encender la computadora&lt;/li&gt;
+  &lt;li&gt;Abrir el navegador&lt;/li&gt;
+  &lt;li&gt;Escribir código HTML&lt;/li&gt;
+&lt;/ol&gt;</pre>
+        </div>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Validador Web</h2>
+            <p>Analiza los conceptos de enlaces, imágenes y listas. ¡Elegí la respuesta correcta!</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Cuál es el atributo correcto para definir el destino de un enlace?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) El atributo href dentro de la etiqueta &lt;a&gt;</button>
+            <button class="btn-opcion" data-indice="1">B) El atributo src, que también funciona para enlaces</button>
+            <button class="btn-opcion" data-indice="2">C) El atributo link, específico para direcciones web</button>
+            <button class="btn-opcion" data-indice="3">D) El atributo url, que apunta al destino del enlace</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste el Nivel 2: Conectando la Web</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Cuál es el atributo correcto para definir el destino de un enlace?",
+                opciones: [
+                    "A) El atributo href (Hypertext Reference) dentro de la etiqueta &lt;a&gt;",
+                    "B) El atributo src, que también funciona para enlaces web",
+                    "C) El atributo link, específico para direcciones de internet",
+                    "D) El atributo url, que apunta al destino del hipervínculo"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "Sobre la etiqueta &lt;img&gt; para añadir imágenes, ¿cuál afirmación es verdadera?",
+                opciones: [
+                    "A) La etiqueta &lt;img&gt; siempre debe cerrarse con &lt;/img&gt;",
+                    "B) La etiqueta &lt;img&gt; es huérfana: no necesita etiqueta de cierre",
+                    "C) El atributo src es opcional si la imagen está en la misma carpeta",
+                    "D) La etiqueta &lt;img&gt; solo funciona con archivos PNG"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "Si quiero armar una lista con los puestos de un podio (1°, 2°, 3°), ¿qué contenedor debo usar?",
+                opciones: [
+                    "A) La etiqueta &lt;ul&gt;, que muestra viñetas con puntos",
+                    "B) La etiqueta &lt;div&gt;, como contenedor genérico de elementos",
+                    "C) La etiqueta &lt;ol&gt;, que asigna números automáticamente a cada ítem",
+                    "D) La etiqueta &lt;list&gt;, diseñada específicamente para enumerar"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "Sin importar si la lista es &lt;ol&gt; o &lt;ul&gt;, ¿qué etiqueta define a cada uno de los ítems individuales?",
+                opciones: [
+                    "A) La etiqueta &lt;item&gt;, que representa un elemento de la lista",
+                    "B) La etiqueta &lt;li&gt; (list item), obligatoria para cada renglón",
+                    "C) La etiqueta &lt;p&gt;, que también funciona dentro de las listas",
+                    "D) La etiqueta &lt;row&gt;, que define una fila de contenido"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "En &lt;img src='logo.png' alt='Escudo del colegio'&gt;, ¿cuál es la función del atributo alt?",
+                opciones: [
+                    "A) Mostrar un texto descriptivo si la imagen no carga o para accesibilidad",
+                    "B) Cambiar el tamaño de la imagen automáticamente",
+                    "C) Definir un enlace alternativo por si la imagen falla",
+                    "D) Especificar el formato del archivo de imagen"
+                ],
+                correcta: 0
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! Dominás el Nivel 2. +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

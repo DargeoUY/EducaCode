@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmia - Nivel 4: Bucles y Repetición</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🔁</div>
+        <h1>Algoritmia Nivel 4: Bucles y Repetición <span class="badge-nivel">Nivel 4</span></h1>
+        <p>Aprendiendo a repetir acciones sin tener que escribirlas mil veces</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> ¿Qué es un Bucle?</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">🔁</span>
+            <div>
+                <strong>Un bucle (o loop)</strong> es una estructura que permite <strong>repetir</strong> un conjunto de instrucciones varias veces sin tener que escribirlas de nuevo. Es la herramienta perfecta para automatizar tareas repetitivas.
+            </div>
+        </div>
+        <p>Imaginá que tenés que escribir "Practico algoritmia" 100 veces en la pantalla. Sin bucles, escribirías 100 líneas de código. Con un bucle, lo hacés en 3 líneas. ¡Magia!</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Tipos de Bucles</h2>
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔢</div>
+                <strong>Repetir N veces</strong>
+                <p>Se repite una cantidad fija y conocida de veces. Ej: "Repetir 10 veces: saltar".</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔄</div>
+                <strong>Mientras que...</strong>
+                <p>Se repite mientras se cumpla una condición. Ej: "Mientras haya agua en la botella: tomar un sorbo".</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Ejemplo Práctico</h2>
+        <p>Algoritmo para sumar los números del 1 al 5 <strong>sin bucle</strong> vs <strong>con bucle</strong>:</p>
+        <div class="bloque-codigo">
+            <pre>SIN BUCLE (ineficiente):
+1. Sumar 1
+2. Sumar 2
+3. Sumar 3
+4. Sumar 4
+5. Sumar 5
+→ Resultado: 15
+
+CON BUCLE (eficiente):
+1. Iniciar suma en 0
+2. REPETIR 5 veces:
+      Sumar el siguiente número
+→ Resultado: 15 (¡pero en 3 líneas!)</pre>
+        </div>
+        <p><strong>⚠️ Cuidado con el bucle infinito:</strong> si la condición de salida nunca se cumple, el algoritmo se queda repitiendo para siempre. ¡Eso es un error!</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Ingeniero de Algoritmos</h2>
+            <p>Demostrá que sabés cuándo y cómo usar bucles para automatizar tareas.</p>
+        </div>
+        <div class="panel-progreso">
+            <div class="progreso-item"><span class="progreso-etiqueta">Pregunta</span><strong id="numero-pregunta">1/5</strong></div>
+            <div class="barra-progreso-contenedor"><div class="barra-progreso" id="barra-progreso"></div></div>
+            <div class="progreso-item"><span class="progreso-etiqueta">Puntaje</span><strong id="puntaje">0 pts</strong></div>
+            <div class="progreso-item"><span class="progreso-etiqueta">Tiempo</span><strong id="cronometro">0s</strong></div>
+        </div>
+        <div id="pantalla-etiqueta">¿Qué es un bucle en un algoritmo?</div>
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) Una estructura que repite instrucciones varias veces sin reescribirlas</button>
+            <button class="btn-opcion" data-indice="1">B) Un error que hace que el algoritmo se detenga</button>
+            <button class="btn-opcion" data-indice="2">C) Una decisión entre dos caminos posibles</button>
+            <button class="btn-opcion" data-indice="3">D) El nombre del primer paso del algoritmo</button>
+        </div>
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste el Nivel 4: Bucles y Repetición</p>
+        <div class="estadisticas-finales">
+            <div class="stat"><span class="stat-numero" id="stat-puntaje">0</span><span class="stat-etiqueta">Puntos</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-tiempo">0s</span><span class="stat-etiqueta">Tiempo</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-aciertos">0/5</span><span class="stat-etiqueta">Aciertos</span></div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué es un bucle en un algoritmo?",
+                opciones: [
+                    "A) Una estructura que repite instrucciones varias veces sin reescribirlas",
+                    "B) Un error que hace que el algoritmo se detenga",
+                    "C) Una decisión entre dos caminos posibles",
+                    "D) El nombre del primer paso del algoritmo"
+                ], correcta: 0
+            },
+            {
+                enunciado: "¿Cuál es la diferencia entre 'Repetir N veces' y 'Mientras que...'?",
+                opciones: [
+                    "A) Son exactamente lo mismo",
+                    "B) 'Repetir N veces' tiene cantidad fija, 'Mientras que' repite hasta que una condición cambie",
+                    "C) 'Mientras que' no existe en algoritmos",
+                    "D) 'Repetir N veces' es más lento"
+                ], correcta: 1
+            },
+            {
+                enunciado: "¿Qué es un <strong>bucle infinito</strong>?",
+                opciones: [
+                    "A) Un bucle que se repite exactamente 1000 veces",
+                    "B) Un bucle cuya condición de salida nunca se cumple y no termina",
+                    "C) Un tipo especial de bucle muy avanzado",
+                    "D) Un bucle que solo funciona los fines de semana"
+                ], correcta: 1
+            },
+            {
+                enunciado: "Si querés que un robot salte 50 veces, ¿qué estructura usás?",
+                opciones: [
+                    "A) Un condicional SI/ENTONCES",
+                    "B) Un diagrama de flujo sin flechas",
+                    "C) Un bucle que repita la acción de saltar 50 veces",
+                    "D) Escribir 50 veces la instrucción 'saltar'"
+                ], correcta: 2
+            },
+            {
+                enunciado: "La principal ventaja de usar bucles en un algoritmo es:",
+                opciones: [
+                    "A) Hacer el código más largo y complicado",
+                    "B) Evitar escribir las mismas instrucciones muchas veces",
+                    "C) Hacer que el algoritmo sea más lento",
+                    "D) Eliminar la necesidad de pensar los pasos"
+                ], correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0, tiempoSegundos = 0, intervaloTiempo = null;
+        let juegoTerminado = false, puntaje = 0, aciertos = 0, respondiendo = false;
+
+        function activarCronometro() { intervaloTiempo = setInterval(() => { if (!juegoTerminado) { tiempoSegundos++; document.getElementById("cronometro").innerText = tiempoSegundos + "s"; } }, 1000); }
+        function actualizarBarraProgreso() { document.getElementById("barra-progreso").style.width = (indicePregunta / bancoPreguntas.length * 100) + "%"; }
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true; if (intervaloTiempo === null) activarCronometro();
+            const p = bancoPreguntas[indicePregunta]; const es = (indiceOpcion === p.correcta);
+            const msg = document.getElementById("resultado-juego"); const btns = document.querySelectorAll(".btn-opcion");
+            btns.forEach(b => b.disabled = true);
+            const bel = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const bco = document.querySelector(`.btn-opcion[data-indice="${p.correcta}"]`);
+            if (es) { bel.classList.add("acierto"); puntaje += 100; aciertos++; document.getElementById("puntaje").innerText = puntaje + " pts"; msg.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts'; msg.className = "resultado-exito"; indicePregunta++; actualizarBarraProgreso(); if (indicePregunta < bancoPreguntas.length) setTimeout(cargarSiguientePregunta, 1200); else { juegoTerminado = true; clearInterval(intervaloTiempo); setTimeout(mostrarPantallaFinal, 1200); } }
+            else { bel.classList.add("error"); bco.classList.add("revelar"); tiempoSegundos += 10; document.getElementById("cronometro").innerText = tiempoSegundos + "s"; msg.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s.'; msg.className = "resultado-error"; setTimeout(() => { btns.forEach(b => b.disabled = false); bel.classList.remove("error"); bco.classList.remove("revelar"); respondiendo = false; }, 2000); }
+        }
+        function cargarSiguientePregunta() { actualizarPreguntaEnPantalla(); document.querySelectorAll(".btn-opcion").forEach(b => { b.disabled = false; b.classList.remove("acierto"); }); document.getElementById("resultado-juego").innerHTML = ""; document.getElementById("resultado-juego").className = ""; respondiendo = false; }
+        function actualizarPreguntaEnPantalla() { document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length; document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado; document.querySelectorAll(".btn-opcion").forEach((b, i) => { b.innerText = bancoPreguntas[indicePregunta].opciones[i]; b.dataset.indice = i; }); }
+        function mostrarPantallaFinal() { document.getElementById("numero-pregunta").innerText = "5/5"; document.getElementById("pantalla-etiqueta").innerText = "🏆 ¡Nivel 4 Completado!"; document.getElementById("opciones-juego").style.display = "none"; document.getElementById("resultado-juego").innerHTML = `¡Felicitaciones! Dominás los bucles y la repetición.<br>Tu tiempo: <strong>${tiempoSegundos} segundos</strong>.`; document.getElementById("resultado-juego").style.color = "#38bdf8"; }
+        function reiniciarJuego() { indicePregunta = 0; tiempoSegundos = 0; puntaje = 0; aciertos = 0; juegoTerminado = false; respondiendo = false; intervaloTiempo = null; document.getElementById("bloque-juego").classList.remove("oculto"); document.getElementById("pantalla-final").classList.add("oculto"); document.getElementById("opciones-juego").style.display = "flex"; document.getElementById("numero-pregunta").innerText = "1/5"; document.getElementById("cronometro").innerText = "0s"; document.getElementById("puntaje").innerText = "0 pts"; document.getElementById("barra-progreso").style.width = "0%"; document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado; document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!"; document.getElementById("resultado-juego").style.color = ""; document.querySelectorAll(".btn-opcion").forEach((b, i) => { b.innerText = bancoPreguntas[0].opciones[i]; b.disabled = false; b.className = "btn-opcion"; b.dataset.indice = i; }); }
+        document.querySelectorAll(".btn-opcion").forEach(b => { b.addEventListener("click", function() { evaluar(parseInt(this.dataset.indice)); }); });
+    </script>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

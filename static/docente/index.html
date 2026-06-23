@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Docente — Pensamiento Computacional</title>
+    <style>
+        :root{--bg:#0f172a;--card-bg:#1e293b;--text:#f1f5f9;--text2:#94a3b8;--prim:#3b82f6;--prim-h:#2563eb;--border:#334155;--input-bg:#0f172a;--err:#ef4444;--ok:#22c55e;--warn:#f59e0b;--dw:#3b82f6;--al:#10b981;--py:#f59e0b;--ps:#8b5cf6}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        .layout{display:flex;min-height:100vh}
+        .sidebar{width:220px;background:var(--card-bg);border-right:1px solid var(--border);padding:20px 0;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:10}
+        .sidebar h2{padding:0 20px 16px;font-size:1.1rem;border-bottom:1px solid var(--border);margin-bottom:12px}
+        .sidebar h2 span{font-size:0.78rem;color:var(--text2);display:block;margin-top:2px}
+        .nav-item{display:block;padding:10px 20px;color:var(--text2);text-decoration:none;font-size:0.88rem;cursor:pointer;border-left:3px solid transparent;transition:.2s}
+        .nav-item:hover{color:var(--text);background:rgba(59,130,246,.05)}
+        .nav-item.act{color:var(--text);border-left-color:var(--prim);background:rgba(59,130,246,.1);font-weight:600}
+        .sidebar .logout{margin:auto 20px 20px;background:0;border:1px solid var(--border);color:var(--text2);padding:8px;border-radius:8px;cursor:pointer;font-size:0.85rem;text-align:center}.sidebar .logout:hover{color:var(--err);border-color:var(--err)}
+        .main{margin-left:220px;flex:1;padding:24px 32px}
+        header{margin-bottom:24px}
+        header h1{font-size:1.5rem}header p{color:var(--text2);font-size:0.88rem;margin-top:4px}
+        .card{background:var(--card-bg);border-radius:12px;border:1px solid var(--border);padding:20px;margin-bottom:20px}
+        .card h3{font-size:1rem;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+        .btn{display:inline-block;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:0;color:var(--text);cursor:pointer;font-size:0.85rem;font-family:inherit;transition:.2s}
+        .btn-pri{background:var(--prim);border-color:var(--prim);color:#fff;font-weight:600}.btn-pri:hover{background:var(--prim-h)}
+        .btn-sm{padding:5px 10px;font-size:0.78rem}
+        .btn-err{color:var(--err);border-color:var(--err)}.btn-err:hover{background:rgba(239,68,68,.1)}
+        .btn-ok{color:var(--ok);border-color:var(--ok)}.btn-ok:hover{background:rgba(34,197,94,.1)}
+        input,select{width:100%;padding:10px 12px;background:var(--input-bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;outline:none;font-family:inherit}
+        input:focus,select:focus{border-color:var(--prim)}
+        label{display:block;font-size:0.82rem;color:var(--text2);margin-bottom:4px;font-weight:500}
+        table{width:100%;border-collapse:collapse;font-size:0.85rem}
+        th,td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+        th{color:var(--text2);font-weight:600;font-size:0.8rem}
+        .tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:0.72rem;font-weight:600;background:rgba(59,130,246,.15);color:var(--prim)}
+        .modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:100;align-items:center;justify-content:center}
+        .modal-overlay.show{display:flex}
+        .modal{background:var(--card-bg);border-radius:16px;border:1px solid var(--border);padding:28px;width:90%;max-width:500px;max-height:80vh;overflow-y:auto}
+        .modal h3{margin-bottom:16px}
+        .modal .btn{margin-top:12px;margin-right:8px}
+        .form-row{display:flex;gap:10px;align-items:end}
+        .form-row>div{flex:1}
+        .code-box{background:var(--input-bg);border:2px dashed var(--border);padding:14px;border-radius:10px;text-align:center;font-size:1.5rem;font-family:'Courier New',monospace;letter-spacing:4px;color:var(--ok);margin:12px 0}
+        .filter-row{display:flex;gap:10px;align-items:end;margin-bottom:14px;flex-wrap:wrap}
+        .filter-row>div{min-width:160px}
+        .empty{text-align:center;padding:30px;color:var(--text2);font-size:0.9rem}
+        .toast{position:fixed;bottom:20px;right:20px;padding:12px 20px;border-radius:8px;font-size:0.85rem;z-index:200;animation:slideUp .3s ease}
+        .toast-ok{background:rgba(34,197,94,.9);color:#fff}
+        .toast-err{background:rgba(239,68,68,.9);color:#fff}
+        @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    </style>
+</head>
+<body>
+<div class="sidebar">
+    <h2>Panel Docente<span id="nombre-docente">Cargando...</span></h2>
+    <div class="nav-item act" data-sec="grupos">👥 Grupos</div>
+    <div class="nav-item" data-sec="notas">📊 Notas</div>
+    <div class="nav-item" data-sec="visibilidad">👁️ Visibilidad</div>
+    <div class="nav-item" data-sec="compartir">📡 Compartir IDE</div>
+    <button class="logout" onclick="logout()">Cerrar sesión</button>
+</div>
+<div class="main">
+    <header><h1 id="section-title">👥 Grupos</h1><p id="section-desc">Administrá tus grupos y estudiantes</p></header>
+
+    <div id="sec-grupos" class="section">
+        <div class="card">
+            <h3>Crear grupo</h3>
+            <div class="form-row">
+                <div><label>Nombre del grupo</label><input type="text" id="grupo-nombre" placeholder="Ej: 1°A TM"></div>
+                <div style="flex:0"><button class="btn btn-pri" onclick="crearGrupo()" style="margin-top:22px">+ Crear</button></div>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Mis grupos</h3>
+            <div id="lista-grupos"><div class="empty">Cargando...</div></div>
+        </div>
+    </div>
+
+    <div id="sec-notas" class="section" style="display:none">
+        <div class="card">
+            <h3>Filtros</h3>
+            <div class="filter-row">
+                <div><label>Grupo</label><select id="filtro-grupo"><option value="">Todos mis grupos</option></select></div>
+                <div><label>Curso</label><select id="filtro-curso"><option value="">Todos los cursos</option><option value="1">Diseño Web</option><option value="2">Algoritmia</option><option value="3">Python</option><option value="4">Pseudocódigo</option></select></div>
+                <div><label>Cédula</label><input type="text" id="filtro-cedula" placeholder="Buscar estudiante..."></div>
+                <div style="flex:0"><button class="btn btn-pri" onclick="cargarNotas()" style="margin-top:22px">Buscar</button></div>
+                <div style="flex:0"><button class="btn" onclick="exportarNotas()" style="margin-top:22px">📥 Exportar CSV</button></div>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Notas de evaluaciones</h3>
+            <div id="tabla-notas"><div class="empty">Seleccioná filtros y hacé clic en Buscar</div></div>
+        </div>
+    </div>
+
+    <div id="sec-visibilidad" class="section" style="display:none">
+        <div class="card">
+            <h3>Seleccionar grupo</h3>
+            <div class="form-row">
+                <div><label>Grupo</label><select id="vis-grupo" onchange="cargarVisibilidad()"><option value="">Seleccioná un grupo...</option></select></div>
+            </div>
+        </div>
+        <div class="card" id="vis-config" style="display:none">
+            <h3>Configurar visibilidad</h3>
+            <div id="vis-tabla"></div>
+        </div>
+    </div>
+
+    <div id="sec-compartir" class="section" style="display:none">
+        <div class="card">
+            <h3>Crear sesión de código compartido</h3>
+            <p style="color:var(--text2);font-size:0.88rem;margin-bottom:14px">Creá una sala para compartir tu IDE en tiempo real con tus estudiantes.</p>
+            <button class="btn btn-pri" onclick="crearSala()">📡 Crear sala</button>
+            <div id="sala-creada" style="display:none;margin-top:14px">
+                <div class="code-box" id="codigo-sala"></div>
+                <p style="text-align:center;font-size:0.85rem;color:var(--text2)">Compartí este código con tus estudiantes</p>
+                <p style="text-align:center;margin-top:6px"><a href="#" id="link-ide" style="color:var(--prim);text-decoration:none;font-size:0.88rem">Abrir IDE con esta sala →</a></p>
+                <div style="text-align:center;margin-top:12px"><button class="btn btn-err btn-sm" onclick="cerrarSala()">Cerrar sala</button></div>
+            </div>
+        </div>
+        <div class="card">
+            <h3>Salas activas</h3>
+            <div id="lista-salas"></div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-overlay" id="modal">
+    <div class="modal" id="modal-content"></div>
+</div>
+
+<script src="/static/js/seguridad.js"></script>
+<script>
+var token=localStorage.getItem('token'),rol=localStorage.getItem('rol'),nombre=localStorage.getItem('nombre');
+if(!token||rol!=='docente'){window.location.href='/login'}
+document.getElementById('nombre-docente').textContent=nombre||'Docente';
+var headers={'Authorization':'Bearer '+token,'Content-Type':'application/json'};
+function api(url,opt){return fetch(url,Object.assign({headers:headers},opt||{})).then(function(r){return r.json().then(function(d){if(r.status===401||r.status===403){localStorage.clear();window.location.href='/login'}return d})})}
+
+var gruposCache=[];
+function toast(msg,type){var t=document.createElement('div');t.className='toast toast-'+(type||'ok');t.textContent=msg;document.body.appendChild(t);setTimeout(function(){t.remove()},3000)}
+
+document.querySelectorAll('.nav-item').forEach(function(n){n.addEventListener('click',function(){
+    document.querySelectorAll('.nav-item').forEach(function(x){x.classList.remove('act')});
+    n.classList.add('act');
+    document.querySelectorAll('.section').forEach(function(x){x.style.display='none'});
+    document.getElementById('sec-'+n.dataset.sec).style.display='block';
+    document.getElementById('section-title').textContent=n.textContent.trim();
+    document.getElementById('section-desc').textContent='';
+    if(n.dataset.sec==='grupos')cargarGrupos();
+    if(n.dataset.sec==='visibilidad')cargarVisibilidadSelect();
+    if(n.dataset.sec==='compartir')cargarSalasActivas();
+})});
+
+function logout(){localStorage.clear();window.location.href='/login'}
+
+function cargarGrupos(){api('/api/docente/grupos').then(function(d){gruposCache=d;renderGrupos(d)})}
+function renderGrupos(grupos){
+    if(!grupos.length){document.getElementById('lista-grupos').innerHTML='<div class="empty">No tenés grupos creados. Creá el primero arriba.</div>';return}
+    var h='';
+    grupos.forEach(function(g){
+        h+='<div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border)">';
+        h+='<div><strong>'+g.nombre+'</strong> <span style="color:var(--text2);font-size:0.82rem">'+g.cantidad_estudiantes+' estudiantes</span><br><span style="font-size:0.78rem;color:var(--ok)">Código: '+g.codigo_acceso+'</span></div>';
+        h+='<div>';
+        h+='<button class="btn btn-sm" onclick="verEstudiantes('+g.id+')">Ver estudiantes</button>';
+        h+='<button class="btn btn-sm" onclick="agregarEstudiante('+g.id+')">+ Agregar</button>';
+        h+='<button class="btn btn-sm" onclick="subirCSV('+g.id+')">📄 CSV</button>';
+        h+='<button class="btn btn-sm btn-err" onclick="eliminarGrupo('+g.id+')">Eliminar</button>';
+        h+='</div></div>';
+    });
+    document.getElementById('lista-grupos').innerHTML=h;
+}
+
+function crearGrupo(){
+    var n=document.getElementById('grupo-nombre').value.trim();
+    if(!n){toast('Ingresá un nombre','err');return}
+    api('/api/docente/grupos',{method:'POST',body:JSON.stringify({nombre:n})}).then(function(d){
+        if(d.ok){document.getElementById('grupo-nombre').value='';cargarGrupos();toast('Grupo creado: código '+d.codigo_acceso)}
+        else toast(d.detail||'Error','err')
+    });
+}
+
+function eliminarGrupo(id){if(!confirm('¿Eliminar este grupo y todos sus estudiantes?'))return;api('/api/docente/grupos/'+id,{method:'DELETE'}).then(function(d){if(d.ok){cargarGrupos();toast('Grupo eliminado')}else toast(d.detail,'err')})}
+
+function verEstudiantes(id){
+    api('/api/docente/grupos/'+id+'/estudiantes').then(function(d){
+        var h='<h3>Estudiantes</h3>';
+        if(!d.length){h+='<p class="empty">Sin estudiantes</p>'}
+        else{
+            h+='<table><tr><th>Cédula</th><th>Nombre</th></tr>';
+            d.forEach(function(e){h+='<tr><td>'+e.cedula+'</td><td>'+e.nombre+'</td></tr>'});
+            h+='</table>';
+        }
+        h+='<button class="btn btn-sm" style="margin-top:10px" onclick="agregarEstudiante('+id+')">+ Agregar</button>';
+        h+='<button class="btn btn-sm" style="margin-top:10px;margin-left:6px" onclick="subirCSV('+id+')">📄 Subir CSV</button>';
+        h+='<button class="btn btn-sm" style="margin-top:10px;margin-left:6px" onclick="descargarPlantilla('+id+')">⬇ Plantilla CSV</button>';
+        document.getElementById('modal-content').innerHTML=h+'<div style="text-align:right"><button class="btn btn-sm" onclick="cerrarModal()">Cerrar</button></div>';
+        document.getElementById('modal').classList.add('show');
+    });
+}
+
+function agregarEstudiante(id){
+    document.getElementById('modal-content').innerHTML='<h3>Agregar estudiante</h3>'+
+        '<div><label>Cédula</label><input type="text" id="est-cedula" placeholder="12345678"></div>'+
+        '<div style="margin-top:10px"><label>Nombre</label><input type="text" id="est-nombre" placeholder="Juan Pérez"></div>'+
+        '<button class="btn btn-pri" style="margin-top:12px" onclick="_agregarEst('+id+')">Agregar</button>'+
+        '<div style="text-align:right;margin-top:8px"><button class="btn btn-sm" onclick="cerrarModal()">Cerrar</button></div>';
+    document.getElementById('modal').classList.add('show');
+}
+
+function _agregarEst(id){
+    var c=document.getElementById('est-cedula').value.trim(),n=document.getElementById('est-nombre').value.trim();
+    if(!c||!n){toast('Completá todos los campos','err');return}
+    api('/api/docente/grupos/'+id+'/estudiantes',{method:'POST',body:JSON.stringify({cedula:c,nombre:n})}).then(function(d){
+        if(d.ok){cerrarModal();cargarGrupos();toast('Estudiante agregado')}else toast(d.detail||'Error','err')
+    });
+}
+
+function subirCSV(id){
+    var f=document.createElement('input');f.type='file';f.accept='.csv';
+    f.onchange=function(e){
+        var file=e.target.files[0];if(!file)return;
+        var fd=new FormData();fd.append('file',file);
+        fetch('/api/docente/grupos/'+id+'/estudiantes/csv',{method:'POST',headers:{'Authorization':'Bearer '+token},body:fd})
+        .then(function(r){return r.json()}).then(function(d){if(d.ok){cargarGrupos();toast(d.mensaje)}else toast(d.detail||'Error','err')});
+    };
+    f.click();
+}
+
+function descargarPlantilla(id){window.open('/api/docente/grupos/'+id+'/csv','_blank')}
+
+function cerrarModal(){document.getElementById('modal').classList.remove('show')}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)cerrarModal()});
+
+function cargarNotas(){
+    var g=document.getElementById('filtro-grupo').value,c=document.getElementById('filtro-curso').value,ced=document.getElementById('filtro-cedula').value.trim();
+    var params=[];
+    if(g)params.push('grupo_id='+g);
+    if(c)params.push('curso_id='+c);
+    if(ced)params.push('cedula='+ced);
+    api('/api/notas'+(params.length?'?'+params.join('&'):'')).then(function(d){
+        if(!d.length){document.getElementById('tabla-notas').innerHTML='<div class="empty">Sin resultados</div>';return}
+        var h='<table><tr><th>Cédula</th><th>Estudiante</th><th>Curso</th><th>Nivel</th><th>Nota</th><th>Tiempo</th><th>Intento</th><th>Fecha</th></tr>';
+        d.forEach(function(n){h+='<tr><td>'+n.cedula+'</td><td>'+n.nombre_estudiante+'</td><td>'+n.curso+'</td><td>Nivel '+n.nivel_numero+': '+n.nivel_titulo+'</td><td><strong>'+n.nota+'</strong></td><td>'+n.tiempo_seg+'s</td><td>'+n.intento+'</td><td>'+new Date(n.fecha).toLocaleString()+'</td></tr>'});
+        h+='</table>';
+        document.getElementById('tabla-notas').innerHTML=h;
+    });
+}
+
+function exportarNotas(){
+    var g=document.getElementById('filtro-grupo').value,c=document.getElementById('filtro-curso').value,ced=document.getElementById('filtro-cedula').value.trim();
+    var params=[];
+    if(g)params.push('grupo_id='+g);
+    if(c)params.push('curso_id='+c);
+    if(ced)params.push('cedula='+ced);
+    window.open('/api/notas/exportar'+(params.length?'?'+params.join('&'):''),'_blank');
+}
+
+function cargarVisibilidadSelect(){
+    api('/api/docente/grupos').then(function(d){
+        var s='<option value="">Seleccioná un grupo...</option>';
+        d.forEach(function(g){s+='<option value="'+g.id+'">'+g.nombre+'</option>'});
+        document.getElementById('vis-grupo').innerHTML=s;
+        document.getElementById('filtro-grupo').innerHTML='<option value="">Todos mis grupos</option>'+d.map(function(g){return'<option value="'+g.id+'">'+g.nombre+'</option>'}).join('');
+    });
+}
+
+function cargarVisibilidad(){
+    var gid=document.getElementById('vis-grupo').value;
+    if(!gid){document.getElementById('vis-config').style.display='none';return}
+    api('/api/docente/visibilidad/'+gid).then(function(d){
+        var h='<table><tr><th>Curso</th><th>Lecciones</th><th>Ejercicios</th><th>Evaluaciones</th><th>Guardar</th></tr>';
+        d.forEach(function(v){
+            h+='<tr><td>'+v.curso_icono+' '+v.curso_nombre+'</td>'+
+            '<td><input type="checkbox" id="lec-'+v.curso_id+'" '+(v.mostrar_lecciones?'checked':'')+'></td>'+
+            '<td><input type="checkbox" id="ej-'+v.curso_id+'" '+(v.mostrar_ejercicios?'checked':'')+'></td>'+
+            '<td><input type="checkbox" id="ev-'+v.curso_id+'" '+(v.mostrar_evaluaciones?'checked':'')+'></td>'+
+            '<td><button class="btn btn-sm btn-pri" onclick="guardarVis('+gid+','+v.curso_id+')">Guardar</button></td></tr>';
+        });
+        h+='</table>';
+        document.getElementById('vis-tabla').innerHTML=h;
+        document.getElementById('vis-config').style.display='block';
+    });
+}
+
+function guardarVis(gid,cid){
+    var l=document.getElementById('lec-'+cid).checked,e=document.getElementById('ej-'+cid).checked,ev=document.getElementById('ev-'+cid).checked;
+    api('/api/docente/visibilidad/'+gid+'/'+cid,{method:'PUT',body:JSON.stringify({mostrar_lecciones:l,mostrar_ejercicios:e,mostrar_evaluaciones:ev})}).then(function(d){
+        if(d.ok)toast('Visibilidad actualizada');else toast(d.detail||'Error','err');
+    });
+}
+
+var salaActual=null;
+function crearSala(){
+    api('/api/compartir/crear',{method:'POST'}).then(function(d){
+        if(d.ok){
+            salaActual=d;
+            document.getElementById('codigo-sala').textContent=d.codigo_sala;
+            document.getElementById('link-ide').href='/ide?room='+d.codigo_sala+'&rol=docente';
+            document.getElementById('sala-creada').style.display='block';
+            cargarSalasActivas();
+        }
+    });
+}
+
+function cerrarSala(){
+    if(!salaActual)return;
+    api('/api/compartir/cerrar',{method:'POST',body:JSON.stringify({codigo_sala:salaActual.codigo_sala})}).then(function(d){
+        if(d.ok){document.getElementById('sala-creada').style.display='none';salaActual=null;cargarSalasActivas();toast('Sala cerrada')}
+        else toast(d.detail||'Error','err');
+    });
+}
+
+function cargarSalasActivas(){
+    api('/api/compartir').then(function(d){
+        if(!d.length){document.getElementById('lista-salas').innerHTML='<div class="empty">No hay salas activas</div>';return}
+        var h='<table><tr><th>Código</th><th>Lenguaje</th><th>Creada</th><th>Acción</th></tr>';
+        d.forEach(function(s){
+            h+='<tr><td><strong>'+s.codigo_sala+'</strong></td><td>'+s.lenguaje+'</td><td>'+new Date(s.created_at).toLocaleString()+'</td>'+
+            '<td><button class="btn btn-sm btn-err" onclick="cS(\''+s.codigo_sala+'\')">Cerrar</button></td></tr>';
+        });
+        h+='</table>';
+        document.getElementById('lista-salas').innerHTML=h;
+    });
+}
+
+function cS(codigo){
+    api('/api/compartir/cerrar',{method:'POST',body:JSON.stringify({codigo_sala:codigo})}).then(function(d){if(d.ok){cargarSalasActivas();toast('Sala cerrada')}});
+}
+
+api('/api/auth/me').then(function(d){if(d.nombre)document.getElementById('nombre-docente').textContent=d.nombre});
+cargarGrupos();
+cargarVisibilidadSelect();
+cargarSalasActivas();
+</script>
+</body>
+</html>

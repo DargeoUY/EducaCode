@@ -1,0 +1,80 @@
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./static:/usr/share/nginx/html/static:ro
+      - ./Diseño_Web:/usr/share/nginx/html/Diseño_Web:ro
+      - ./Algoritmia:/usr/share/nginx/html/Algoritmia:ro
+      - ./Algoritmo:/usr/share/nginx/html/Algoritmo:ro
+      - ./Python:/usr/share/nginx/html/Python:ro
+      - ./pseudocodigo:/usr/share/nginx/html/pseudocodigo:ro
+      - ./lti-test:/usr/share/nginx/html/lti-test:ro
+      - ./style:/usr/share/nginx/html/style:ro
+      - ./ico-img:/usr/share/nginx/html/ico-img:ro
+      - ./ide:/usr/share/nginx/html/ide:ro
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+      - php
+    networks:
+      - app_net
+
+  php:
+    image: php:8.2-fpm-alpine
+    env_file:
+      - .env
+    volumes:
+      - ./php:/var/www/html/php:ro
+      - ./pseudocodigo:/var/www/html/pseudocodigo:ro
+    networks:
+      - app_net
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - ./static:/app/static:ro
+    networks:
+      - app_net
+
+  mariadb:
+    image: mariadb:11
+    ports:
+      - "3306:3306"
+    env_file:
+      - .env
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_net
+
+  adminer:
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: mariadb
+    depends_on:
+      - mariadb
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python - Quiz de Prueba</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        #codigo-input:focus { border-color: var(--primario) !important; box-shadow: 0 0 0 3px rgba(99,102,241,0.2); }
+        .info-alumno { display:flex; align-items:center; gap:12px; background:var(--superficie); padding:12px 18px; border-radius:10px; border:1px solid var(--superficie-claro); margin-bottom:20px; font-size:0.9rem; z-index:1; position:relative; }
+        .info-alumno .avatar { width:40px; height:40px; border-radius:50%; background:var(--gradiente-primario); display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:white; flex-shrink:0; }
+        .info-alumno strong { color:var(--primario-claro); }
+        .estado-crea { display:inline-flex; align-items:center; gap:4px; font-size:0.75rem; padding:3px 10px; border-radius:12px; font-weight:600; margin-left:auto; }
+        .estado-crea.ok { background:rgba(16,185,129,0.15); color:var(--exito); border:1px solid rgba(16,185,129,0.3); }
+        .estado-crea.no { background:rgba(245,158,11,0.15); color:#f59e0b; border:1px solid rgba(245,158,11,0.3); }
+        #py-status { font-size:0.78rem; color:var(--texto-secundario); text-align:center; margin-bottom:6px; }
+        #py-status.list { color:var(--exito); }
+        .btn-enviar { display:none; margin-top:10px; background:var(--gradiente-primario); color:white; border:none; padding:10px 24px; border-radius:8px; cursor:pointer; font-weight:600; font-family:Inter,sans-serif; font-size:0.95rem; margin-left:auto; margin-right:auto; }
+        .resultado-envio { text-align:center; margin-top:8px; font-size:0.85rem; min-height:20px; }
+    </style>
+</head>
+<body>
+<div class="fondo-particulas"></div>
+
+<header>
+    <div class="header-icono">🧪</div>
+    <h1>Quiz de Prueba LTI <span class="badge-nivel">Test</span></h1>
+    <p>Ejercicio de verificacion — Nivel {{NIVEL}}</p>
+</header>
+
+<div class="info-alumno">
+    <div class="avatar">👤</div>
+    <div>
+        <strong id="nombre-alumno">{{NOMBRE}}</strong>
+        <br><span style="color:var(--texto-secundario);">Nivel {{NIVEL}}</span>
+    </div>
+    <div class="estado-crea ok" id="estado-crea">
+        <span id="icono-crea"></span>
+        <span id="texto-crea"></span>
+    </div>
+</div>
+
+<div class="seccion-clase">
+    <h2><span class="numero-seccion">1</span> Ejercicio de codigo</h2>
+    <p>Escribi un programa que <strong>imprima el numero 42</strong> en pantalla.</p>
+    <p style="font-size:0.85rem;color:var(--texto-secundario);">💡 Pista: usa <code>print(42)</code></p>
+
+    <textarea id="codigo-input" placeholder="# Escribe tu codigo aqui..." style="width:100%;background:var(--fondo-codigo);color:var(--texto-codigo);border:2px solid var(--superficie-claro);border-radius:8px;padding:14px;font-family:Consolas,Monaco,monospace;font-size:0.9rem;resize:vertical;min-height:100px;outline:none;transition:border-color 0.3s;caret-color:var(--primario-claro);"></textarea>
+
+    <div style="display:flex;gap:10px;margin-top:6px;">
+        <button id="btn-ejecutar" style="background:var(--gradiente-secundario);color:white;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;font-family:Inter,sans-serif;font-size:0.95rem;">▶ Ejecutar y verificar</button>
+        <button id="btn-enviar" class="btn-enviar" style="background:var(--gradiente-primario);color:white;border:none;padding:10px 24px;border-radius:8px;cursor:pointer;font-weight:600;font-family:Inter,sans-serif;font-size:0.95rem;">📤 Enviar nota a CREA</button>
+    </div>
+
+    <p id="py-status">Cargando interprete Python...</p>
+    <div id="resultado" style="margin-top:8px;min-height:24px;font-weight:600;"></div>
+</div>
+
+<script>
+// ============================================================
+// Datos inyectados desde el backend
+// ============================================================
+var TOKEN = "{{TOKEN}}";
+var NOMBRE = "{{NOMBRE}}";
+var CALIFICACION_HABILITADA = {{CALIFICACION_HABILITADA}};  // true o false
+var BACKEND_URL = window.location.origin;
+
+// ============================================================
+// Estado
+// ============================================================
+var pyodide = null;
+var ejercicioResuelto = false;
+var puntajeObtenido = 0;
+
+// ============================================================
+// UI inicial
+// ============================================================
+(function actualizarEstadoCREA() {
+    var icono = document.getElementById("icono-crea");
+    var texto = document.getElementById("texto-crea");
+    var badge = document.getElementById("estado-crea");
+    if (CALIFICACION_HABILITADA) {
+        icono.textContent = "🔗";
+        texto.textContent = "Conectado a CREA";
+        badge.className = "estado-crea ok";
+    } else {
+        icono.textContent = "⚠️";
+        texto.textContent = "Sin calificacion CREA";
+        badge.className = "estado-crea no";
+        document.getElementById("btn-enviar").style.display = "none";
+    }
+})();
+
+// ============================================================
+// Pyodide — cargar interprete Python
+// ============================================================
+(function() {
+    var s = document.createElement("script");
+    s.src = "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js";
+    document.head.appendChild(s);
+    s.onload = async function() {
+        try {
+            pyodide = await loadPyodide({ indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/" });
+            document.getElementById("py-status").textContent = "Python listo. Escribi tu codigo y hace clic en Ejecutar.";
+            document.getElementById("py-status").style.color = "var(--exito)";
+        } catch(e) {
+            document.getElementById("py-status").textContent = "No se pudo cargar Python. Verifica tu conexion.";
+            document.getElementById("py-status").style.color = "var(--error)";
+        }
+    };
+})();
+
+// ============================================================
+// Validar salida del ejercicio
+// ============================================================
+function validarSalida(salida) {
+    var s = salida.trim();
+    if (s === "") {
+        return { ok: false, mensaje: "Tu programa no imprimio nada. Usa print()." };
+    }
+    if (s === "42" || s.indexOf("42") !== -1) {
+        return { ok: true, puntaje: 100, mensaje: "Correcto! Imprimiste 42. +100 pts" };
+    }
+    return { ok: false, mensaje: 'La salida fue "' + s + '". Necesita ser 42. Proba con print(42).' };
+}
+
+// ============================================================
+// Ejecutar codigo con Pyodide
+// ============================================================
+document.getElementById("btn-ejecutar").addEventListener("click", async function() {
+    var codigo = document.getElementById("codigo-input").value.trim();
+    var resDiv = document.getElementById("resultado");
+
+    if (codigo === "" || (/^#/.test(codigo) && codigo.split("\n").filter(function(l){return l.trim()!==""&&!l.trim().startsWith("#")}).length===0)) {
+        resDiv.innerHTML = '<span style="color:var(--error);">Escribi tu codigo antes de ejecutar.</span>';
+        return;
+    }
+
+    if (!pyodide) {
+        resDiv.innerHTML = '<span style="color:#f59e0b;">El interprete Python aun no esta listo. Espera unos segundos...</span>';
+        return;
+    }
+
+    resDiv.innerHTML = '<span style="color:var(--texto-secundario);">Ejecutando...</span>';
+
+    var salida = "";
+    try {
+        pyodide.setStdout({ batched: function(m) { salida += m; } });
+        await pyodide.runPythonAsync(codigo);
+        var resultado = validarSalida(salida);
+
+        if (resultado.ok) {
+            puntajeObtenido = resultado.puntaje;
+            ejercicioResuelto = true;
+            resDiv.innerHTML = '<span style="color:var(--exito);">✅ ' + resultado.mensaje + '</span>';
+            document.getElementById("btn-ejecutar").disabled = true;
+            document.getElementById("codigo-input").disabled = true;
+
+            if (CALIFICACION_HABILITADA) {
+                document.getElementById("btn-enviar").style.display = "block";
+            } else {
+                resDiv.innerHTML += '<br><span style="color:var(--texto-secundario);font-size:0.85rem;">Nota: la calificacion no esta habilitada en CREA para esta prueba.</span>';
+            }
+        } else {
+            resDiv.innerHTML = '<span style="color:var(--error);">❌ ' + resultado.mensaje + '</span>';
+        }
+    } catch(e) {
+        resDiv.innerHTML = '<span style="color:var(--error);">⚠️ Error de Python: ' + e.message + '</span>';
+    }
+});
+
+// ============================================================
+// Enviar nota al backend (que la reenvia a CREA)
+// ============================================================
+document.getElementById("btn-enviar").addEventListener("click", async function() {
+    if (!ejercicioResuelto) return;
+
+    var btn = this;
+    btn.disabled = true;
+    btn.textContent = "Enviando...";
+
+    var resDiv = document.getElementById("resultado");
+
+    try {
+        var resp = await fetch(BACKEND_URL + "/lti/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                token: TOKEN,
+                puntaje: puntajeObtenido,
+                tiempo: 0
+            })
+        });
+
+        var data = await resp.json();
+
+        if (data.ok) {
+            resDiv.innerHTML += '<br><span style="color:var(--exito);">📤 Nota enviada a CREA exitosamente.</span>';
+            btn.textContent = "✅ Enviado";
+        } else {
+            resDiv.innerHTML += '<br><span style="color:var(--error);">Error al enviar: ' + (data.error || "desconocido") + '</span>';
+            btn.textContent = "⚠️ Reintentar";
+            btn.disabled = false;
+        }
+    } catch(e) {
+        resDiv.innerHTML += '<br><span style="color:var(--error);">Error de conexion con el backend.</span>';
+        btn.textContent = "⚠️ Reintentar";
+        btn.disabled = false;
+    }
+});
+</script>
+</body>
+</html>

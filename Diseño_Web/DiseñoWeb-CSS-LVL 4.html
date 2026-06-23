@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 9: Diseño Responsive</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">📱</div>
+        <h1>Clase 9: Diseño Responsive <span class="badge-nivel">Nivel 9</span></h1>
+        <p>Media queries y diseño adaptable</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> ¿Qué es Diseño Responsive?</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>El diseño responsive</strong> es una técnica que permite que una misma página web se vea bien en cualquier dispositivo: celular, tablet, laptop o monitor grande. La página <strong>se adapta</strong> al tamaño de la pantalla automáticamente. La filosofía recomendada hoy es <strong>mobile-first</strong>: diseñar primero para pantallas chicas y luego ir agregando estilos para pantallas más grandes.
+            </div>
+        </div>
+        <p>Sin diseño responsive, una página que se ve bien en una computadora puede ser ilegible en un celular (texto minúsculo, scroll horizontal, botones inclickeables).</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Media Queries</h2>
+        <p>Las <strong>media queries</strong> son la herramienta principal del diseño responsive. Permiten aplicar estilos CSS <strong>solo cuando se cumple una condición</strong>, generalmente relacionada con el ancho de la pantalla.</p>
+
+        <h3>Ejemplo: cambiar el fondo según el tamaño de pantalla:</h3>
+        <div class="bloque-codigo">
+            <pre>/* Estilos para pantallas grandes (escritorio) */
+body {
+    background-color: lightblue;
+}
+
+/* Cuando la pantalla sea menor a 600px (móvil) */
+@media screen and (max-width: 600px) {
+    body {
+        background-color: lightcoral;
+    }
+}</pre>
+        </div>
+        <p><strong>¿Cómo leerlo?</strong> La regla dentro de <code>@media</code> se aplica solo cuando el ancho de la pantalla es <strong>máximo 600px</strong>. Si la pantalla es más grande, se ignora y se usa el estilo por defecto.</p>
+
+        <h3>Puntos de quiebre (breakpoints) comunes:</h3>
+        <div class="bloque-codigo">
+            <pre>/* Móviles */
+@media (max-width: 600px) { ... }
+
+/* Tablets */
+@media (max-width: 768px) { ... }
+
+/* Laptops */
+@media (max-width: 1024px) { ... }</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Unidades relativas</h2>
+        <p>Para hacer un diseño responsive, es mejor usar <strong>unidades relativas</strong> en lugar de píxeles fijos:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📊</div>
+                <strong>% (porcentaje)</strong>
+                <p>Relativo al elemento padre. Ej: <code>width: 80%;</code> — ocupa el 80% del ancho del contenedor.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📱</div>
+                <strong>vw / vh</strong>
+                <p><strong>Viewport Width/Height.</strong> Relativo al ancho/alto de la ventana del navegador. Ej: <code>width: 100vw;</code> ocupa todo el ancho visible.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔤</div>
+                <strong>em / rem</strong>
+                <p>Relativo al tamaño de fuente. <code>em</code> es relativo al padre; <code>rem</code> es relativo al elemento raíz (&lt;html&gt;).</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: anchos responsive:</h3>
+        <div class="bloque-codigo">
+            <pre>/* Malo: ancho fijo que no se adapta */
+.contenedor {
+    width: 1200px;   /* se desborda en celulares */
+}
+
+/* Bueno: ancho relativo que se adapta */
+.contenedor {
+    width: 90%;            /* ocupa el 90% del padre */
+    max-width: 1200px;     /* pero nunca más de 1200px */
+}</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> Imágenes y videos responsive</h2>
+        <p>Las imágenes y videos también deben ser responsive para que no desborden su contenedor en pantallas chicas:</p>
+
+        <h3>La regla de oro para imágenes responsive:</h3>
+        <div class="bloque-codigo">
+            <pre>img {
+    max-width: 100%;    /* la imagen nunca supera el ancho de su contenedor */
+    height: auto;       /* mantiene la proporción original */
+}
+
+/* Lo mismo aplica para videos (iframes de YouTube, etc.) */
+video, iframe {
+    max-width: 100%;
+    height: auto;
+}</pre>
+        </div>
+        <p>Con estas dos líneas, cualquier imagen se adapta automáticamente al ancho disponible. Si el contenedor mide 400px, la imagen mide 400px. Si mide 800px, la imagen crece hasta 800px (o su tamaño original, el que sea menor).</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Adaptador Web</h2>
+            <p>Demostrá lo que aprendiste sobre diseño responsive.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Para qué sirven las media queries en CSS?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) Para aplicar estilos diferentes según el tamaño de pantalla</button>
+            <button class="btn-opcion" data-indice="1">B) Para consultar información del usuario al navegador</button>
+            <button class="btn-opcion" data-indice="2">C) Para buscar elementos HTML por su contenido textual</button>
+            <button class="btn-opcion" data-indice="3">D) Para enviar datos del formulario al servidor</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 9: Diseño Responsive</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Para qué sirven las media queries en CSS?",
+                opciones: [
+                    "A) Para aplicar estilos diferentes según el tamaño de pantalla",
+                    "B) Para consultar información del usuario al navegador",
+                    "C) Para buscar elementos HTML por su contenido textual",
+                    "D) Para enviar datos del formulario al servidor"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Qué significa \"mobile-first\" en diseño web?",
+                opciones: [
+                    "A) Diseñar solo para celulares e ignorar las computadoras",
+                    "B) Diseñar primero para móviles y luego adaptar a pantallas grandes",
+                    "C) Usar solo imágenes optimizadas para celulares",
+                    "D) Que la versión móvil de la página tenga más funcionalidades"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué unidad CSS es relativa al ancho de la ventana del navegador?",
+                opciones: [
+                    "A) La unidad px, que representa píxeles fijos",
+                    "B) La unidad em, que es relativa al tamaño de fuente del padre",
+                    "C) La unidad vw (viewport width), relativa al ancho visible",
+                    "D) La unidad cm, que representa centímetros físicos"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Cómo se hace que una imagen no desborde su contenedor?",
+                opciones: [
+                    "A) Usando overflow: hidden; en el contenedor",
+                    "B) Con max-width: 100%; y height: auto; en la imagen",
+                    "C) Fijando un width fijo de 300px en todas las imágenes",
+                    "D) Usando la etiqueta &lt;picture&gt; en lugar de &lt;img&gt;"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Cuál es la sintaxis correcta de una media query para pantallas menores a 768px?",
+                opciones: [
+                    "A) @media screen(min-width: 768px) { }",
+                    "B) @media query (max-width: 768px) { }",
+                    "C) @media (max-width: 768px) { }",
+                    "D) @responsive (width < 768px) { }"
+                ],
+                correcta: 2
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

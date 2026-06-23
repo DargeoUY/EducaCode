@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmia - Nivel 2: Secuencias y Orden Lógico</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🔗</div>
+        <h1>Algoritmia Nivel 2: Secuencias y Orden Lógico <span class="badge-nivel">Nivel 2</span></h1>
+        <p>Aprendiendo por qué el orden de los pasos puede cambiarlo todo</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> La Importancia del Orden</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">⚠️</span>
+            <div>
+                <strong>En un algoritmo, el orden SÍ importa.</strong> No es lo mismo ponerse las medias y después los zapatos que al revés. Una secuencia incorrecta produce un resultado incorrecto o directamente imposible.
+            </div>
+        </div>
+        <p>Pensá en una receta de cocina: si ponés el huevo antes de romper la cáscara, no funciona. Cada paso <strong>depende del anterior</strong> y prepara el siguiente. A esto se le llama <strong>secuencialidad</strong>.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Diagramas de Flujo</h2>
+        <p>Para visualizar un algoritmo usamos <strong>diagramas de flujo</strong>: dibujos con símbolos que representan cada tipo de paso. Los más importantes son:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🟢</div>
+                <strong>Inicio / Fin</strong>
+                <p>Se representa con un <strong>óvalo</strong>. Todo algoritmo empieza y termina con uno.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🟦</div>
+                <strong>Proceso</strong>
+                <p>Se representa con un <strong>rectángulo</strong>. Indica una acción a realizar.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔷</div>
+                <strong>Decisión</strong>
+                <p>Se representa con un <strong>rombo</strong>. Plantea una pregunta de Sí o No.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">➡️</div>
+                <strong>Flechas</strong>
+                <p>Conectan los símbolos e indican la dirección del flujo.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Ejemplo: Preparar un mate</h2>
+        <p>¿Cuál es la secuencia correcta?</p>
+        <div class="bloque-codigo">
+            <pre>Opción 1 (INCORRECTA):
+1. Cebar el mate ❌ (¿con qué agua?)
+2. Calentar el agua
+3. Poner yerba en el mate
+
+Opción 2 (CORRECTA):
+1. Poner yerba en el mate
+2. Calentar el agua
+3. Cebar el mate ✅</pre>
+        </div>
+        <p>La Opción 2 funciona porque cada paso prepara las condiciones para el siguiente. La Opción 1 falla porque intenta cebar sin tener nada listo.</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Ingeniero de Algoritmos</h2>
+            <p>Poné a prueba tu comprensión sobre secuencias y diagramas de flujo.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item"><span class="progreso-etiqueta">Pregunta</span><strong id="numero-pregunta">1/5</strong></div>
+            <div class="barra-progreso-contenedor"><div class="barra-progreso" id="barra-progreso"></div></div>
+            <div class="progreso-item"><span class="progreso-etiqueta">Puntaje</span><strong id="puntaje">0 pts</strong></div>
+            <div class="progreso-item"><span class="progreso-etiqueta">Tiempo</span><strong id="cronometro">0s</strong></div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Por qué es importante el orden de los pasos en un algoritmo?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) Porque cada paso depende del anterior para poder ejecutarse correctamente</button>
+            <button class="btn-opcion" data-indice="1">B) Porque queda más lindo visualmente</button>
+            <button class="btn-opcion" data-indice="2">C) El orden no importa, se puede ejecutar en cualquier secuencia</button>
+            <button class="btn-opcion" data-indice="3">D) Porque la computadora ordena los pasos automáticamente</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste el Nivel 2: Secuencias y Orden Lógico</p>
+        <div class="estadisticas-finales">
+            <div class="stat"><span class="stat-numero" id="stat-puntaje">0</span><span class="stat-etiqueta">Puntos</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-tiempo">0s</span><span class="stat-etiqueta">Tiempo</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-aciertos">0/5</span><span class="stat-etiqueta">Aciertos</span></div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Por qué es importante el orden de los pasos en un algoritmo?",
+                opciones: [
+                    "A) Porque cada paso depende del anterior para poder ejecutarse correctamente",
+                    "B) Porque queda más lindo visualmente",
+                    "C) El orden no importa, se puede ejecutar en cualquier secuencia",
+                    "D) Porque la computadora ordena los pasos automáticamente"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "En un diagrama de flujo, ¿qué símbolo representa el <strong>inicio</strong> de un algoritmo?",
+                opciones: [
+                    "A) Un rectángulo",
+                    "B) Un rombo",
+                    "C) Un óvalo",
+                    "D) Un triángulo"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Qué representa un <strong>rectángulo</strong> en un diagrama de flujo?",
+                opciones: [
+                    "A) El inicio o fin del algoritmo",
+                    "B) Una acción o proceso a realizar",
+                    "C) Una pregunta de Sí o No",
+                    "D) La conexión entre dos partes del diagrama"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "En el algoritmo de preparar un mate, ¿cuál es el primer paso lógico?",
+                opciones: [
+                    "A) Cebar el mate con agua",
+                    "B) Calentar el agua",
+                    "C) Poner la yerba en el mate",
+                    "D) Tomar el mate"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Qué función cumplen las <strong>flechas</strong> en un diagrama de flujo?",
+                opciones: [
+                    "A) Decorar el diagrama",
+                    "B) Indicar el sentido en que se ejecutan los pasos",
+                    "C) Señalar los errores del algoritmo",
+                    "D) Separar las partes importantes de las que no lo son"
+                ],
+                correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0, tiempoSegundos = 0, intervaloTiempo = null;
+        let juegoTerminado = false, puntaje = 0, aciertos = 0, respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => { if (!juegoTerminado) { tiempoSegundos++; document.getElementById("cronometro").innerText = tiempoSegundos + "s"; } }, 1000);
+        }
+        function actualizarBarraProgreso() { document.getElementById("barra-progreso").style.width = (indicePregunta / bancoPreguntas.length * 100) + "%"; }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true; if (intervaloTiempo === null) activarCronometro();
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => btn.disabled = true);
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto"); puntaje += 100; aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+                indicePregunta++; actualizarBarraProgreso();
+                if (indicePregunta < bancoPreguntas.length) setTimeout(cargarSiguientePregunta, 1200);
+                else { juegoTerminado = true; clearInterval(intervaloTiempo); setTimeout(mostrarPantallaFinal, 1200); }
+            } else {
+                botonElegido.classList.add("error"); botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10; document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s.';
+                mensajePantalla.className = "resultado-error";
+                setTimeout(() => { botones.forEach(btn => btn.disabled = false); botonElegido.classList.remove("error"); botonCorrecto.classList.remove("revelar"); respondiendo = false; }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() { actualizarPreguntaEnPantalla(); document.querySelectorAll(".btn-opcion").forEach(btn => { btn.disabled = false; btn.classList.remove("acierto"); }); document.getElementById("resultado-juego").innerHTML = ""; document.getElementById("resultado-juego").className = ""; respondiendo = false; }
+        function actualizarPreguntaEnPantalla() { document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length; document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado; document.querySelectorAll(".btn-opcion").forEach((btn, i) => { btn.innerText = bancoPreguntas[indicePregunta].opciones[i]; btn.dataset.indice = i; }); }
+        function mostrarPantallaFinal() { document.getElementById("numero-pregunta").innerText = "5/5"; document.getElementById("pantalla-etiqueta").innerText = "🏆 ¡Nivel 2 Completado!"; document.getElementById("opciones-juego").style.display = "none"; document.getElementById("resultado-juego").innerHTML = `¡Felicitaciones! Dominás las secuencias y el orden lógico.<br>Tu tiempo: <strong>${tiempoSegundos} segundos</strong>.`; document.getElementById("resultado-juego").style.color = "#38bdf8"; }
+        function reiniciarJuego() { indicePregunta = 0; tiempoSegundos = 0; puntaje = 0; aciertos = 0; juegoTerminado = false; respondiendo = false; intervaloTiempo = null; document.getElementById("bloque-juego").classList.remove("oculto"); document.getElementById("pantalla-final").classList.add("oculto"); document.getElementById("opciones-juego").style.display = "flex"; document.getElementById("numero-pregunta").innerText = "1/5"; document.getElementById("cronometro").innerText = "0s"; document.getElementById("puntaje").innerText = "0 pts"; document.getElementById("barra-progreso").style.width = "0%"; document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado; document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!"; document.getElementById("resultado-juego").style.color = ""; document.querySelectorAll(".btn-opcion").forEach((btn, i) => { btn.innerText = bancoPreguntas[0].opciones[i]; btn.disabled = false; btn.className = "btn-opcion"; btn.dataset.indice = i; }); }
+        document.querySelectorAll(".btn-opcion").forEach(btn => { btn.addEventListener("click", function() { evaluar(parseInt(this.dataset.indice)); }); });
+    </script>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

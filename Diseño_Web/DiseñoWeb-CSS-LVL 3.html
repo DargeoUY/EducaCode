@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 8: Diseño con Flexbox</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">📐</div>
+        <h1>Clase 8: Diseño con Flexbox <span class="badge-nivel">Nivel 8</span></h1>
+        <p>Display flex, alineación y distribución</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> ¿Qué es Flexbox?</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>Flexbox (Flexible Box Layout)</strong> es un sistema de diseño <strong>unidimensional</strong> que permite distribuir y alinear elementos fácilmente dentro de un contenedor, incluso cuando su tamaño es dinámico. Se basa en dos roles: un <strong>contenedor flex</strong> (el padre con <code>display: flex;</code>) y los <strong>items flex</strong> (los hijos directos).
+            </div>
+        </div>
+        <p>Antes de Flexbox, centrar un elemento verticalmente era muy complicado. Con Flexbox se hace con una sola línea. Hoy es la herramienta estándar para crear layouts modernos.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Dirección del flujo</h2>
+        <p>La propiedad <code>flex-direction</code> define en qué dirección se ordenan los items dentro del contenedor flex:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">➡️</div>
+                <strong>row</strong>
+                <p>Valor por defecto. Los items se colocan en fila, de izquierda a derecha.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⬇️</div>
+                <strong>column</strong>
+                <p>Los items se colocan en columna, de arriba hacia abajo.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⬅️</div>
+                <strong>row-reverse</strong>
+                <p>Igual que row pero en orden inverso: de derecha a izquierda.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo de flex-direction:</h3>
+        <div class="bloque-codigo">
+            <pre>.contenedor {
+    display: flex;
+    flex-direction: row;        /* items en fila horizontal */
+}
+
+.contenedor-vertical {
+    display: flex;
+    flex-direction: column;     /* items en columna vertical */
+}</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Alineación horizontal</h2>
+        <p>La propiedad <code>justify-content</code> controla cómo se distribuyen los items a lo largo del <strong>eje principal</strong> (horizontal cuando es row, vertical cuando es column):</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">◀️</div>
+                <strong>flex-start</strong>
+                <p>Los items se agrupan al inicio del contenedor. Es el valor por defecto.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⚫</div>
+                <strong>center</strong>
+                <p>Los items se centran horizontalmente dentro del contenedor.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">↔️</div>
+                <strong>space-between</strong>
+                <p>El espacio sobrante se distribuye <strong>entre</strong> los items. El primero y el último quedan pegados a los bordes.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔲</div>
+                <strong>space-around</strong>
+                <p>El espacio sobrante se distribuye <strong>alrededor</strong> de cada item, incluyendo antes del primero y después del último.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: centrar items horizontalmente:</h3>
+        <div class="bloque-codigo">
+            <pre>.contenedor {
+    display: flex;
+    justify-content: center;   /* items centrados horizontalmente */
+}</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> Alineación vertical</h2>
+        <p>La propiedad <code>align-items</code> controla cómo se alinean los items a lo largo del <strong>eje cruzado</strong> (vertical cuando es row, horizontal cuando es column):</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📏</div>
+                <strong>stretch</strong>
+                <p>Valor por defecto. Los items se estiran para ocupar toda la altura del contenedor.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⚫</div>
+                <strong>center</strong>
+                <p>Los items se centran verticalmente dentro del contenedor.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⬆️</div>
+                <strong>flex-start</strong>
+                <p>Los items se alinean al inicio del eje cruzado (arriba).</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⬇️</div>
+                <strong>flex-end</strong>
+                <p>Los items se alinean al final del eje cruzado (abajo).</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: centrado perfecto (horizontal + vertical):</h3>
+        <div class="bloque-codigo">
+            <pre>.contenedor-centrado {
+    display: flex;
+    justify-content: center;   /* centrado horizontal */
+    align-items: center;       /* centrado vertical */
+    height: 300px;
+}</pre>
+        </div>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: Maestro del Layout</h2>
+            <p>Demostrá lo que aprendiste sobre Flexbox.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué propiedad CSS convierte un elemento en contenedor flex?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) display: flex;</button>
+            <button class="btn-opcion" data-indice="1">B) position: flex;</button>
+            <button class="btn-opcion" data-indice="2">C) layout: flexbox;</button>
+            <button class="btn-opcion" data-indice="3">D) flex-mode: container;</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 8: Diseño con Flexbox</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué propiedad CSS convierte un elemento en contenedor flex?",
+                opciones: [
+                    "A) display: flex;",
+                    "B) position: flex;",
+                    "C) layout: flexbox;",
+                    "D) flex-mode: container;"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Qué propiedad CSS alinea horizontalmente los items flex?",
+                opciones: [
+                    "A) La propiedad align-items, que controla el eje cruzado",
+                    "B) La propiedad text-align, que controla la alineación de texto",
+                    "C) La propiedad justify-content, que controla el eje principal",
+                    "D) La propiedad align-content, que controla líneas múltiples"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Qué valor de justify-content distribuye items con espacio entre ellos, pegando el primero y el último a los bordes?",
+                opciones: [
+                    "A) justify-content: center;",
+                    "B) justify-content: space-around;",
+                    "C) justify-content: flex-start;",
+                    "D) justify-content: space-between;"
+                ],
+                correcta: 3
+            },
+            {
+                enunciado: "¿Qué propiedad CSS cambia la dirección del flujo de items a columna?",
+                opciones: [
+                    "A) flex-direction: column;",
+                    "B) flex-flow: vertical;",
+                    "C) flex-orientation: column;",
+                    "D) align-direction: column;"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Qué propiedad CSS alinea verticalmente los items dentro de un contenedor flex?",
+                opciones: [
+                    "A) La propiedad vertical-align, que funciona en tablas",
+                    "B) La propiedad align-items, que controla el eje cruzado",
+                    "C) La propiedad justify-content, que controla el eje principal",
+                    "D) La propiedad line-height, que controla la altura de línea"
+                ],
+                correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

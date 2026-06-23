@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Nivel 4 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(16,185,129,0.1);border:2px solid #10b981;padding:14px 20px;border-radius:8px;text-align:center;color:#10b981;font-weight:700;margin-bottom:20px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>JavaScript Nivel 4 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del JS Nivel 4.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> El bucle for</h2>
+        <div class="bloque-codigo"><pre>A) for (let i = 1; i <= 10; i++) { console.log(i); }
+
+B) for (let i = 2; i <= 20; i += 2) { console.log(i); }
+
+C) for (let i = 1; i <= 10; i++) {
+       console.log("5 x " + i + " = " + (5 * i));
+   }
+
+D) for (let i = 10; i >= 1; i--) { console.log(i); }
+   console.log("¡Despegue!");</pre></div>
+        <p><strong>Criterios:</strong> A) inicio en 1, condición <code>&lt;= 10</code>. B) incremento de 2 en 2 (<code>i += 2</code>). C) multiplicar <code>5 * i</code> en cada vuelta. D) cuenta regresiva: <code>i--</code> (decremento) y <code>i &gt;= 1</code>. El "¡Despegue!" va fuera del for.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> El bucle while</h2>
+        <div class="bloque-codigo"><pre>A) let i = 1; while (i <= 10) { console.log(i); i++; }
+
+B) let i = 2; while (i <= 20) { console.log(i); i += 2; }
+
+C) let i = 1; while (i <= 10) {
+       console.log("5 x " + i + " = " + (5 * i)); i++;
+   }
+
+D) let i = 10; while (i >= 1) { console.log(i); i--; }
+   console.log("¡Despegue!");</pre></div>
+        <p><strong>Pregunta:</strong> <code>while</code> conviene cuando <strong style="color:#10b981;">no sabemos cuántas vueltas</strong> se necesitan (ej: esperar a que el usuario ingrese un valor válido). <code>for</code> es mejor cuando el número de repeticiones es conocido de antemano.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Arrays: declaración y acceso</h2>
+        <p>A) Tiene <strong style="color:#10b981;">5 elementos</strong>. Se usa la propiedad <code style="color:#10b981;">.length</code>: <code>colores.length</code> devuelve 5.</p>
+        <p>B) <code style="color:#10b981;">colores[0]</code> = "rojo" | <code style="color:#10b981;">colores[3]</code> = "amarillo"</p>
+        <p>C) <code style="color:#10b981;">colores[10]</code> devuelve <strong>undefined</strong> (no definido), porque no hay elemento en esa posición.</p>
+        <p>D) <code style="color:#10b981;">colores[2] = "naranja";</code></p>
+        <p>E) <code style="color:#10b981;">colores.push("blanco");</code> — ahora el array tiene 6 elementos.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> Recorriendo arrays con for</h2>
+        <div class="bloque-codigo"><pre>let alumnos = ["Ana", "Bruno", "Carla", "Diego", "Elena"];
+
+// Recorrer todos:
+for (let i = 0; i < alumnos.length; i++) {
+    console.log("Alumno " + i + ": " + alumnos[i]);
+}
+
+// Solo los que empiezan con vocal:
+for (let i = 0; i < alumnos.length; i++) {
+    let primeraLetra = alumnos[i][0].toLowerCase();
+    if (primeraLetra === "a" || primeraLetra === "e" ||
+        primeraLetra === "i" || primeraLetra === "o" ||
+        primeraLetra === "u") {
+        console.log(alumnos[i]);
+    }
+}
+// Resultado: Ana, Elena</pre></div>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Integrador: lista de compras</h2>
+        <div class="bloque-codigo"><pre>let compras = ["leche", "pan", "huevos", "arroz", "fideos"];
+
+console.log("Mi lista de compras:");
+
+for (let i = 0; i < compras.length; i++) {
+    console.log((i + 1) + ". " + compras[i]);
+}
+
+console.log("Total de productos: " + compras.length);</pre></div>
+        <p>Pregunta extra: se usa <code style="color:#10b981;">compras.push("pan");</code> para agregar "pan" al final del array.</p>
+        <p><strong>Criterios:</strong> usar <code>.length</code> como límite del for. Numerar desde 1 (<code>i + 1</code>) porque los índices empiezan en 0. El total es <code>compras.length</code>. Para agregar elementos, <code>.push()</code> es el método correcto.</p>
+    </div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

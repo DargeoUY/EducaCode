@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Nivel 2 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(16,185,129,0.1);border:2px solid #10b981;padding:14px 20px;border-radius:8px;text-align:center;color:#10b981;font-weight:700;margin-bottom:20px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>JavaScript Nivel 2 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del JS Nivel 2.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> Identificando eventos</h2>
+        <p>1) → <strong style="color:#10b981;">B) onclick</strong> | 2) → <strong style="color:#10b981;">A) onmouseover</strong> | 3) → <strong style="color:#10b981;">D) onkeydown</strong> | 4) → <strong style="color:#10b981;">C) onload</strong></p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> getElementById() en la práctica</h2>
+        <p>A) <code style="color:#10b981;">document.getElementById("saludo")</code></p>
+        <p>B) <code style="color:#10b981;">document.getElementById("despedida")</code></p>
+        <p>C) Devuelve <strong style="color:#10b981;">null</strong> (nada, vacío). Si intentamos modificar <code>.innerHTML</code> sobre null, el programa arrojará un error: "Cannot read property 'innerHTML' of null".</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Cambiando contenido con innerHTML</h2>
+        <div class="bloque-codigo"><pre>A)
+function cambiar() {
+    document.getElementById("titulo").innerHTML = "Nuevo título";
+}</pre></div>
+        <p>B) <code style="color:#10b981;">.innerHTML</code> interpreta etiquetas HTML dentro del texto (permite incluir negrita, enlaces, etc.). <code style="color:#10b981;">.textContent</code> trata todo como texto plano y no interpreta HTML. C) Se usaría <code style="color:#10b981;">.innerHTML</code>, porque la etiqueta <code>&lt;strong&gt;</code> debe ser interpretada como HTML para que la palabra aparezca en negrita.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> Modificando estilos desde JavaScript</h2>
+        <div class="bloque-codigo"><pre>function cambiarColor() {
+    document.getElementById("caja").style.backgroundColor = "red";
+}
+
+function cambiarTamaño() {
+    document.getElementById("caja").style.width = "400px";
+    document.getElementById("caja").style.height = "400px";
+}</pre></div>
+        <p><strong>Criterios:</strong> usar <code>.style.backgroundColor</code> (no confundir con <code>.style.color</code> que cambia el color del texto). Las unidades <code>px</code> son obligatorias para width y height.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Integrador: botón mágico</h2>
+        <div class="bloque-codigo"><pre>&lt;h1 id="mensaje"&gt;Esperando...&lt;/h1&gt;
+&lt;button onclick="activar()"&gt;Activar&lt;/button&gt;
+
+&lt;script&gt;
+function activar() {
+    let h1 = document.getElementById("mensaje");
+    h1.innerHTML = "¡Activado!";
+    h1.style.backgroundColor = "green";
+    alert("¡Completado!");
+    console.log("Botón presionado a las " + new Date());
+}
+&lt;/script&gt;</pre></div>
+        <p><strong>Criterios:</strong> obtener el elemento una sola vez con <code>getElementById</code> (o dos veces). Usar <code>.innerHTML</code> para cambiar texto. Usar <code>.style.backgroundColor</code> para el fondo. El <code>alert</code> y <code>console.log</code> son directos. <code>new Date()</code> devuelve la fecha y hora actual.</p>
+    </div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

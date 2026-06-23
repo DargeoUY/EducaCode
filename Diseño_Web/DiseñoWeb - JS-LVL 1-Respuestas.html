@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Nivel 1 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(16,185,129,0.1);border:2px solid #10b981;padding:14px 20px;border-radius:8px;text-align:center;color:#10b981;font-weight:700;margin-bottom:20px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>JavaScript Nivel 1 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del JS Nivel 1.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> Declarando variables</h2>
+        <div class="bloque-codigo"><pre>A) let nombre = "Juan";          // string
+B) let edad = 16;               // number
+C) const ESCUELA = "Liceo N°1"; // string (constante)
+D) let esMayor = false;         // boolean</pre></div>
+        <p><strong>Criterios:</strong> usar <code>let</code> para variables que pueden cambiar, <code>const</code> para las que no. Identificar correctamente el tipo de dato de cada una. Aceptar cualquier valor razonable en las variables.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> console.log() en acción</h2>
+        <p>Los mensajes se mostrarían en la consola en este orden:</p>
+        <div class="bloque-codigo"><pre>Estoy en la clase de Pensamiento Computacional
+Año: 2026
+Fin del programa</pre></div>
+        <p><strong>Criterio:</strong> el estudiante debe entender que <code>console.log()</code> se ejecuta en orden, de arriba hacia abajo. La consola muestra cada llamada en una línea nueva.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Usando alert() y prompt()</h2>
+        <div class="bloque-codigo"><pre>alert("¡Hola! Vamos a calcular tu año de nacimiento.");
+let edad = prompt("¿Cuántos años tenés?");
+let añoNacimiento = 2026 - edad;
+alert("Naciste aproximadamente en el año " + añoNacimiento);</pre></div>
+        <p><strong>Criterios:</strong> usar <code>alert()</code> para mensajes y <code>prompt()</code> para capturar entrada del usuario. La variable <code>edad</code> debe guardarse con <code>let</code>. El cálculo es 2026 - edad.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> Identificando tipos de datos</h2>
+        <p>A) <strong style="color:#10b981;">string</strong> | B) <strong style="color:#10b981;">number</strong> | C) <strong style="color:#10b981;">boolean</strong> | D) <strong style="color:#10b981;">string</strong> (tiene comillas) | E) <strong style="color:#10b981;">number</strong> | F) <strong style="color:#10b981;">boolean</strong> | G) <strong style="color:#10b981;">string</strong> | H) <strong style="color:#10b981;">number</strong> | I) <strong style="color:#10b981;">string</strong></p>
+        <p><strong>Pregunta extra:</strong> Sí, hay diferencia. <code>true</code> sin comillas es un <strong style="color:#10b981;">boolean</strong> (verdadero/falso). <code>"true"</code> con comillas es un <strong style="color:#10b981;">string</strong> (texto). No son lo mismo: <code>true === "true"</code> es <code>false</code> porque son de distinto tipo.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Asignación vs. comparación</h2>
+        <p><code>x = y;</code> es una <strong style="color:#10b981;">asignación</strong>: guarda el valor de <code>y</code> (que es 5) dentro de <code>x</code>. Después de esa línea, <code>x</code> vale 5 (su valor original de 10 se pierde). <code>console.log(x)</code> muestra <strong style="color:#10b981;">5</strong>.</p>
+        <p><code>console.log(a === b);</code> muestra <strong style="color:#10b981;">false</strong> porque <code>===</code> <strong>compara</strong> los valores: 10 no es igual a 5.</p>
+        <p><strong>Diferencia clave:</strong> <code>=</code> asigna/guarda un valor en una variable. <code>===</code> compara dos valores y devuelve true o false sin modificar nada.</p>
+    </div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

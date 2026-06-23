@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Nivel 3 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(16,185,129,0.1);border:2px solid #10b981;padding:14px 20px;border-radius:8px;text-align:center;color:#10b981;font-weight:700;margin-bottom:20px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>JavaScript Nivel 3 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del JS Nivel 3.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> if / else básico</h2>
+        <div class="bloque-codigo"><pre>let temperatura = 25;
+
+if (temperatura > 30) {
+    console.log("Hace calor");
+} else {
+    console.log("Está fresco");
+}</pre></div>
+        <p>Con <strong>temperatura = 25</strong>: muestra "Está fresco". Con <strong>temperatura = 35</strong>: muestra "Hace calor". Con <strong>temperatura = 10</strong>: muestra "Está fresco".</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> Operadores de comparación</h2>
+        <p>A) <strong style="color:#10b981;">true</strong> | B) <strong style="color:#ef4444;">false</strong> (distinto tipo: number vs string) | C) <strong style="color:#10b981;">true</strong> | D) <strong style="color:#ef4444;">false</strong> | E) <strong style="color:#10b981;">true</strong> | F) <strong style="color:#10b981;">true</strong> | G) <strong style="color:#ef4444;">false</strong> | H) <strong style="color:#10b981;">true</strong> | I) <strong style="color:#ef4444;">false</strong></p>
+        <p><strong>Pregunta extra:</strong> <code>10 === "10"</code> da false porque <code>===</code> compara <strong>valor y tipo</strong>. 10 es number y "10" es string. Son de tipos diferentes, por eso no son estrictamente iguales. Si usáramos <code>==</code> (doble igual), daría true porque convierte tipos automáticamente, pero <code>===</code> es más seguro.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Operadores lógicos (&& y ||)</h2>
+        <p>A) <strong style="color:#10b981;">true</strong> (ambas son true) | B) <strong style="color:#ef4444;">false</strong> (la primera es false) | C) <strong style="color:#10b981;">true</strong> (la segunda es true) | D) <strong style="color:#10b981;">true</strong> (la primera es true) | E) <strong style="color:#ef4444;">false</strong> (la segunda es false) | F) <strong style="color:#10b981;">true</strong> (una es true)</p>
+        <div class="bloque-codigo"><pre>let nota = 8;
+
+if (nota >= 1 && nota <= 12) {
+    console.log("Nota válida");
+}</pre></div>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> if / else if / else</h2>
+        <div class="bloque-codigo"><pre>let edad = 15;
+
+if (edad < 13) {
+    console.log("Niñez");
+} else if (edad < 18) {
+    console.log("Adolescencia");
+} else if (edad < 65) {
+    console.log("Adultez");
+} else {
+    console.log("Tercera edad");
+}</pre></div>
+        <p>edad=10 → <strong style="color:#10b981;">Niñez</strong> | edad=15 → <strong style="color:#10b981;">Adolescencia</strong> | edad=30 → <strong style="color:#10b981;">Adultez</strong> | edad=70 → <strong style="color:#10b981;">Tercera edad</strong></p>
+        <p><strong>Importante:</strong> el orden de los <code>else if</code> es clave. Si pusiéramos <code>edad < 65</code> primero, los menores de 13 también entrarían ahí. Hay que ordenar de más restrictivo a menos.</p>
+    </div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Integrador: semáforo</h2>
+        <div class="bloque-codigo"><pre>let colorSemaforo = "rojo";
+
+if (colorSemaforo === "rojo") {
+    console.log("Detenerse");
+} else if (colorSemaforo === "amarillo") {
+    console.log("Precaución");
+} else if (colorSemaforo === "verde") {
+    console.log("Avanzar");
+} else {
+    console.log("Color inválido");
+}</pre></div>
+        <p><strong>Criterios:</strong> usar <code>===</code> para comparar strings. Cubrir los 3 casos válidos más el caso por defecto con <code>else</code>. El orden de los <code>else if</code> no importa en este caso porque las condiciones son mutuamente excluyentes.</p>
+    </div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

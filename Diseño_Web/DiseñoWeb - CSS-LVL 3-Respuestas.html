@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diseño Web CSS N3 — Respuestas</title><link rel="stylesheet" href="estilos.css">
+    <style>.aviso-docente{background:rgba(16,185,129,0.1);border:2px solid #10b981;padding:14px 20px;border-radius:8px;text-align:center;color:#10b981;font-weight:700;margin-bottom:20px;font-size:0.95rem}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style>
+</head>
+<body>
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+    <header><div class="header-icono">✅</div><h1>Diseño Web CSS Nivel 3 — Respuestas <span class="badge-nivel">Docente</span></h1><p>Clave de corrección para los ejercicios de CSS Nivel 3</p></header>
+    <div class="aviso-docente">🔒 SOLO DOCENTE — Respuestas del CSS Nivel 3.</div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">1</span> Contenedor Flex</h2><div class="bloque-codigo"><pre>.contenedor {
+    display: flex;
+}</pre></div><p><strong>Efecto:</strong> todos los hijos directos se convierten en <strong style="color:#10b981;">items flex</strong> y se ordenan en una fila horizontal (por defecto). Pueden alinearse y distribuirse fácilmente con justify-content y align-items.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">2</span> Dirección del flujo</h2><div class="bloque-codigo"><pre>A) .contenedor { display: flex; flex-direction: row; }
+B) .contenedor { display: flex; flex-direction: column; }
+C) .contenedor { display: flex; flex-direction: row-reverse; }</pre></div><p><strong>Criterios:</strong> A debe usar row (o no especificar, ya que es el default). B debe usar column. C debe usar row-reverse.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">3</span> Alineación horizontal</h2><p><strong style="color:#10b981;">flex-start:</strong> items pegados a la izquierda. <strong style="color:#10b981;">center:</strong> items centrados, espacio sobrante a los costados. <strong style="color:#10b981;">space-between:</strong> primer item a la izquierda, último a la derecha, espacio equitativo entre ellos. <strong style="color:#10b981;">space-around:</strong> espacio equitativo alrededor de cada item (mitad de espacio en los extremos).</p><p><strong>Criterios:</strong> debe explicar correctamente cada valor. El dibujo es opcional pero suma.</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">4</span> Alineación vertical</h2><div class="bloque-codigo"><pre>.contenedor-centrado {
+    display: flex;
+    justify-content: center;   /* centrado horizontal */
+    align-items: center;       /* centrado vertical */
+    height: 400px;
+}</pre></div><p><strong>Criterios:</strong> debe incluir display: flex, justify-content: center, align-items: center y height: 400px. Este es el patrón clásico de "centrado perfecto".</p></div>
+
+    <div class="seccion-clase r"><h2><span class="numero-seccion">5</span> Navbar con Flexbox</h2><div class="bloque-codigo"><pre>.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+}</pre></div><p><strong>Criterios:</strong> debe usar display: flex, justify-content: space-between, align-items: center, y los colores especificados. El padding es opcional pero recomendable.</p></div>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

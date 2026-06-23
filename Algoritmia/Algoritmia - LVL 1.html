@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmia - Nivel 1: El Arte de dar Instrucciones</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🧠</div>
+        <h1>Algoritmia Nivel 1: El Arte de dar Instrucciones <span class="badge-nivel">Nivel 1</span></h1>
+        <p>Descubriendo qué es un algoritmo y cómo dar instrucciones claras y ordenadas</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> ¿Qué es un Algoritmo?</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>Un Algoritmo</strong> es una serie de <strong>pasos ordenados, lógicos y finitos</strong> para resolver un problema o realizar una tarea. Las computadoras no son inteligentes, son obedientes. Si le das un paso fuera de lugar, ¡el programa falla!
+            </div>
+        </div>
+        <p>Un algoritmo es como la receta de cocina perfecta: si seguís los pasos en orden, la torta sale bien. Si cambiás el orden o te salteás un paso, el resultado no es el esperado.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> La Regla de las 3 C</h2>
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">✅</div>
+                <strong>Claro</strong>
+                <p>Cada paso debe ser comprensible sin ambigüedades. Nada de "hacele así nomás".</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">✂️</div>
+                <strong>Corto</strong>
+                <p>Solo los pasos necesarios. Sin rodeos ni instrucciones de más.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🎯</div>
+                <strong>Correcto</strong>
+                <p>Que realmente resuelva el problema. Si no funciona, no es un buen algoritmo.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Ejemplo: Lavarse las manos</h2>
+        <p>Si tuviéramos que explicarle a un robot paso a paso cómo lavarse las manos, el algoritmo lógico sería:</p>
+        <div class="bloque-codigo">
+            <pre>1. Abrir la canilla.
+2. Mojarse las manos.
+3. Ponerse jabón.
+4. Frotarse las manos por 20 segundos.
+5. Enjuagarse con agua.
+6. Cerrar la canilla.
+7. Secarse con una toalla.</pre>
+        </div>
+        <p>¿Qué pasaría si primero te ponés jabón y después abrís la canilla? ¿O si te secás antes de enjuagarte? El <strong>orden importa</strong>, y mucho.</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Ingeniero de Algoritmos</h2>
+            <p>Demostrá que entendiste cómo funcionan los algoritmos y sus reglas fundamentales.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué es un algoritmo?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) Una serie de pasos ordenados y finitos para resolver un problema</button>
+            <button class="btn-opcion" data-indice="1">B) Un lenguaje de programación para crear videojuegos</button>
+            <button class="btn-opcion" data-indice="2">C) Un tipo de computadora muy rápida</button>
+            <button class="btn-opcion" data-indice="3">D) Una fórmula matemática compleja</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste el Nivel 1: El Arte de dar Instrucciones</p>
+        <div class="estadisticas-finales">
+            <div class="stat"><span class="stat-numero" id="stat-puntaje">0</span><span class="stat-etiqueta">Puntos</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-tiempo">0s</span><span class="stat-etiqueta">Tiempo</span></div>
+            <div class="stat"><span class="stat-numero" id="stat-aciertos">0/5</span><span class="stat-etiqueta">Aciertos</span></div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué es un algoritmo?",
+                opciones: [
+                    "A) Una serie de pasos ordenados y finitos para resolver un problema",
+                    "B) Un lenguaje de programación para crear videojuegos",
+                    "C) Un tipo de computadora muy rápida",
+                    "D) Una fórmula matemática compleja"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Cuáles son las 3 C que debe cumplir un buen algoritmo?",
+                opciones: [
+                    "A) Computable, Criminal, Cósmico",
+                    "B) Claro, Corto, Correcto",
+                    "C) Caro, Comprado, Cómodo",
+                    "D) Cuadrado, Circular, Cónico"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué significa que un algoritmo sea <strong>finito</strong>?",
+                opciones: [
+                    "A) Que está escrito en inglés",
+                    "B) Que tiene un principio y un final definidos",
+                    "C) Que se ejecuta para siempre sin detenerse",
+                    "D) Que ocupa poco espacio en la memoria"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "En el algoritmo de lavarse las manos, ¿qué pasa si primero te ponés jabón y después abrís la canilla?",
+                opciones: [
+                    "A) Nada, el orden no importa en los algoritmos",
+                    "B) El jabón se va antes de poder frotar bien las manos",
+                    "C) Las manos quedan más limpias",
+                    "D) El algoritmo es igual de correcto"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "Si un robot recibe pasos desordenados para hacer una tarea, ¿qué ocurre?",
+                opciones: [
+                    "A) El robot adivina el orden correcto porque es inteligente",
+                    "B) El robot no completa la tarea o la hace mal",
+                    "C) El robot se reinicia automáticamente",
+                    "D) El robot corrige los pasos por sí mismo"
+                ],
+                correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0, tiempoSegundos = 0, intervaloTiempo = null;
+        let juegoTerminado = false, puntaje = 0, aciertos = 0, respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) { tiempoSegundos++; document.getElementById("cronometro").innerText = tiempoSegundos + "s"; }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            document.getElementById("barra-progreso").style.width = (indicePregunta / bancoPreguntas.length * 100) + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+            if (intervaloTiempo === null) activarCronometro();
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => btn.disabled = true);
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100; aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+                indicePregunta++; actualizarBarraProgreso();
+                if (indicePregunta < bancoPreguntas.length) { setTimeout(cargarSiguientePregunta, 1200); }
+                else { juegoTerminado = true; clearInterval(intervaloTiempo); setTimeout(mostrarPantallaFinal, 1200); }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            document.querySelectorAll(".btn-opcion").forEach(btn => { btn.disabled = false; btn.classList.remove("acierto"); });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none"; pantalla.offsetHeight; pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+            document.querySelectorAll(".btn-opcion").forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("numero-pregunta").innerText = "5/5";
+            document.getElementById("pantalla-etiqueta").innerText = "🏆 ¡Nivel 1 Completado!";
+            document.getElementById("opciones-juego").style.display = "none";
+            document.getElementById("resultado-juego").innerHTML = `¡Felicitaciones! Comprendiste los fundamentos de los algoritmos.<br>Tu tiempo final fue de <strong>${tiempoSegundos} segundos</strong>.`;
+            document.getElementById("resultado-juego").style.color = "#38bdf8";
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0; tiempoSegundos = 0; puntaje = 0; aciertos = 0;
+            juegoTerminado = false; respondiendo = false; intervaloTiempo = null;
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("opciones-juego").style.display = "flex";
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").style.color = "";
+            document.querySelectorAll(".btn-opcion").forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false; btn.className = "btn-opcion"; btn.dataset.indice = i;
+            });
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() { evaluar(parseInt(this.dataset.indice)); });
+        });
+    </script>
+
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

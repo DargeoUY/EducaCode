@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 4: Capturando Datos - Formularios en HTML</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">📥</div>
+        <h1>Clase 4: Capturando Datos <span class="badge-nivel">Nivel 4</span></h1>
+        <p>Aprendiendo a crear formularios interactivos para recibir información del usuario</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> El Contenedor de Interacción (&lt;form&gt;)</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">📥</span>
+            <div>
+                <strong>Formularios (&lt;form&gt;):</strong> Es el área destinada a recolectar datos. Todo cuadro de texto, casilla de selección o botón de envío que pongamos en la pantalla debe estar encerrado por la etiqueta principal <code>&lt;form&gt;</code> para que los datos puedan agruparse y procesarse juntos.
+            </div>
+        </div>
+        <h3>Ejemplo de Formulario Completo con Botón:</h3>
+        <p>Para procesar el formulario, agregamos al final la etiqueta de botón de envío:</p>
+        <div class="bloque-codigo">
+            <pre>&lt;form&gt;
+  &lt;!-- Aquí van los cuadros de entrada de texto --&gt;
+  &lt;button type="submit"&gt;Enviar Registro&lt;/button&gt;
+&lt;/form&gt;</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> La Versatilidad de la Etiqueta &lt;input&gt;</h2>
+        <p>La etiqueta <code>&lt;input&gt;</code> es una <strong>etiqueta huérfana</strong> (no se cierra). Su comportamiento cambia por completo según el valor que le asignemos a su atributo <strong>type</strong>:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📝</div>
+                <strong>type="text"</strong>
+                <p>Crea un cuadro de texto común para datos como nombres o usuarios.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔒</div>
+                <strong>type="password"</strong>
+                <p>Oculta los caracteres con puntos negros por seguridad.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔢</div>
+                <strong>type="number"</strong>
+                <p>Solo permite el ingreso de caracteres numéricos.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">💬</div>
+                <strong>placeholder="..."</strong>
+                <p>Atributo que muestra un texto gris de pista dentro del cuadro antes de escribir.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplos visuales:</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;input type="text" placeholder="Ingresá tu nombre de usuario"&gt;</pre>
+        </div>
+        <div class="bloque-codigo">
+            <pre>&lt;input type="password" placeholder="Escribí tu clave secreta"&gt;</pre>
+        </div>
+        <div class="bloque-codigo">
+            <pre>&lt;input type="number" placeholder="Ingresá tu edad"&gt;</pre>
+        </div>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Validador Web</h2>
+            <p>Analiza el funcionamiento de los formularios y elegí la respuesta correcta.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué atributo de la etiqueta &lt;input&gt; define si se comportará como un texto normal o una contraseña oculta?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) El atributo type, que define la naturaleza y validación del campo</button>
+            <button class="btn-opcion" data-indice="1">B) El atributo placeholder sirve para mostrar un texto de sugerencia adentro</button>
+            <button class="btn-opcion" data-indice="2">C) Al usar type="password", el navegador enmascara el texto con puntos</button>
+            <button class="btn-opcion" data-indice="3">D) Todos los inputs deben vivir estrictamente adentro de un &lt;form&gt;</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste todos los niveles de HTML</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué atributo de la etiqueta &lt;input&gt; define si se comportará como un texto normal o una contraseña oculta?",
+                opciones: [
+                    "A) El atributo type, que define la naturaleza y validación del campo",
+                    "B) El atributo placeholder, que muestra un texto de sugerencia",
+                    "C) El atributo value, que establece el valor inicial del campo",
+                    "D) El atributo name, que identifica el campo al enviar el formulario"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Para qué sirve configurar el atributo placeholder en un cuadro de entrada de texto?",
+                opciones: [
+                    "A) Para validar que el texto ingresado sea correcto",
+                    "B) Para mostrar un texto de sugerencia o pista dentro del campo vacío",
+                    "C) Para ocultar los caracteres escritos por el usuario",
+                    "D) Para cambiar el color del borde del campo de texto"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "Si un alumno necesita que los chicos ingresen su clave secreta sin que se vea en pantalla, ¿qué type debe elegir?",
+                opciones: [
+                    "A) type='hidden', que oculta completamente el campo",
+                    "B) type='text', pero con color de fuente blanco",
+                    "C) type='password', que enmascara los caracteres con puntos",
+                    "D) type='secret', un tipo especial para datos confidenciales"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Cuál es la etiqueta contenedora obligatoria que agrupa a todos los elementos de entrada para poder enviarlos?",
+                opciones: [
+                    "A) La etiqueta &lt;div&gt;, que sirve como contenedor genérico",
+                    "B) La etiqueta &lt;section&gt;, para agrupar contenido relacionado",
+                    "C) La etiqueta &lt;fieldset&gt;, exclusiva para formularios",
+                    "D) La etiqueta &lt;form&gt;, que agrupa y permite enviar los datos ingresados"
+                ],
+                correcta: 3
+            },
+            {
+                enunciado: "Si declaramos una etiqueta de entrada como &lt;input type='number'&gt;, ¿qué comportamiento tendrá?",
+                opciones: [
+                    "A) El navegador solo permitirá escribir números y bloqueará las letras",
+                    "B) Convertirá automáticamente cualquier texto en un valor numérico",
+                    "C) Mostrará un teclado numérico solo en dispositivos móviles",
+                    "D) Aceptará cualquier texto pero lo validará como número al enviar"
+                ],
+                correcta: 0
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! Entrada de datos perfecta. +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

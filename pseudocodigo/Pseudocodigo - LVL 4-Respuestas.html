@@ -1,0 +1,32 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Pseudocódigo N4 — Respuestas</title><link rel="stylesheet" href="estilos.css"><style>.aviso-docente{background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.4);border-radius:10px;padding:14px 18px;text-align:center;color:#f59e0b;font-weight:700;margin-bottom:25px}.r{border-left:4px solid #10b981!important}.r h2{color:#10b981!important}</style></head>
+<body><div class="fondo-particulas"></div><header><div class="header-icono">✅</div><h1>Pseudocódigo Nivel 4 — Respuestas <span class="badge-nivel">Docente</span></h1></header><div class="aviso-docente">🔒 SOLO DOCENTE</div>
+<div class="seccion-clase r"><h2><span class="numero-seccion">1</span></h2><div class="bloque-codigo"><pre>Inicio
+  cont = 1
+  Mientras cont <= 10 Hacer
+      Escribir cont
+      cont = cont + 1
+  FinMientras
+Fin</pre></div></div>
+<div class="seccion-clase r"><h2><span class="numero-seccion">2</span></h2><div class="bloque-codigo"><pre>Inicio
+  secreto = 7
+  Escribir "Adiviná el número:"
+  Leer intento
+  Mientras intento != secreto Hacer
+      Escribir "Incorrecto. Probá otra vez:"
+      Leer intento
+  FinMientras
+  Escribir "¡Correcto!"
+Fin</pre></div></div>
+<div class="seccion-clase r"><h2><span class="numero-seccion">3</span></h2><p>A) <strong style="color:#10b981;">PARA</strong> (100 repeticiones fijas). B) <strong style="color:#10b981;">MIENTRAS</strong> (no sabemos cuántos intentos). C) <strong style="color:#10b981;">PARA</strong> (exactamente 10).</p></div>
+<div class="seccion-clase r"><h2><span class="numero-seccion">4</span></h2><p>Es infinito porque <strong style="color:#ef4444;">x > 0</strong> siempre es verdadero y nunca se modifica. Corrección: agregar <code>x = x + 1</code> dentro del bucle, o cambiar la condición a <code>x <= 10</code>.</p></div>
+<div class="seccion-clase r"><h2><span class="numero-seccion">5</span></h2><div class="bloque-codigo"><pre>Inicio
+  bateria = 0
+  Mientras bateria < 100 Hacer
+      Escribir "Cargando... ", bateria, "%"
+      bateria = bateria + 10
+  FinMientras
+  Escribir "🔋 Batería completa."
+Fin</pre></div></div>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body></html>

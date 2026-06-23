@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 13: Tomando Decisiones</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">🔀</div>
+        <h1>Clase 13: Tomando Decisiones <span class="badge-nivel">Nivel 13</span></h1>
+        <p>if, else y comparaciones</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> Condicionales: decisiones en código</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>if / else</strong> permite que el programa <strong>tome decisiones</strong>: ejecuta un bloque de código si se cumple una condición, y otro bloque diferente si no se cumple. Es como un "si... entonces... si no..." de la vida real.
+            </div>
+        </div>
+        <p>La estructura básica es: <code>if (condición) { ... } else { ... }</code>. La condición debe ser algo que se pueda evaluar como verdadero o falso.</p>
+
+        <h3>Ejemplo:</h3>
+        <div class="bloque-codigo">
+            <pre>let edad = 18;
+
+if (edad >= 18) {
+    console.log("Sos mayor de edad");
+} else {
+    console.log("Sos menor de edad");
+}
+// Como edad es 18, se mostrará: "Sos mayor de edad"</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Operadores de comparación</h2>
+        <p>Para escribir condiciones, necesitamos <strong>comparar valores</strong>. Estos son los operadores de comparación en JavaScript:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🎯</div>
+                <strong>=== (igualdad estricta)</strong>
+                <p>Compara valor <strong>y tipo</strong>: <code>5 === 5</code> es true, pero <code>5 === "5"</code> es false.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">❌</div>
+                <strong>!== (distinto)</strong>
+                <p>Verifica que sean diferentes: <code>5 !== 3</code> es true, <code>5 !== 5</code> es false.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⬆️</div>
+                <strong>&gt; y &lt; (mayor / menor)</strong>
+                <p><code>10 &gt; 5</code> es true. <code>3 &lt; 1</code> es false.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📊</div>
+                <strong>&gt;= y &lt;= (mayor o igual / menor o igual)</strong>
+                <p><code>5 &gt;= 5</code> es true. <code>4 &lt;= 3</code> es false.</p>
+            </div>
+        </div>
+
+        <div class="alerta-importante">
+            <span class="icono-alerta">⚠️</span>
+            <div>
+                <strong>¡No confundir!</strong> <code>===</code> compara (¿son iguales?), mientras que <code>=</code> asigna (guardá este valor). Son operadores completamente distintos.
+            </div>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Condiciones compuestas</h2>
+        <p>Podemos combinar varias condiciones usando <strong>operadores lógicos</strong>:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔗</div>
+                <strong>&& (AND - "y")</strong>
+                <p><strong>Ambas</strong> condiciones deben ser true: <code>if (edad &gt;= 18 && tieneLicencia) { ... }</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔀</div>
+                <strong>|| (OR - "o")</strong>
+                <p><strong>Al menos una</strong> condición debe ser true: <code>if (dia === "sábado" || dia === "domingo") { ... }</code></p>
+            </div>
+        </div>
+
+        <h3>Ejemplo práctico:</h3>
+        <div class="bloque-codigo">
+            <pre>let nota = 8;
+let asistencia = 85;
+
+if (nota >= 6 && asistencia >= 80) {
+    console.log("¡Aprobaste la materia!");
+} else {
+    console.log("No cumplís los requisitos.");
+}
+// Muestra: "¡Aprobaste la materia!" (ambas condiciones son true)</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> if / else if / else: múltiples caminos</h2>
+        <p>Cuando hay más de dos alternativas, usamos <code>else if</code> para agregar condiciones intermedias. Se evalúan en orden: apenas una es verdadera, las demás se ignoran.</p>
+
+        <h3>Ejemplo: sistema de calificaciones</h3>
+        <div class="bloque-codigo">
+            <pre>let nota = 75;
+
+if (nota >= 90) {
+    console.log("Excelente");
+} else if (nota >= 70) {
+    console.log("Bien");
+} else if (nota >= 60) {
+    console.log("Regular");
+} else {
+    console.log("A mejorar");
+}
+// Muestra: "Bien" (75 >= 70, pero 75 no >= 90)</pre>
+        </div>
+        <p>El <code>else</code> final (sin condición) es el "plan B": se ejecuta si <strong>ninguna</strong> de las condiciones anteriores se cumplió.</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Árbol de Decisiones</h2>
+            <p>Demostrá lo que aprendiste sobre if, else y comparaciones.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué estructura se usa para tomar decisiones en JavaScript?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) if / else, que ejecuta código según una condición</button>
+            <button class="btn-opcion" data-indice="1">B) for, que repite un bloque de código varias veces</button>
+            <button class="btn-opcion" data-indice="2">C) function, que define un bloque de código reutilizable</button>
+            <button class="btn-opcion" data-indice="3">D) console.log, que muestra mensajes en la consola</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 13: Tomando Decisiones</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué estructura se usa para tomar decisiones en JavaScript?",
+                opciones: [
+                    "A) if / else, que ejecuta código según una condición",
+                    "B) for, que repite un bloque de código varias veces",
+                    "C) function, que define un bloque de código reutilizable",
+                    "D) console.log, que muestra mensajes en la consola"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Qué operador verifica igualdad estricta (valor Y tipo)?",
+                opciones: [
+                    "A) = (un solo signo igual)",
+                    "B) == (doble signo igual)",
+                    "C) === (triple signo igual)",
+                    "D) != (signo de exclamación e igual)"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Qué operador lógico significa \"y\" (ambas condiciones deben cumplirse)?",
+                opciones: [
+                    "A) || (doble barra vertical)",
+                    "B) && (doble ampersand)",
+                    "C) !! (doble exclamación)",
+                    "D) ** (doble asterisco)"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué imprime este código? if (10 > 5) { console.log(\"Sí\") } else { console.log(\"No\") }",
+                opciones: [
+                    "A) \"No\", porque 10 no es mayor que 5",
+                    "B) \"Sí\", porque la condición 10 > 5 es verdadera",
+                    "C) Nada, porque falta un else if",
+                    "D) Un error de sintaxis"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué palabra clave agrega una condición alternativa al if?",
+                opciones: [
+                    "A) else if, para verificar otra condición si la primera es falsa",
+                    "B) else, que siempre se ejecuta sin importar la condición",
+                    "C) switch, que reemplaza completamente al if",
+                    "D) case, que es lo mismo que if pero con otro nombre"
+                ],
+                correcta: 0
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 11: Primeros Pasos en JavaScript</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">💻</div>
+        <h1>Clase 11: Primeros Pasos en JavaScript <span class="badge-nivel">Nivel 11</span></h1>
+        <p>Variables, console.log y alert</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> ¿Qué es JavaScript?</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>JavaScript (JS):</strong> Es un lenguaje de programación que <strong>da vida</strong> a las páginas web. Se ejecuta directamente en el navegador del usuario y permite crear interactividad, animaciones y lógica. <strong>No es Java:</strong> son lenguajes completamente diferentes, solo comparten parte del nombre por razones históricas.
+            </div>
+        </div>
+        <p>Mientras que HTML define la <strong>estructura</strong> y CSS el <strong>estilo</strong>, JavaScript define el <strong>comportamiento</strong> de una página web. Es lo que permite que un botón haga algo al hacer clic, que un formulario valide datos, o que un juego funcione en el navegador.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Variables: guardando información</h2>
+        <p>Una <strong>variable</strong> es como una caja etiquetada donde guardamos un valor para usarlo después. En JavaScript moderno se declaran con <code>let</code> (puede cambiar) o <code>const</code> (no puede cambiar).</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📝</div>
+                <strong>string (texto)</strong>
+                <p>Texto entre comillas: <code>let nombre = "Ana";</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🔢</div>
+                <strong>number (número)</strong>
+                <p>Números sin comillas: <code>let edad = 16;</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">✅</div>
+                <strong>boolean (verdadero/falso)</strong>
+                <p>Solo dos valores: <code>let activo = true;</code></p>
+            </div>
+        </div>
+
+        <div class="alerta-importante">
+            <span class="icono-alerta">⚠️</span>
+            <div>
+                <strong>Importante:</strong> En JavaScript, el signo <code>=</code> es <strong>asignación</strong> (guardar un valor), NO es igualdad. Para comparar si dos cosas son iguales usamos <code>===</code>.
+            </div>
+        </div>
+
+        <h3>Ejemplo de variables:</h3>
+        <div class="bloque-codigo">
+            <pre>let nombre = "Lucía";       // string
+let edad = 17;              // number
+let esEstudiante = true;    // boolean
+const PI = 3.1416;          // constante, no cambia
+
+nombre = "Martín";          // let permite cambiar
+// PI = 3;                  // ¡Error! const no se puede modificar</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> console.log(): viendo lo que pasa</h2>
+        <p><code>console.log()</code> es una herramienta fundamental para programar. Muestra mensajes en la <strong>consola del navegador</strong>, que se abre presionando la tecla <strong>F12</strong> y seleccionando la pestaña "Consola". Es como un diario donde el programa escribe lo que está pasando.</p>
+
+        <h3>Ejemplo:</h3>
+        <div class="bloque-codigo">
+            <pre>let nombre = "Carlos";
+let edad = 15;
+
+console.log("Hola mundo");
+console.log("El nombre es: " + nombre);
+console.log("Edad: " + edad);
+// En la consola del navegador (F12) se verá:
+// Hola mundo
+// El nombre es: Carlos
+// Edad: 15</pre>
+        </div>
+        <p>La consola es indispensable para detectar errores y entender qué está haciendo nuestro código. ¡Acostumbrate a usarla!</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> alert(): mensajes al usuario</h2>
+        <p><code>alert()</code> muestra una <strong>ventana emergente</strong> en el navegador con un mensaje. Es útil para pruebas rápidas y para mostrar información importante al usuario, aunque en sitios web modernos se prefieren métodos menos invasivos.</p>
+
+        <h3>Ejemplo:</h3>
+        <div class="bloque-codigo">
+            <pre>alert("¡Bienvenido a mi página!");
+
+let nombre = prompt("¿Cómo te llamás?");
+alert("Hola " + nombre + ", ¡qué bueno verte!");</pre>
+        </div>
+        <p>También existe <code>prompt()</code>, que le pide al usuario que ingrese un texto y lo devuelve para guardarlo en una variable.</p>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Inspector JavaScript</h2>
+            <p>Demostrá lo que aprendiste sobre variables, console.log y alert.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué palabra clave se usa para declarar una variable que puede cambiar en JavaScript?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) let, que permite modificar el valor después de declararla</button>
+            <button class="btn-opcion" data-indice="1">B) const, que crea una variable de solo lectura</button>
+            <button class="btn-opcion" data-indice="2">C) var, la forma antigua que no se recomienda hoy</button>
+            <button class="btn-opcion" data-indice="3">D) variable, que es la palabra genérica en español</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 11: Primeros Pasos</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué palabra clave se usa para declarar una variable que puede cambiar en JavaScript?",
+                opciones: [
+                    "A) let, que permite modificar el valor después de declararla",
+                    "B) const, que crea una variable de solo lectura",
+                    "C) var, la forma antigua que no se recomienda hoy",
+                    "D) variable, que es la palabra genérica en español"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Qué hace console.log(\"Hola\")?",
+                opciones: [
+                    "A) Muestra \"Hola\" en una ventana emergente del navegador",
+                    "B) Muestra \"Hola\" en la consola del navegador (F12)",
+                    "C) Guarda \"Hola\" en una variable llamada log",
+                    "D) Cambia el título de la página a \"Hola\""
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Cuáles son tipos de datos válidos en JavaScript?",
+                opciones: [
+                    "A) Solamente string (texto)",
+                    "B) Solamente number (número)",
+                    "C) Solamente boolean (true/false)",
+                    "D) string, number y boolean — todos los anteriores"
+                ],
+                correcta: 3
+            },
+            {
+                enunciado: "¿Qué hace alert(\"Bienvenido\")?",
+                opciones: [
+                    "A) Muestra una ventana emergente con el mensaje \"Bienvenido\"",
+                    "B) Escribe \"Bienvenido\" en la consola",
+                    "C) Cambia el color de fondo de la página",
+                    "D) Cierra la página automáticamente"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿JavaScript es lo mismo que Java?",
+                opciones: [
+                    "A) Sí, es una versión simplificada de Java",
+                    "B) Sí, pero solo funciona en navegadores",
+                    "C) No, son lenguajes completamente diferentes",
+                    "D) Depende del navegador que uses"
+                ],
+                correcta: 2
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

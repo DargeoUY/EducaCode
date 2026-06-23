@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 3: Estructurando Datos - Tablas en HTML</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">📊</div>
+        <h1>Clase 3: Estructurando Datos <span class="badge-nivel">Nivel 3</span></h1>
+        <p>Aprendiendo a organizar información compleja mediante filas, columnas y celdas</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> Anatomía de una Tabla HTML</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">📊</span>
+            <div>
+                <strong>El Contenedor Padre (&lt;table&gt;):</strong> Para dibujar una grilla o tabla de datos en la web, todo el contenido debe estar envuelto por la etiqueta <code>&lt;table&gt;</code>. Las tablas no se arman de forma libre; se construyen estrictamente <strong>fila por fila</strong> de arriba hacia abajo.
+            </div>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Las Tres Etiquetas de la Grilla</h2>
+        <p>Para dar vida a las filas y columnas del documento, combinamos tres etiquetas fundamentales de manera jerárquica:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">↔️</div>
+                <strong>&lt;tr&gt;</strong>
+                <p><em>Table Row:</em> Define una <strong>fila completa</strong> horizontal. Es el contenedor de las celdas.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">🏷️</div>
+                <strong>&lt;th&gt;</strong>
+                <p><em>Table Header:</em> Celda de <strong>encabezado</strong>. El navegador la muestra en negrita y centrada.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📋</div>
+                <strong>&lt;td&gt;</strong>
+                <p><em>Table Data:</em> Celda de <strong>contenido común</strong> dentro de la fila. Texto normal alineado a la izquierda.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo de tabla completa:</h3>
+        <div class="bloque-codigo">
+            <pre>&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Nombre&lt;/th&gt;
+    &lt;th&gt;Edad&lt;/th&gt;
+    &lt;th&gt;Nota&lt;/th&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+    &lt;td&gt;Ana&lt;/td&gt;
+    &lt;td&gt;16&lt;/td&gt;
+    &lt;td&gt;9.5&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/table&gt;</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Regla de Construcción</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">🧱</span>
+            <div>
+                <strong>Orden jerárquico obligatorio:</strong> <code>&lt;table&gt;</code> → <code>&lt;tr&gt;</code> → <code>&lt;th&gt;</code> o <code>&lt;td&gt;</code>. Nunca se puede poner un <code>&lt;td&gt;</code> directamente dentro de <code>&lt;table&gt;</code> sin pasar antes por <code>&lt;tr&gt;</code>. Si rompés esta jerarquía, ¡la tabla no se dibuja correctamente!
+            </div>
+        </div>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: El Validador Web</h2>
+            <p>Analiza la estructura de la grilla y elegí la respuesta correcta.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué etiqueta se utiliza para crear una fila horizontal completa dentro de una tabla?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) La etiqueta &lt;tr&gt; para abrir y delimitar cada fila horizontal</button>
+            <button class="btn-opcion" data-indice="1">B) La etiqueta &lt;th&gt; que resalta los títulos en negrita</button>
+            <button class="btn-opcion" data-indice="2">C) La etiqueta &lt;td&gt; para crear filas de datos</button>
+            <button class="btn-opcion" data-indice="3">D) La etiqueta &lt;row&gt;, específica para filas de tabla</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste el Nivel 3: Estructurando Datos</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué etiqueta se utiliza para crear una fila horizontal completa dentro de una tabla?",
+                opciones: [
+                    "A) La etiqueta &lt;tr&gt; (Table Row), que delimita cada fila horizontal",
+                    "B) La etiqueta &lt;th&gt;, que también crea filas además de encabezados",
+                    "C) La etiqueta &lt;td&gt;, que define tanto filas como celdas",
+                    "D) La etiqueta &lt;row&gt;, específica para delimitar filas de tabla"
+                ],
+                correcta: 0
+            },
+            {
+                enunciado: "¿Cuál es la diferencia visual que aporta usar la etiqueta &lt;th&gt; en vez de &lt;td&gt;?",
+                opciones: [
+                    "A) No hay diferencia: ambas se ven exactamente igual en pantalla",
+                    "B) La etiqueta &lt;th&gt; muestra el texto en negrita y centrado automáticamente",
+                    "C) La etiqueta &lt;th&gt; colorea la celda de azul por defecto",
+                    "D) La etiqueta &lt;th&gt; solo funciona en la primera columna de la tabla"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "Si quiero añadir los datos comunes de un alumno (como su nota o apellido), ¿qué etiqueta va dentro de la fila?",
+                opciones: [
+                    "A) La etiqueta &lt;th&gt;, porque todos los datos de tabla son encabezados",
+                    "B) La etiqueta &lt;data&gt;, diseñada para valores de información",
+                    "C) La etiqueta &lt;td&gt; (Table Data), para celdas de contenido común",
+                    "D) La etiqueta &lt;cell&gt;, que representa una celda individual de tabla"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Cuál es la etiqueta contenedora principal que debe envolver a todas las filas y celdas?",
+                opciones: [
+                    "A) La etiqueta &lt;tbody&gt;, que agrupa el cuerpo de la tabla",
+                    "B) La etiqueta &lt;grid&gt;, exclusiva para estructuras de grilla",
+                    "C) La etiqueta &lt;div&gt;, que puede contener cualquier elemento HTML",
+                    "D) La etiqueta &lt;table&gt;, que es el contenedor raíz obligatorio de toda tabla"
+                ],
+                correcta: 3
+            },
+            {
+                enunciado: "Si un código tiene una etiqueta &lt;table&gt; con tres etiquetas &lt;tr&gt; adentro, ¿cuántas filas tiene la tabla?",
+                opciones: [
+                    "A) Tiene exactamente 3 filas horizontales de datos",
+                    "B) Depende de cuántas etiquetas &lt;td&gt; haya dentro de cada &lt;tr&gt;",
+                    "C) Tiene 1 sola fila con 3 columnas",
+                    "D) No se puede saber sin ver el código CSS"
+                ],
+                correcta: 0
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! Estructura perfecta. +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

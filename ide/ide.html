@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IDE Multi-Lenguaje — Materiales1</title>
+    <link rel="stylesheet" data-name="vs/editor/editor.main" href="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/editor/editor.main.css">
+    <style>
+        :root{--bg:#1e1e1e;--panel-bg:#252526;--border:#3c3c3c;--text:#ccc;--text2:#858585;--prim:#0e639c;--ok:#4ec9b0;--err:#f44747;--tab-bg:#2d2d2d;--tab-act:#1e1e1e}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+        .topbar{height:40px;background:var(--panel-bg);display:flex;align-items:center;padding:0 12px;border-bottom:1px solid var(--border);gap:8px;justify-content:space-between}
+        .topbar-left{display:flex;align-items:center;gap:8px}
+        .topbar-right{display:flex;align-items:center;gap:8px}
+        .topbar select,.topbar button{background:var(--tab-bg);color:var(--text);border:1px solid var(--border);padding:4px 10px;border-radius:4px;font-size:0.8rem;cursor:pointer;font-family:inherit}
+        .topbar button:hover{background:var(--prim);border-color:var(--prim);color:#fff}
+        .topbar .run-btn{background:var(--ok);border-color:var(--ok);color:#111;font-weight:700;padding:4px 16px}
+        .topbar .run-btn:hover{background:#3cb89a;color:#111}
+        .topbar .share-btn{background:var(--prim);border-color:var(--prim);color:#fff}
+        .topbar .share-badge{background:rgba(78,201,176,.15);color:var(--ok);font-size:0.75rem;padding:3px 8px;border-radius:4px;font-weight:600}
+        .main-area{flex:1;display:flex}
+        .editor-panel{flex:1;display:flex;flex-direction:column}
+        .tab-bar{height:35px;background:var(--panel-bg);display:flex;align-items:center;padding:0 8px;border-bottom:1px solid var(--border);gap:2px;overflow-x:auto}
+        .file-tab{padding:6px 14px;border-radius:4px 4px 0 0;font-size:0.78rem;cursor:pointer;white-space:nowrap;background:var(--tab-bg);border:1px solid var(--border);border-bottom:none;color:var(--text2)}
+        .file-tab.act{background:var(--bg);color:var(--text);border-bottom-color:var(--bg)}
+        .file-tab .close{font-size:0.7rem;margin-left:6px;opacity:0.6}.file-tab .close:hover{opacity:1;color:var(--err)}
+        .editor-container{flex:1;position:relative}
+        .output-panel{height:200px;min-height:80px;resize:vertical;overflow:auto;background:var(--panel-bg);border-top:1px solid var(--border);display:flex;flex-direction:column}
+        .output-tabs{display:flex;background:var(--tab-bg);border-bottom:1px solid var(--border);padding:0 8px}
+        .output-tab{padding:6px 12px;font-size:0.75rem;cursor:pointer;border-bottom:2px solid transparent;color:var(--text2)}
+        .output-tab.act{border-bottom-color:var(--prim);color:var(--text)}
+        .output-content{flex:1;padding:8px 12px;font-family:'Cascadia Code','Consolas',monospace;font-size:0.85rem;overflow:auto;white-space:pre-wrap}
+        .output-content pre{margin:0}
+        .stdout{color:var(--text)}.stderr{color:var(--err)}.status{color:var(--text2);font-style:italic}
+        .sidebar{width:240px;background:var(--panel-bg);border-left:1px solid var(--border);overflow-y:auto;font-size:0.8rem;padding:8px}
+        .sidebar h4{font-size:0.78rem;color:var(--text2);text-transform:uppercase;margin:8px 0 4px}
+        .file-item{padding:4px 8px;cursor:pointer;border-radius:3px;color:var(--text2)}
+        .file-item:hover{background:var(--tab-bg);color:var(--text)}
+        .room-input{display:flex;gap:8px;align-items:center}
+        .room-input input{background:var(--tab-bg);color:var(--text);border:1px solid var(--border);padding:4px 8px;border-radius:4px;font-size:0.78rem;width:100px;text-transform:uppercase;letter-spacing:2px;font-family:monospace;text-align:center}
+        .room-input input:focus{outline:none;border-color:var(--prim)}
+    </style>
+</head>
+<body>
+<div class="topbar">
+    <div class="topbar-left">
+        <span style="font-weight:700;font-size:0.9rem">💻 IDE</span>
+        <select id="language-select">
+            <option value="python">Python</option>
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+            <option value="css">CSS</option>
+            <option value="php">PHP</option>
+            <option value="java">Java</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+            <option value="csharp">C#</option>
+            <option value="go">Go</option>
+            <option value="rust">Rust</option>
+            <option value="ruby">Ruby</option>
+            <option value="sql">SQL</option>
+            <option value="typescript">TypeScript</option>
+            <option value="bash">Bash</option>
+            <option value="r">R</option>
+            <option value="kotlin">Kotlin</option>
+            <option value="swift">Swift</option>
+            <option value="dart">Dart</option>
+            <option value="lua">Lua</option>
+        </select>
+        <button class="run-btn" onclick="ejecutar()">▶ Ejecutar</button>
+    </div>
+    <div class="topbar-right">
+        <span class="share-badge" id="room-info" style="display:none"></span>
+        <div class="room-input" id="room-join" style="display:flex">
+            <input type="text" id="room-code" placeholder="CÓDIGO" maxlength="6">
+            <button class="share-btn" onclick="joinRoom()">Unirse</button>
+        </div>
+        <button class="share-btn" id="btn-share" onclick="crearSala()" style="display:none">📡 Compartir</button>
+        <button onclick="window.location.href='/'">← Salir</button>
+    </div>
+</div>
+<div class="main-area">
+    <div class="editor-panel">
+        <div class="tab-bar" id="tab-bar">
+            <div class="file-tab act" data-file="main"><span>main</span><span class="close" onclick="cerrarTab(event,'main')">×</span></div>
+        </div>
+        <div class="editor-container" id="editor-container"></div>
+        <div class="output-panel" id="output-panel">
+            <div class="output-tabs">
+                <div class="output-tab act" data-out="terminal">Terminal</div>
+                <div class="output-tab" data-out="preview">Vista previa</div>
+            </div>
+            <div class="output-content" id="output"></div>
+            <iframe id="preview-frame" style="display:none;width:100%;height:100%;border:none;background:#fff;flex:1"></iframe>
+        </div>
+    </div>
+    <div class="sidebar" id="sidebar">
+        <h4>Archivos</h4>
+        <div id="file-list">
+            <div class="file-item" data-file="main">📄 main</div>
+        </div>
+        <button style="width:100%;margin-top:8px;background:var(--tab-bg);color:var(--text2);border:1px solid var(--border);padding:4px;border-radius:4px;cursor:pointer;font-size:0.78rem" onclick="nuevoArchivo()">+ Nuevo archivo</button>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+<script src="/static/js/seguridad.js"></script>
+<script>
+var ROOM_CODE=null,ROLE=null,WS=null,EDITOR=null;
+var FILES={'main':{name:'main',content:'# Escribí tu código aquí\nprint("Hola desde el IDE de Materiales1")'}};
+var ACTIVE_FILE='main';
+var REMOTE_MODE=false;
+
+var params=new URLSearchParams(window.location.search);
+if(params.get('room')){ROOM_CODE=params.get('room');ROLE=params.get('rol')||'estudiante'}
+
+require.config({paths:{vs:'https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs'}});
+require(['vs/editor/editor.main'],function(){
+    EDITOR=monaco.editor.create(document.getElementById('editor-container'),{
+        value:FILES['main'].content,language:'python',theme:'vs-dark',
+        fontSize:15,fontFamily:"'Cascadia Code','Consolas','Fira Code',monospace",
+        minimap:{enabled:true},automaticLayout:true,tabSize:4,
+        scrollBeyondLastLine:false,lineNumbers:'on',renderWhitespace:'selection',
+        bracketPairColorization:{enabled:true},
+    });
+
+    document.getElementById('language-select').addEventListener('change',function(){
+        var lang=this.value,monacoLang=lang==='cpp'?'cpp':lang==='csharp'?'csharp':lang;
+        monaco.editor.setModelLanguage(EDITOR.getModel(),monacoLang);
+        document.querySelector('.file-tab.act').querySelector('span').textContent='main.'+(lang==='javascript'?'js':lang==='typescript'?'ts':lang);
+    });
+
+    EDITOR.onDidChangeModelContent(function(){
+        if(REMOTE_MODE)return;
+        FILES[ACTIVE_FILE].content=EDITOR.getValue();
+        sendToRoom({type:'content',content:EDITOR.getValue(),language:document.getElementById('language-select').value});
+    });
+
+    document.querySelectorAll('.output-tab').forEach(function(t){t.addEventListener('click',function(){
+        document.querySelectorAll('.output-tab').forEach(function(x){x.classList.remove('act')});
+        t.classList.add('act');
+        var out=t.dataset.out;
+        document.getElementById('output').style.display=out==='terminal'?'block':'none';
+        document.getElementById('preview-frame').style.display=out==='preview'?'block':'none';
+    })});
+
+    setupRoom();
+});
+
+function setupRoom(){
+    if(!ROOM_CODE)return;
+    REMOTE_MODE=ROLE!=='docente';
+    document.getElementById('room-join').style.display='none';
+    document.getElementById('room-info').style.display='inline';
+    document.getElementById('room-info').textContent='Sala: '+ROOM_CODE+' ('+(ROLE==='docente'?'Compartiendo':'Observando')+')';
+    if(ROLE==='docente'){document.getElementById('btn-share').style.display='none';EDITOR.updateOptions({readOnly:false})}
+    else{EDITOR.updateOptions({readOnly:true});document.getElementById('btn-share').style.display='none'}
+    connectWS();
+}
+
+function crearSala(){
+    var token=localStorage.getItem('token');
+    if(!token){alert('Debés iniciar sesión como docente');return}
+    fetch('/api/compartir/crear',{method:'POST',headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}})
+    .then(function(r){return r.json()}).then(function(d){
+        if(d.ok){
+            ROOM_CODE=d.codigo_sala;ROLE='docente';REMOTE_MODE=false;
+            document.getElementById('room-join').style.display='none';
+            document.getElementById('room-info').style.display='inline';
+            document.getElementById('room-info').textContent='Sala: '+ROOM_CODE+' (Compartiendo)';
+            document.getElementById('btn-share').style.display='none';
+            connectWS();
+        }
+    });
+}
+
+function joinRoom(){
+    var code=document.getElementById('room-code').value.trim().toUpperCase();
+    if(!code||code.length!==6){alert('Ingresá un código de sala válido (6 caracteres)');return}
+    ROOM_CODE=code;ROLE='estudiante';REMOTE_MODE=true;
+    document.getElementById('room-join').style.display='none';
+    document.getElementById('room-info').style.display='inline';
+    document.getElementById('room-info').textContent='Sala: '+code+' (Observando)';
+    EDITOR.updateOptions({readOnly:true});
+    connectWS();
+}
+
+function connectWS(){
+    var proto=window.location.protocol==='https:'?'wss':'ws';
+    var wsUrl=proto+'://'+window.location.host+'/ws/compartir/'+ROOM_CODE+'?token='+(localStorage.getItem('token')||'');
+    WS=new WebSocket(wsUrl);
+    WS.onopen=function(){WS.send(JSON.stringify({type:'join',rol:ROLE}))};
+    WS.onmessage=function(e){
+        var d=JSON.parse(e.data);
+        if(d.type==='content'){
+            REMOTE_MODE=true;
+            EDITOR.setValue(d.content);
+            if(d.language){document.getElementById('language-select').value=d.language;EDITOR.getModel().setLanguage(d.language)}
+            REMOTE_MODE=ROLE!=='docente';
+        }else if(d.type==='restore'&&ROLE==='docente'){
+            if(d.content)EDITOR.setValue(d.content);
+            if(d.language){document.getElementById('language-select').value=d.language;EDITOR.getModel().setLanguage(d.language)}
+        }
+    };
+    WS.onclose=function(){if(ROLE!=='docente'){document.getElementById('room-info').textContent='Sala desconectada'}};
+    WS.onerror=function(){if(ROLE!=='docente'){document.getElementById('room-info').textContent='Error de conexión'}};
+}
+
+function sendToRoom(data){if(WS&&WS.readyState===WebSocket.OPEN)WS.send(JSON.stringify(data))}
+
+function ejecutar(){
+    var code=EDITOR.getValue(),lang=document.getElementById('language-select').value;
+    var out=document.getElementById('output'),preview=document.getElementById('preview-frame');
+    out.innerHTML='<span class="status">Ejecutando...</span>';
+    out.style.display='block';preview.style.display='none';
+    document.querySelectorAll('.output-tab').forEach(function(t){t.classList.remove('act')});
+    document.querySelector('[data-out="terminal"]').classList.add('act');
+
+    if(lang==='html'){
+        var fullDoc=code.includes('<html')?code:'<!DOCTYPE html><html><head><style>body{font-family:sans-serif;padding:20px}</style></head><body>'+code+'</body></html>';
+        preview.style.display='block';out.style.display='none';
+        document.querySelectorAll('.output-tab').forEach(function(t){t.classList.remove('act')});
+        document.querySelector('[data-out="preview"]').classList.add('act');
+        preview.srcdoc=fullDoc;return;
+    }
+
+    if(lang==='javascript'){
+        try{var consoleOutput='';var oldLog=console.log;console.log=function(){consoleOutput+=Array.from(arguments).join(' ')+'\n'};
+            var result=eval(code);console.log=oldLog;
+            out.innerHTML=(consoleOutput||'')+'<span class="status">Resultado: '+(result!==undefined?result:'undefined')+'</span>';}
+        catch(e){out.innerHTML='<span class="stderr">Error: '+e.message+'</span>'}
+        return;
+    }
+
+    var token=localStorage.getItem('token');
+    fetch('/api/ide/ejecutar',{method:'POST',headers:{'Authorization':'Bearer '+(token||''),'Content-Type':'application/json'},body:JSON.stringify({lenguaje:lang,codigo:code})})
+    .then(function(r){return r.json()}).then(function(d){
+        if(!d.ok){out.innerHTML='<span class="stderr">'+d.detail+'</span>';return}
+        var run=d.run||{};
+        var outText=((run.stdout||'')+(run.stderr?'\n<span class="stderr">'+run.stderr+'</span>':'')+(run.output?'\n'+run.output:''));
+        out.innerHTML=(outText||'<span class="status">Ejecución completada (sin salida)</span>')+(run.code!==0?'<br><span class="status">Código de salida: '+run.code+'</span>':'');
+    }).catch(function(){out.innerHTML='<span class="stderr">Error de conexión al servidor</span>'});
+}
+
+var fileCounter=1;
+function nuevoArchivo(){
+    var name=prompt('Nombre del archivo:','archivo'+fileCounter);
+    if(!name)return;
+    fileCounter++;
+    FILES[name]={name:name,content:''};
+    var tab=document.createElement('div');tab.className='file-tab';tab.dataset.file=name;
+    tab.innerHTML='<span>'+name+'</span><span class="close" onclick="cerrarTab(event,\''+name+'\')">×</span>';
+    tab.addEventListener('click',function(e){if(!e.target.classList.contains('close'))selectFile(name)});
+    document.getElementById('tab-bar').appendChild(tab);
+    var item=document.createElement('div');item.className='file-item';item.dataset.file=name;
+    item.textContent='📄 '+name;item.addEventListener('click',function(){selectFile(name)});
+    document.getElementById('file-list').appendChild(item);
+    selectFile(name);
+}
+
+function selectFile(name){
+    REMOTE_MODE=true;
+    EDITOR.setValue(FILES[name].content||'');
+    ACTIVE_FILE=name;
+    document.querySelectorAll('.file-tab').forEach(function(t){t.classList.remove('act')});
+    document.querySelector('.file-tab[data-file="'+name+'"]').classList.add('act');
+    REMOTE_MODE=ROLE!=='docente';
+}
+
+function cerrarTab(e,name){
+    e.stopPropagation();
+    if(Object.keys(FILES).length<=1)return;
+    var tab=document.querySelector('.file-tab[data-file="'+name+'"]');
+    var wasActive=tab.classList.contains('act');
+    delete FILES[name];
+    tab.remove();
+    var item=document.querySelector('.file-item[data-file="'+name+'"]');if(item)item.remove();
+    if(wasActive){var first=Object.keys(FILES)[0];selectFile(first)}
+}
+
+document.addEventListener('keydown',function(e){
+    if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();ejecutar()}
+    if((e.ctrlKey||e.metaKey)&&e.key==='s'){e.preventDefault();REMOTE_MODE=true;FILES[ACTIVE_FILE].content=EDITOR.getValue();REMOTE_MODE=ROLE!=='docente';sendToRoom({type:'content',content:EDITOR.getValue(),language:document.getElementById('language-select').value})}
+});
+
+var token=localStorage.getItem('token');
+if(token){document.getElementById('btn-share').style.display='inline-block';document.getElementById('room-join').style.display='flex'}
+else{document.getElementById('btn-share').style.display='none'}
+</script>
+</body>
+</html>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 7: El Modelo de Cajas</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+    <button class="btn-tema" id="btn-tema" title="Cambiar tema">☀️</button>
+
+    <div class="fondo-particulas" id="fondo-particulas"></div>
+
+    <header>
+        <div class="header-icono">📦</div>
+        <h1>Clase 7: El Modelo de Cajas <span class="badge-nivel">Nivel 7</span></h1>
+        <p>Margin, padding, border y dimensiones</p>
+    </header>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">1</span> El Modelo de Cajas (Box Model)</h2>
+        <div class="alerta-importante">
+            <span class="icono-alerta">💡</span>
+            <div>
+                <strong>Todo elemento HTML es una caja rectangular.</strong> Cada caja está compuesta por cuatro capas concéntricas: <strong>content</strong> (contenido) → <strong>padding</strong> (relleno interno) → <strong>border</strong> (borde) → <strong>margin</strong> (margen externo). Entender este modelo es clave para maquetar páginas web correctamente.
+            </div>
+        </div>
+        <p>Imaginá una foto en un portarretratos: la foto es el <strong>content</strong>, el cartón alrededor es el <strong>padding</strong>, el marco es el <strong>border</strong> y el espacio hasta la pared es el <strong>margin</strong>.</p>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">2</span> Margin y Padding</h2>
+        <p>Margin y padding son dos propiedades fundamentales pero con propósitos muy distintos:</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⬆️</div>
+                <strong>margin</strong>
+                <p>Espacio <strong>EXTERNO</strong>: separa el elemento de otros elementos. No tiene color de fondo. Se puede aplicar a los cuatro lados: <code>margin-top</code>, <code>margin-right</code>, <code>margin-bottom</code>, <code>margin-left</code>.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⬇️</div>
+                <strong>padding</strong>
+                <p>Espacio <strong>INTERNO</strong>: separa el contenido del borde del elemento. Sí tiene el color de fondo del elemento. También se controla por lados: <code>padding-top</code>, <code>padding-right</code>, etc.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: div con margin y padding:</h3>
+        <div class="bloque-codigo">
+            <pre>div {
+    margin: 20px;       /* espacio externo: 20px a cada lado */
+    padding: 15px;      /* espacio interno: 15px a cada lado */
+    background: lightblue;
+}
+
+/* Forma abreviada con 4 valores: arriba derecha abajo izquierda */
+div {
+    margin: 10px 20px 10px 20px;
+    padding: 5px 15px 5px 15px;
+}</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">3</span> Bordes</h2>
+        <p>La propiedad <code>border</code> permite definir el borde de un elemento con tres componentes: <strong>ancho</strong>, <strong>estilo</strong> y <strong>color</strong>.</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">━━</div>
+                <strong>border: solid</strong>
+                <p>Borde sólido continuo. Es el más común. Ej: <code>border: 2px solid black;</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">┅┅</div>
+                <strong>border: dashed</strong>
+                <p>Borde con línea discontinua. Ej: <code>border: 2px dashed gray;</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">···</div>
+                <strong>border: dotted</strong>
+                <p>Borde con puntos. Ej: <code>border: 2px dotted blue;</code></p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">⭕</div>
+                <strong>border-radius</strong>
+                <p>Redondea las esquinas del borde. Ej: <code>border-radius: 10px;</code> ¡Con 50% hacés un círculo!</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo de bordes con distintos estilos:</h3>
+        <div class="bloque-codigo">
+            <pre>.solido {
+    border: 3px solid red;
+}
+
+.discontinuo {
+    border: 2px dashed green;
+}
+
+.redondeado {
+    border: 2px solid blue;
+    border-radius: 12px;
+}</pre>
+        </div>
+    </div>
+
+    <div class="seccion-clase">
+        <h2><span class="numero-seccion">4</span> Width y Height</h2>
+        <p>Las propiedades <code>width</code> (ancho) y <code>height</code> (alto) controlan las dimensiones de un elemento. Se pueden usar valores en píxeles o porcentajes.</p>
+
+        <div class="tarjetas-input">
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📏</div>
+                <strong>Píxeles (px)</strong>
+                <p>Valor fijo que no cambia. Ej: <code>width: 300px;</code> — el elemento mide 300px sin importar el tamaño de la pantalla.</p>
+            </div>
+            <div class="tarjeta-input">
+                <div class="tarjeta-icono">📊</div>
+                <strong>Porcentajes (%)</strong>
+                <p>Valor relativo al elemento padre. Ej: <code>width: 50%;</code> — el elemento ocupa la mitad del ancho de su contenedor.</p>
+            </div>
+        </div>
+
+        <h3>Ejemplo: dimensiones con px y %:</h3>
+        <div class="bloque-codigo">
+            <pre>.caja-fija {
+    width: 300px;      /* ancho fijo de 300 píxeles */
+    height: 200px;     /* alto fijo de 200 píxeles */
+}
+
+.caja-flexible {
+    width: 50%;        /* ocupa la mitad del ancho del padre */
+    height: auto;      /* el alto se ajusta al contenido */
+}</pre>
+        </div>
+    </div>
+
+    <div id="bloque-juego">
+        <div class="juego-encabezado">
+            <h2>🎮 Desafío: Constructor de Cajas</h2>
+            <p>Demostrá lo que aprendiste sobre el modelo de cajas.</p>
+        </div>
+
+        <div class="panel-progreso">
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Pregunta</span>
+                <strong id="numero-pregunta">1/5</strong>
+            </div>
+            <div class="barra-progreso-contenedor">
+                <div class="barra-progreso" id="barra-progreso"></div>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Puntaje</span>
+                <strong id="puntaje">0 pts</strong>
+            </div>
+            <div class="progreso-item">
+                <span class="progreso-etiqueta">Tiempo</span>
+                <strong id="cronometro">0s</strong>
+            </div>
+        </div>
+
+        <div id="pantalla-etiqueta">¿Qué propiedad CSS agrega espacio DENTRO del elemento, entre el contenido y el borde?</div>
+
+        <div class="contenedor-botones" id="opciones-juego">
+            <button class="btn-opcion" data-indice="0">A) La propiedad margin, que agrega espacio externo</button>
+            <button class="btn-opcion" data-indice="1">B) La propiedad padding, que agrega espacio interno</button>
+            <button class="btn-opcion" data-indice="2">C) La propiedad border, que define el borde del elemento</button>
+            <button class="btn-opcion" data-indice="3">D) La propiedad gap, que agrega separación entre elementos flex</button>
+        </div>
+
+        <div id="resultado-juego">¡El tiempo comenzará a correr cuando selecciones tu primera opción!</div>
+    </div>
+
+    <div id="pantalla-final" class="oculto">
+        <div class="trofeo">🏆</div>
+        <h2>¡Felicidades!</h2>
+        <p>Completaste Nivel 7: El Modelo de Cajas</p>
+        <div class="estadisticas-finales">
+            <div class="stat">
+                <span class="stat-numero" id="stat-puntaje">0</span>
+                <span class="stat-etiqueta">Puntos</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-tiempo">0s</span>
+                <span class="stat-etiqueta">Tiempo</span>
+            </div>
+            <div class="stat">
+                <span class="stat-numero" id="stat-aciertos">0/5</span>
+                <span class="stat-etiqueta">Aciertos</span>
+            </div>
+        </div>
+        <button class="btn-reiniciar" onclick="reiniciarJuego()">🔄 Jugar de nuevo</button>
+    </div>
+
+    <script>
+        const bancoPreguntas = [
+            {
+                enunciado: "¿Qué propiedad CSS agrega espacio DENTRO del elemento, entre el contenido y el borde?",
+                opciones: [
+                    "A) La propiedad margin, que agrega espacio externo",
+                    "B) La propiedad padding, que agrega espacio interno",
+                    "C) La propiedad border, que define el borde del elemento",
+                    "D) La propiedad gap, que agrega separación entre elementos flex"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué propiedad CSS agrega espacio FUERA del elemento, separándolo de otros?",
+                opciones: [
+                    "A) La propiedad padding, que controla el espacio interno",
+                    "B) La propiedad outline, que dibuja un contorno invisible",
+                    "C) La propiedad margin, que controla el espacio externo",
+                    "D) La propiedad position, que controla la ubicación"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "¿Cómo se escribe un borde rojo de 2 píxeles sólido en CSS?",
+                opciones: [
+                    "A) border-line: 2 solid red;",
+                    "B) border: 2px solid red;",
+                    "C) border-style: red 2px;",
+                    "D) outline: red 2px solid;"
+                ],
+                correcta: 1
+            },
+            {
+                enunciado: "¿Qué propiedad CSS redondea las esquinas de un elemento?",
+                opciones: [
+                    "A) La propiedad box-round",
+                    "B) La propiedad corner-style",
+                    "C) La propiedad border-radius",
+                    "D) La propiedad border-curve"
+                ],
+                correcta: 2
+            },
+            {
+                enunciado: "En el modelo de cajas, ¿qué orden tienen las capas de adentro hacia afuera?",
+                opciones: [
+                    "A) border → margin → padding → content",
+                    "B) content → padding → border → margin",
+                    "C) margin → border → padding → content",
+                    "D) padding → content → margin → border"
+                ],
+                correcta: 1
+            }
+        ];
+
+        let indicePregunta = 0;
+        let tiempoSegundos = 0;
+        let intervaloTiempo = null;
+        let juegoTerminado = false;
+        let puntaje = 0;
+        let aciertos = 0;
+        let respondiendo = false;
+
+        function activarCronometro() {
+            intervaloTiempo = setInterval(() => {
+                if (!juegoTerminado) {
+                    tiempoSegundos++;
+                    document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                }
+            }, 1000);
+        }
+
+        function actualizarBarraProgreso() {
+            const porcentaje = (indicePregunta / bancoPreguntas.length) * 100;
+            document.getElementById("barra-progreso").style.width = porcentaje + "%";
+        }
+
+        function evaluar(indiceOpcion) {
+            if (juegoTerminado || respondiendo) return;
+            respondiendo = true;
+
+            if (intervaloTiempo === null) {
+                activarCronometro();
+            }
+
+            const preguntaActual = bancoPreguntas[indicePregunta];
+            const esCorrecta = (indiceOpcion === preguntaActual.correcta);
+            const mensajePantalla = document.getElementById("resultado-juego");
+            const botones = document.querySelectorAll(".btn-opcion");
+
+            botones.forEach(btn => btn.disabled = true);
+
+            const botonElegido = document.querySelector(`.btn-opcion[data-indice="${indiceOpcion}"]`);
+            const botonCorrecto = document.querySelector(`.btn-opcion[data-indice="${preguntaActual.correcta}"]`);
+
+            if (esCorrecta) {
+                botonElegido.classList.add("acierto");
+                puntaje += 100;
+                aciertos++;
+                document.getElementById("puntaje").innerText = puntaje + " pts";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">✅</span> ¡Correcto! +100 pts';
+                mensajePantalla.className = "resultado-exito";
+
+                indicePregunta++;
+                actualizarBarraProgreso();
+
+                if (indicePregunta < bancoPreguntas.length) {
+                    setTimeout(cargarSiguientePregunta, 1200);
+                } else {
+                    juegoTerminado = true;
+                    clearInterval(intervaloTiempo);
+                    setTimeout(mostrarPantallaFinal, 1200);
+                }
+            } else {
+                botonElegido.classList.add("error");
+                botonCorrecto.classList.add("revelar");
+                tiempoSegundos += 10;
+                document.getElementById("cronometro").innerText = tiempoSegundos + "s";
+                mensajePantalla.innerHTML = '<span class="icono-resultado">❌</span> ¡Incorrecto! Se marcó la respuesta correcta. +10s de penalización.';
+                mensajePantalla.className = "resultado-error";
+
+                setTimeout(() => {
+                    botones.forEach(btn => btn.disabled = false);
+                    botonElegido.classList.remove("error");
+                    botonCorrecto.classList.remove("revelar");
+                    respondiendo = false;
+                }, 2000);
+            }
+        }
+
+        function cargarSiguientePregunta() {
+            actualizarPreguntaEnPantalla();
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach(btn => {
+                btn.disabled = false;
+                btn.classList.remove("acierto");
+            });
+            document.getElementById("resultado-juego").innerHTML = "";
+            document.getElementById("resultado-juego").className = "";
+            respondiendo = false;
+
+            const pantalla = document.getElementById("pantalla-etiqueta");
+            pantalla.style.animation = "none";
+            pantalla.offsetHeight;
+            pantalla.style.animation = "fadeSlideIn 0.4s ease-out";
+        }
+
+        function actualizarPreguntaEnPantalla() {
+            document.getElementById("numero-pregunta").innerText = (indicePregunta + 1) + "/" + bancoPreguntas.length;
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[indicePregunta].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[indicePregunta].opciones[i];
+                btn.dataset.indice = i;
+            });
+        }
+
+        function mostrarPantallaFinal() {
+            document.getElementById("bloque-juego").classList.add("oculto");
+            document.getElementById("pantalla-final").classList.remove("oculto");
+            document.getElementById("stat-puntaje").innerText = puntaje;
+            document.getElementById("stat-tiempo").innerText = tiempoSegundos + "s";
+            document.getElementById("stat-aciertos").innerText = aciertos + "/5";
+
+            if (aciertos === 5) {
+                lanzarConfeti();
+            }
+        }
+
+        function reiniciarJuego() {
+            indicePregunta = 0;
+            tiempoSegundos = 0;
+            puntaje = 0;
+            aciertos = 0;
+            juegoTerminado = false;
+            respondiendo = false;
+            intervaloTiempo = null;
+
+            document.getElementById("bloque-juego").classList.remove("oculto");
+            document.getElementById("pantalla-final").classList.add("oculto");
+            document.getElementById("numero-pregunta").innerText = "1/5";
+            document.getElementById("cronometro").innerText = "0s";
+            document.getElementById("puntaje").innerText = "0 pts";
+            document.getElementById("barra-progreso").style.width = "0%";
+            document.getElementById("pantalla-etiqueta").innerHTML = bancoPreguntas[0].enunciado;
+
+            const botones = document.querySelectorAll(".btn-opcion");
+            botones.forEach((btn, i) => {
+                btn.innerText = bancoPreguntas[0].opciones[i];
+                btn.disabled = false;
+                btn.className = "btn-opcion";
+                btn.dataset.indice = i;
+            });
+
+            document.getElementById("resultado-juego").innerHTML = "¡El tiempo comenzará a correr cuando selecciones tu primera opción!";
+            document.getElementById("resultado-juego").className = "";
+            document.getElementById("pantalla-final").innerHTML = document.getElementById("pantalla-final").innerHTML.replace(/<div class="confeti".*?<\/div>/gs, "");
+        }
+
+        function lanzarConfeti() {
+            const colores = ["#f59e0b", "#ef4444", "#8b5cf6", "#10b981", "#3b82f6", "#ec4899", "#f97316"];
+            const contenedor = document.getElementById("pantalla-final");
+
+            for (let i = 0; i < 80; i++) {
+                const confeti = document.createElement("div");
+                confeti.className = "confeti";
+                confeti.style.left = Math.random() * 100 + "%";
+                confeti.style.animationDelay = Math.random() * 3 + "s";
+                confeti.style.animationDuration = (Math.random() * 2 + 2.5) + "s";
+                confeti.style.backgroundColor = colores[Math.floor(Math.random() * colores.length)];
+                confeti.style.width = (Math.random() * 10 + 5) + "px";
+                confeti.style.height = (Math.random() * 10 + 5) + "px";
+                confeti.style.borderRadius = Math.random() > 0.5 ? "50%" : "2px";
+                contenedor.appendChild(confeti);
+            }
+        }
+
+        document.querySelectorAll(".btn-opcion").forEach(btn => {
+            btn.addEventListener("click", function() {
+                evaluar(parseInt(this.dataset.indice));
+            });
+        });
+    </script>
+
+<script>
+        (function() {
+            const btn = document.getElementById("btn-tema");
+            const temaGuardado = localStorage.getItem("tema");
+            if (temaGuardado === "claro") {
+                document.body.classList.add("tema-claro");
+                btn.textContent = "🌙";
+            }
+            btn.addEventListener("click", () => {
+                document.body.classList.toggle("tema-claro");
+                const esClaro = document.body.classList.contains("tema-claro");
+                btn.textContent = esClaro ? "🌙" : "☀️";
+                localStorage.setItem("tema", esClaro ? "claro" : "oscuro");
+            });
+        })();
+    </script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>

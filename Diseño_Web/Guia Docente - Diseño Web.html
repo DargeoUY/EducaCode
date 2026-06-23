@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Docente - Diseño Web</title>
+    <style>
+        :root { --bg: #f1f5f9; --card: #fff; --text: #1e293b; --muted: #64748b; --primary: #6366f1; --border: #e2e8f0; --n1: #3b82f6; --n2: #10b981; --n3: #f59e0b; --n4: #ec4899; --n5: #8b5cf6; --n6: #f97316; --n7: #f97316; --n8: #f97316; --n9: #f97316; --n10: #ea580c; --n11: #eab308; --n12: #eab308; --n13: #eab308; --n14: #eab308; --n15: #ca8a04; --gen: #6366f1; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; padding: 0; }
+        header { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; padding: 30px; text-align: center; }
+        header h1 { font-size: 1.6rem; margin-bottom: 4px; }
+        header p { opacity: 0.9; font-size: 0.95rem; }
+        .tabs { display: flex; background: var(--card); border-bottom: 2px solid var(--border); position: sticky; top: 0; z-index: 10; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .tabs button, .tabs .drop-btn { flex: 1 0 auto; padding: 14px 16px; border: none; background: transparent; cursor: pointer; font-size: 0.85rem; font-weight: 600; color: var(--muted); border-bottom: 3px solid transparent; transition: all 0.2s; white-space: nowrap; font-family: inherit; }
+        .tabs button:hover, .tabs .drop-btn:hover { color: var(--primary); background: #f8fafc; }
+        .tabs button.activo { color: var(--primary); border-bottom-color: var(--primary); background: #eef2ff; }
+        .tabs .tab-html.activo { color: #1d4ed8; border-bottom-color: #3b82f6; background: #eff6ff; }
+        .tabs .tab-css.activo { color: #ea580c; border-bottom-color: #f97316; background: #fff7ed; }
+        .tabs .tab-js.activo { color: #a16207; border-bottom-color: #eab308; background: #fefce8; }
+        .dropdown { position: relative; flex: 1 0 auto; }
+        .drop-btn { width: 100%; text-align: center; }
+        .drop-menu { display: none; position: absolute; top: 100%; left: 0; right: 0; background: var(--card); border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); z-index: 20; overflow: hidden; }
+        .drop-menu a { display: block; padding: 11px 16px; font-size: 0.82rem; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); transition: all 0.15s; cursor: pointer; font-weight: 500; }
+        .drop-menu a:hover { background: #f8fafc; color: var(--primary); }
+        .drop-menu a:last-child { border-bottom: none; }
+        .dropdown.abierto .drop-menu { display: block; }
+        .dropdown.abierto .drop-btn { color: var(--primary); background: #eef2ff; }
+        .dropdown.abierto.html .drop-btn { color: #1d4ed8; background: #eff6ff; border-bottom-color: #3b82f6; }
+        .dropdown.abierto.css .drop-btn { color: #ea580c; background: #fff7ed; border-bottom-color: #f97316; }
+        .dropdown.abierto.js .drop-btn { color: #a16207; background: #fefce8; border-bottom-color: #eab308; }
+        .tabs .tab-n6.activo { color: var(--n6); border-bottom-color: var(--n6); background: #fff7ed; }
+        .tabs .tab-n7.activo { color: var(--n7); border-bottom-color: var(--n7); background: #fff7ed; }
+        .tabs .tab-n8.activo { color: var(--n8); border-bottom-color: var(--n8); background: #fff7ed; }
+        .tabs .tab-n9.activo { color: var(--n9); border-bottom-color: var(--n9); background: #fff7ed; }
+        .tabs .tab-n10.activo { color: var(--n10); border-bottom-color: var(--n10); background: #ffedd5; }
+        .tabs .tab-n11.activo { color: var(--n11); border-bottom-color: var(--n11); background: #fefce8; }
+        .tabs .tab-n12.activo { color: var(--n12); border-bottom-color: var(--n12); background: #fefce8; }
+        .tabs .tab-n13.activo { color: var(--n13); border-bottom-color: var(--n13); background: #fefce8; }
+        .tabs .tab-n14.activo { color: var(--n14); border-bottom-color: var(--n14); background: #fefce8; }
+        .tabs .tab-n15.activo { color: var(--n15); border-bottom-color: var(--n15); background: #fef9c3; }
+        .contenido { max-width: 960px; margin: 0 auto; padding: 20px; }
+        .pestana { display: none; }
+        .pestana.activa { display: block; }
+        .seccion { background: var(--card); padding: 25px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,0.05); margin-bottom: 20px; }
+        h2 { color: var(--primary); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin: 0 0 15px; font-size: 1.3rem; }
+        h3 { color: #4f46e5; margin: 18px 0 8px; font-size: 1.05rem; }
+        h4 { margin: 10px 0 6px; font-size: 0.95rem; color: var(--text); }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.85rem; }
+        th { background: var(--primary); color: white; padding: 9px 10px; text-align: left; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; }
+        td { padding: 9px 10px; border-bottom: 1px solid var(--border); }
+        tr:nth-child(even) { background: #f8fafc; }
+        .badge { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 0.72rem; font-weight: 700; margin-right: 6px; }
+        .badge-n1 { background: #dbeafe; color: #1d4ed8; }
+        .badge-n2 { background: #dcfce7; color: #15803d; }
+        .badge-n3 { background: #fef3c7; color: #b45309; }
+        .badge-n4 { background: #fce7f3; color: #be185d; }
+        .badge-n5 { background: #e0e7ff; color: #4338ca; }
+        .badge-n6 { background: #fff7ed; color: #c2410c; }
+        .badge-n7 { background: #fff7ed; color: #c2410c; }
+        .badge-n8 { background: #fff7ed; color: #c2410c; }
+        .badge-n9 { background: #fff7ed; color: #c2410c; }
+        .badge-n10 { background: #ffedd5; color: #9a3412; }
+        .badge-n11 { background: #fefce8; color: #a16207; }
+        .badge-n12 { background: #fefce8; color: #a16207; }
+        .badge-n13 { background: #fefce8; color: #a16207; }
+        .badge-n14 { background: #fefce8; color: #a16207; }
+        .badge-n15 { background: #fef9c3; color: #854d0e; }
+        .pregunta { background: #fef3c7; border-left: 4px solid #f59e0b; padding: 14px 18px; border-radius: 0 8px 8px 0; font-style: italic; margin: 10px 0; font-size: 1rem; }
+        .resumen { background: #eef2ff; border: 1px solid #c7d2fe; padding: 16px 20px; border-radius: 8px; font-size: 0.9rem; line-height: 1.8; }
+        .consejo { background: #dcfce7; border-left: 4px solid #10b981; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; }
+        .peligro { background: #fee2e2; border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 0 6px 6px 0; margin: 10px 0; font-size: 0.88rem; }
+        .tiempo { color: var(--muted); font-size: 0.8rem; font-weight: 600; }
+        .ejemplo { background: #f8fafc; border: 1px dashed var(--border); padding: 12px 15px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; margin: 8px 0; white-space: pre-wrap; }
+        .btn-nav { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-decoration: none; cursor: pointer; border: none; font-family: inherit; transition: all 0.2s; }
+        .btn-ejercicios { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+        .btn-ejercicios:hover { background: #dbeafe; }
+        .btn-respuestas { background: #ecfdf5; color: #15803d; border: 1px solid #a7f3d0; }
+        .btn-respuestas:hover { background: #dcfce7; }
+        .nav-botones { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { padding: 6px 0 6px 28px; position: relative; }
+        .checklist li::before { content: "☐"; position: absolute; left: 0; color: var(--primary); font-weight: bold; }
+        ul, ol { padding-left: 22px; }
+        @media print { body { background: white; } .tabs,.nav-botones { display: none; } .pestana { display: block !important; page-break-before: always; } .pestana:first-of-type { page-break-before: avoid; } .seccion { box-shadow: none; border: 1px solid #e2e8f0; page-break-inside: avoid; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>📘 Guía Docente — Diseño Web</h1>
+    <p>Recurso completo para los 15 niveles de Diseño Web (HTML + CSS + JS)</p>
+</header>
+
+<div class="tabs" id="tabs">
+    <button class="activo" onclick="mostrarPestana('inicio')">🏠 Inicio</button>
+    <div class="dropdown html">
+        <button class="drop-btn" onclick="toggleDropdown(event, this)">🔹 HTML (1-5) ▾</button>
+        <div class="drop-menu">
+            <a onclick="mostrarPestana('n1')">Nivel 1 — Mi Primera Página</a>
+            <a onclick="mostrarPestana('n2')">Nivel 2 — Conectando la Web</a>
+            <a onclick="mostrarPestana('n3')">Nivel 3 — Estructurando Datos</a>
+            <a onclick="mostrarPestana('n4')">Nivel 4 — Capturando Datos</a>
+            <a onclick="mostrarPestana('n5')">🧪 Nivel 5 — Evaluación HTML</a>
+        </div>
+    </div>
+    <div class="dropdown css">
+        <button class="drop-btn" onclick="toggleDropdown(event, this)">🟠 CSS (6-10) ▾</button>
+        <div class="drop-menu">
+            <a onclick="mostrarPestana('n6')">Nivel 6 — Dando Estilo con CSS</a>
+            <a onclick="mostrarPestana('n7')">Nivel 7 — El Modelo de Cajas</a>
+            <a onclick="mostrarPestana('n8')">Nivel 8 — Diseño con Flexbox</a>
+            <a onclick="mostrarPestana('n9')">Nivel 9 — Diseño Responsive</a>
+            <a onclick="mostrarPestana('n10')">🧪 Nivel 10 — Evaluación HTML+CSS</a>
+        </div>
+    </div>
+    <div class="dropdown js">
+        <button class="drop-btn" onclick="toggleDropdown(event, this)">🟡 JavaScript (11-15) ▾</button>
+        <div class="drop-menu">
+            <a onclick="mostrarPestana('n11')">Nivel 11 — Primeros Pasos</a>
+            <a onclick="mostrarPestana('n12')">Nivel 12 — Interactuando</a>
+            <a onclick="mostrarPestana('n13')">Nivel 13 — Decisiones</a>
+            <a onclick="mostrarPestana('n14')">Nivel 14 — Bucles</a>
+            <a onclick="mostrarPestana('n15')">🧪 Nivel 15 — Evaluación Final</a>
+        </div>
+    </div>
+</div>
+
+<div class="contenido">
+
+<div class="pestana activa" id="pestana-inicio">
+    <div class="seccion">
+        <h2>📋 Estructura del curso</h2>
+        <table>
+            <tr><th>Nivel</th><th>Tema</th><th>Archivos</th><th>Duración</th></tr>
+            <tr><td><span class="badge badge-n1">N1</span></td><td>Mi Primera Página Web</td><td>DiseñoWeb - LVL 1.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n2">N2</span></td><td>Conectando la Web</td><td>DiseñoWeb - LVL 2.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n3">N3</span></td><td>Estructurando Datos</td><td>DiseñoWeb - LVL 3.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n4">N4</span></td><td>Capturando Datos</td><td>DiseñoWeb - LVL 4.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n5">N5</span></td><td>Evaluación Integradora</td><td>DiseñoWeb - LVL 5.html</td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n6">N6</span></td><td>Dando Estilo con CSS</td><td>DiseñoWeb - CSS-LVL 1.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n7">N7</span></td><td>El Modelo de Cajas</td><td>DiseñoWeb - CSS-LVL 2.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n8">N8</span></td><td>Diseño con Flexbox</td><td>DiseñoWeb - CSS-LVL 3.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n9">N9</span></td><td>Diseño Responsive</td><td>DiseñoWeb - CSS-LVL 4.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n10">N10</span></td><td>Evaluación HTML + CSS</td><td>DiseñoWeb - CSS-LVL 5.html</td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n11">N11</span></td><td>Primeros Pasos en JavaScript</td><td>DiseñoWeb - JS-LVL 1.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n12">N12</span></td><td>Interactuando con la Página</td><td>DiseñoWeb - JS-LVL 2.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n13">N13</span></td><td>Tomando Decisiones</td><td>DiseñoWeb - JS-LVL 3.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n14">N14</span></td><td>Bucles y Repetición</td><td>DiseñoWeb - JS-LVL 4.html<br><small style="color:#64748b;">+ Ejercicios + Respuestas</small></td><td>40 min</td></tr>
+            <tr><td><span class="badge badge-n15">N15</span></td><td>Evaluación Final (HTML + CSS + JS)</td><td>DiseñoWeb - JS-LVL 5.html</td><td>40 min</td></tr>
+        </table>
+    </div>
+
+    <div class="seccion">
+        <h2>⚙️ Configuración técnica</h2>
+        <ul class="checklist">
+            <li>Google Sheet de Diseño Web con pestañas <strong>Alumnos</strong> y <strong>Resultados</strong></li>
+            <li>Google Apps Script implementado como Web App</li>
+            <li>URL del script pegada en <code>GOOGLE_SCRIPT_URL</code> del LVL 5</li>
+            <li>Cargar los alumnos en la pestaña "Alumnos" (Cédula | Nombre | Apellido | Grupo)</li>
+        </ul>
+        <div class="consejo">💡 Monitoreá el progreso en tiempo real desde la pestaña <strong>Resultados</strong> del Google Sheets.</div>
+    </div>
+
+    <div class="seccion">
+        <h2>📝 Resumen Administrativo General (GURÍ / Portafolio)</h2>
+        <div class="resumen">
+            <p>El proyecto <strong>"Diseño Web"</strong> constituye una secuencia didáctica de quince niveles para la enseñanza de los fundamentos del desarrollo web frontend (HTML, CSS y JavaScript), implementada mediante recursos digitales interactivos. Los primeros cinco niveles cubren HTML: estructura básica, etiquetas de texto, enlaces, imágenes, listas, tablas, formularios y una evaluación integradora. Los niveles 6 al 9 introducen CSS (selectores, modelo de cajas, Flexbox, diseño responsive), con una evaluación integradora en el nivel 10. Los niveles 11 al 14 abordan JavaScript (variables, DOM, condicionales, bucles), culminando en una evaluación final completa en el nivel 15.</p>
+            <p>La herramienta registra automáticamente el desempeño de cada estudiante en una hoja de cálculo vinculada (Google Sheets), permitiendo al docente monitorear en tiempo real el progreso individual y grupal. Las evaluaciones de los niveles 5, 10 y 15 incorporan bonificación por velocidad de respuesta, temporizador, validación de identidad y detección de cambio de pestaña, generando una nota numérica del 1 al 10.</p>
+            <p>Los resultados esperados abarcan: comprensión de la estructura jerárquica de HTML, uso correcto de etiquetas y atributos, aplicación de estilos mediante selectores CSS y el modelo de cajas, creación de layouts con Flexbox, adaptación responsive con media queries, y programación de interactividad básica con JavaScript incluyendo manipulación del DOM, estructuras condicionales y bucles.</p>
+        </div>
+    </div>
+</div>
+
+<!-- NIVEL 1 -->
+<div class="pestana" id="pestana-n1"><div class="seccion">
+    <h2><span class="badge badge-n1">Nivel 1</span> Mi Primera Página Web</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - LVL 1-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - LVL 1-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Alguna vez te preguntaste cómo está hecha una página web por dentro? ¿Qué hay detrás de lo que ves en la pantalla?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Comprender qué es HTML y para qué sirve</li><li>Identificar las 4 etiquetas de la estructura básica</li><li>Diferenciar head (invisible) de body (visible)</li><li>Usar correctamente h1, h2 y p</li><li>Reconocer la importancia de cerrar las etiquetas</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - LVL 1-Ejercicios.html</code> y <code>DiseñoWeb - LVL 1-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td style="width:90px"><strong>00:00-03:00</strong></td><td>Pregunta disparadora. Debatir: "¿Qué es HTML?" Anotar ideas.</td></tr><tr><td><strong>03:00-07:00</strong></td><td>Abrir el LVL 1. Leer juntos la sección 1. Mostrar que toda web tiene una estructura.</td></tr><tr><td><strong>07:00-10:00</strong></td><td>Leer sección 2. Dibujar en el pizarrón la estructura: DOCTYPE → html → head + body. Identificar qué va en cada uno.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 3 (Etiquetas de texto). Mostrar ejemplos de h1 a h6. Practicar en voz alta: "¿Para qué usarías h1? ¿Y p?"</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer sección 4 (Apertura y cierre). Mostrar qué pasa si no cerrás una etiqueta (dibujar en pizarrón).</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual de 5 preguntas.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisar errores comunes.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Entregar ejercicios. Cada estudiante copia y resuelve en su cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal usando las respuestas. Cierre.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 1</h3>
+    <div class="resumen"><p>La clase correspondiente al Nivel 1 de Diseño Web introdujo el concepto de HTML como lenguaje de marcado para la construcción de páginas web. Se trabajó la estructura básica del documento (DOCTYPE, html, head, body) y las etiquetas de texto fundamentales (h1-h6, p). Los estudiantes interactuaron con un recurso digital que incluye contenidos teóricos y un desafío de 5 preguntas. La actividad práctica de cierre consistió en ejercicios escritos en el cuaderno, corregidos colectivamente.</p></div>
+</div></div>
+
+<!-- NIVEL 2 -->
+<div class="pestana" id="pestana-n2"><div class="seccion">
+    <h2><span class="badge badge-n2">Nivel 2</span> Conectando la Web</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - LVL 2-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - LVL 2-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Cómo hace una página web para llevarte a otra con solo hacer clic? ¿Y cómo muestra imágenes que no están 'adentro' del texto?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Crear enlaces con la etiqueta &lt;a&gt; y el atributo href</li><li>Insertar imágenes con &lt;img&gt;, src y alt</li><li>Diferenciar listas ordenadas (&lt;ol&gt;) de desordenadas (&lt;ul&gt;)</li><li>Usar &lt;li&gt; para cada ítem</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - LVL 2-Ejercicios.html</code> y <code>DiseñoWeb - LVL 2-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-03:00</strong></td><td>Pregunta disparadora. Navegar a un sitio y mostrar el código fuente (clic derecho > Ver código fuente).</td></tr><tr><td><strong>03:00-07:00</strong></td><td>Leer sección 1 (Enlaces). Explicar href. Escribir un enlace de prueba en el pizarrón.</td></tr><tr><td><strong>07:00-10:00</strong></td><td>Leer sección 2 (Imágenes). Mostrar src y alt. Explicar "etiqueta huérfana".</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 3 (Listas). Crear dos columnas en el pizarrón: ul vs ol. Ejemplos.</td></tr><tr><td><strong>14:00-24:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>24:00-30:00</strong></td><td>Revisión de errores.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 2</h3>
+    <div class="resumen"><p>La clase del Nivel 2 abordó la conexión entre páginas mediante enlaces (&lt;a&gt;), la inserción de imágenes (&lt;img&gt;) y la organización de información en listas (&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;). Se trabajó el concepto de atributos HTML (href, src, alt) como instrucciones adicionales dentro de las etiquetas. Los estudiantes completaron un quiz interactivo y una serie de ejercicios escritos en el cuaderno.</p></div>
+</div></div>
+
+<!-- NIVEL 3 -->
+<div class="pestana" id="pestana-n3"><div class="seccion">
+    <h2><span class="badge badge-n3">Nivel 3</span> Estructurando Datos</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - LVL 3-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - LVL 3-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"Si tuvieras que mostrar las notas de todo el salón en una página web, ¿cómo las organizarías para que se entiendan de un vistazo?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Crear tablas con &lt;table&gt;, &lt;tr&gt;, &lt;th&gt; y &lt;td&gt;</li><li>Comprender la jerarquía: tabla → fila → celda</li><li>Diferenciar celdas de encabezado (&lt;th&gt;) de celdas de datos (&lt;td&gt;)</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - LVL 3-Ejercicios.html</code> y <code>DiseñoWeb - LVL 3-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-04:00</strong></td><td>Pregunta disparadora. Dibujar una tabla simple en el pizarrón (Nombre | Edad).</td></tr><tr><td><strong>04:00-10:00</strong></td><td>Leer secciones 1 y 2. Explicar la jerarquía table → tr → th/td. Mostrar que sin tr no funciona.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 3. Escribir entre todos una tabla de ejemplo en el pizarrón paso a paso.</td></tr><tr><td><strong>14:00-24:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>24:00-30:00</strong></td><td>Revisión grupal.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 3</h3>
+    <div class="resumen"><p>La clase del Nivel 3 se centró en la creación de tablas HTML como herramienta para organizar datos en filas y columnas. Se enfatizó la jerarquía obligatoria &lt;table&gt; → &lt;tr&gt; → &lt;th&gt;/&lt;td&gt; y la diferencia visual entre celdas de encabezado (negrita y centradas) y celdas de datos. El quiz interactivo y los ejercicios escritos evaluaron la comprensión de esta estructura jerárquica.</p></div>
+</div></div>
+
+<!-- NIVEL 4 -->
+<div class="pestana" id="pestana-n4"><div class="seccion">
+    <h2><span class="badge badge-n4">Nivel 4</span> Capturando Datos</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - LVL 4-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - LVL 4-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"Cuando completás un formulario en internet (como el login de una red social), ¿cómo sabe la página qué escribiste y qué hacer con esos datos?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Crear formularios con &lt;form&gt;</li><li>Usar distintos tipos de &lt;input&gt; (text, password, number)</li><li>Aplicar el atributo placeholder como texto de ayuda</li><li>Incluir un botón de envío (&lt;button&gt;)</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - LVL 4-Ejercicios.html</code> y <code>DiseñoWeb - LVL 4-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-04:00</strong></td><td>Pregunta disparadora. Mostrar un formulario real (login de Google). Preguntar: "¿Qué tipos de campos ven?"</td></tr><tr><td><strong>04:00-10:00</strong></td><td>Leer secciones 1 y 2. Explicar el contenedor &lt;form&gt; y los distintos type de &lt;input&gt;. Mostrar placeholder.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Practicar: cada estudiante dice un type de input y el docente lo escribe en el pizarrón. Ver la variedad.</td></tr><tr><td><strong>14:00-24:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>24:00-30:00</strong></td><td>Revisión y cierre del contenido teórico del curso.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección. Mención de la evaluación integradora (Nivel 5) como próxima clase.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 4</h3>
+    <div class="resumen"><p>La clase del Nivel 4 cerró los contenidos teóricos del curso con la introducción a los formularios HTML. Se trabajó la etiqueta contenedora &lt;form&gt;, los distintos tipos de &lt;input&gt; (text, password, number) y el atributo placeholder como texto de sugerencia. Los estudiantes comprendieron que los formularios son la herramienta principal para la interacción usuario-servidor en la web. Los ejercicios prácticos en el cuaderno reforzaron la sintaxis de cada tipo de campo.</p></div>
+</div></div>
+
+<!-- NIVEL 5 -->
+<div class="pestana" id="pestana-n5"><div class="seccion">
+    <h2><span class="badge badge-n5">Nivel 5</span> Evaluación Integradora</h2>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"Después de todo lo que aprendiste sobre HTML, ¿te animás a demostrar que podés construir una página web desde cero?"</div>
+    <h3>📊 Estructura de la evaluación</h3>
+    <table><tr><th>Tipo</th><th>Cantidad</th><th>Pts c/u</th><th>Total</th></tr><tr><td>Opción múltiple</td><td>7</td><td>10</td><td>70</td></tr><tr><td>Completar espacio</td><td>3</td><td>15</td><td>45</td></tr><tr><td>Ordenar secuencia</td><td>2</td><td>20</td><td>40</td></tr><tr><td>Verdadero / Falso</td><td>1</td><td>5</td><td>5</td></tr><tr><td colspan="2"><strong>Total</strong></td><td colspan="2"><strong>160 puntos</strong></td></tr></table>
+    <h3>📅 Planificación (40 min)</h3>
+    <table><tr><td><strong>00:00-05:00</strong></td><td>Explicar la dinámica: 12 preguntas, 30 min, no cambiar de pestaña. Validar cédula.</td></tr><tr><td><strong>05:00-30:00</strong></td><td>Evaluación individual en silencio. Monitorear desde Sheets.</td></tr><tr><td><strong>30:00-35:00</strong></td><td>Mostrar ranking del grupo. Celebrar top 3.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Revisar 2 preguntas con más errores. Cierre reflexivo.</td></tr></table>
+    <div class="peligro">🚨 Verificar que todos los alumnos estén cargados en el Sheets antes de empezar. Si un alumno cambia de pestaña, la evaluación se cancela automáticamente.</div>
+    <h3>📝 Resumen Administrativo — Nivel 5</h3>
+    <div class="resumen"><p>La evaluación integradora del curso de Diseño Web consistió en 12 preguntas de formato variado que abarcaron la totalidad de los contenidos de los cuatro niveles previos. El sistema digital implementó temporizador de 30 minutos, validación de identidad por cédula y detección de cambio de pestaña como medida de integridad académica. Los resultados se registraron automáticamente en Google Sheets, generando una nota del 1 al 10 y un ranking comparativo por grupo.</p></div>
+</div></div>
+
+<!-- NIVEL 6 -->
+<div class="pestana" id="pestana-n6"><div class="seccion">
+    <h2><span class="badge badge-n6">Nivel 6</span> Dando Estilo con CSS</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - CSS-LVL 1-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - CSS-LVL 1-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Alguna vez viste una página web sin colores ni estilos? ¿Qué le da la apariencia bonita a un sitio?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Entender qué es CSS y su rol en el diseño web</li><li>Diferenciar selectores de etiqueta, clase e id</li><li>Aplicar colores mediante nombres, hexadecimal y rgb</li><li>Modificar fuentes (font-family, font-size, text-align)</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - CSS-LVL 1-Ejercicios.html</code> y <code>DiseñoWeb - CSS-LVL 1-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-03:00</strong></td><td>Pregunta disparadora. Mostrar un sitio con y sin CSS. Debatir diferencias.</td></tr><tr><td><strong>03:00-07:00</strong></td><td>Leer sección 1. Explicar la sintaxis CSS: selector, propiedad, valor.</td></tr><tr><td><strong>07:00-10:00</strong></td><td>Leer sección 2. Diferenciar selectores de etiqueta, clase (.) e id (#) con ejemplos en el pizarrón.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 3 (Colores). Mostrar formatos: nombres, hex, rgb. Practicar cada uno.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer sección 4 (Fuentes). Modificar font-family, font-size, text-align en ejemplos vivos.</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual de 5 preguntas.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisar errores comunes.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Entregar ejercicios. Cada estudiante copia y resuelve en su cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal usando las respuestas.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 6</h3>
+    <div class="resumen"><p>Se introdujo CSS como lenguaje de diseño web, trabajando selectores básicos (etiqueta, clase, id), aplicación de colores mediante distintos formatos (nombres, hexadecimal, rgb) y modificación de fuentes tipográficas (font-family, font-size, text-align). Los estudiantes interactuaron con un recurso digital que incluye contenidos teóricos y un desafío de 5 preguntas.</p></div>
+</div></div>
+
+<!-- NIVEL 7 -->
+<div class="pestana" id="pestana-n7"><div class="seccion">
+    <h2><span class="badge badge-n7">Nivel 7</span> El Modelo de Cajas</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - CSS-LVL 2-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - CSS-LVL 2-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Notaste que todos los elementos de una página están como dentro de cajas invisibles? ¿Cómo se controla el espacio entre ellas?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Comprender el Box Model (content, padding, border, margin)</li><li>Aplicar padding y margin correctamente</li><li>Crear bordes con border y border-radius</li><li>Controlar dimensiones con width y height</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - CSS-LVL 2-Ejercicios.html</code> y <code>DiseñoWeb - CSS-LVL 2-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-05:00</strong></td><td>Pregunta disparadora. Dibujar el Box Model en el pizarrón: content → padding → border → margin.</td></tr><tr><td><strong>05:00-10:00</strong></td><td>Leer sección 1. Explicar cada capa con analogías (relleno de un paquete, marco de un cuadro).</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 2 (Padding y margin). Mostrar diferencias con ejemplos prácticos en el recurso digital.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer secciones 3-4 (Bordes y dimensiones). Aplicar border-radius, width y height.</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisión grupal.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal usando las respuestas.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 7</h3>
+    <div class="resumen"><p>Se trabajó el modelo de cajas de CSS, comprendiendo las 4 capas concéntricas (contenido, padding, borde, margen) y cómo cada propiedad afecta el espacio y la apariencia de los elementos HTML. Los estudiantes aplicaron padding, margin, border, border-radius, width y height en ejercicios prácticos.</p></div>
+</div></div>
+
+<!-- NIVEL 8 -->
+<div class="pestana" id="pestana-n8"><div class="seccion">
+    <h2><span class="badge badge-n8">Nivel 8</span> Diseño con Flexbox</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - CSS-LVL 3-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - CSS-LVL 3-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Cómo hacen las páginas web para alinear cosas en el centro exacto, o para poner elementos uno al lado del otro sin que se desordenen?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Activar display: flex en un contenedor</li><li>Controlar dirección con flex-direction</li><li>Alinear horizontalmente con justify-content</li><li>Alinear verticalmente con align-items</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - CSS-LVL 3-Ejercicios.html</code> y <code>DiseñoWeb - CSS-LVL 3-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-04:00</strong></td><td>Pregunta disparadora. Mostrar ejemplos visuales de layouts con y sin Flexbox.</td></tr><tr><td><strong>04:00-10:00</strong></td><td>Leer sección 1. Explicar el concepto de contenedor flex e items flex. Activar display: flex.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 2 (flex-direction). Mostrar row vs column con ejemplos visuales.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer secciones 3-4 (justify-content y align-items). Practicar centrado perfecto.</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisión.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 8</h3>
+    <div class="resumen"><p>Se introdujo Flexbox como sistema de diseño unidimensional, explorando las propiedades del contenedor flex para controlar la dirección (flex-direction), alineación horizontal (justify-content) y vertical (align-items) de los elementos hijos. Los estudiantes practicaron el centrado de elementos y la distribución espacial en layouts flex.</p></div>
+</div></div>
+
+<!-- NIVEL 9 -->
+<div class="pestana" id="pestana-n9"><div class="seccion">
+    <h2><span class="badge badge-n9">Nivel 9</span> Diseño Responsive</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - CSS-LVL 4-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - CSS-LVL 4-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Por qué una misma página se ve diferente en tu celular que en la computadora? ¿Cómo se logra eso?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Comprender el concepto mobile-first</li><li>Usar media queries (@media) para adaptar estilos</li><li>Aplicar unidades relativas (%, vw, vh, rem)</li><li>Hacer imágenes responsive (max-width: 100%)</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - CSS-LVL 4-Ejercicios.html</code> y <code>DiseñoWeb - CSS-LVL 4-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-05:00</strong></td><td>Pregunta disparadora. Mostrar un mismo sitio en celular y PC. Identificar diferencias.</td></tr><tr><td><strong>05:00-10:00</strong></td><td>Leer sección 1. Explicar mobile-first y viewport. Introducir unidades relativas.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 2 (Media queries). Mostrar @media screen con min-width y max-width.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer secciones 3-4. Practicar %, vw, vh, rem y max-width: 100% en imágenes.</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisión.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección. Mención de la evaluación integradora (Nivel 10) como próxima clase.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 9</h3>
+    <div class="resumen"><p>Se abordó el diseño web responsive, enseñando el uso de media queries (@media) para adaptar estilos según el tamaño de pantalla, unidades relativas (%, vw, vh, rem) para layouts flexibles, y técnicas para imágenes que no desborden su contenedor (max-width: 100%). Los estudiantes comprendieron la importancia del enfoque mobile-first en el desarrollo web moderno.</p></div>
+</div></div>
+
+<!-- NIVEL 10 -->
+<div class="pestana" id="pestana-n10"><div class="seccion">
+    <h2><span class="badge badge-n10">Nivel 10</span> Evaluación HTML + CSS</h2>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"Después de todo lo que aprendiste sobre HTML y CSS, ¿estás listo para demostrar que podés diseñar una página web completa?"</div>
+    <h3>📊 Estructura de la evaluación</h3>
+    <table><tr><th>Tipo</th><th>Cantidad</th><th>Pts c/u</th><th>Total</th></tr><tr><td>Opción múltiple</td><td>5</td><td>10</td><td>50</td></tr><tr><td>Completar espacio</td><td>3</td><td>15</td><td>45</td></tr><tr><td>Ordenar secuencia</td><td>2</td><td>15</td><td>30</td></tr><tr><td>Verdadero / Falso</td><td>2</td><td>7.5</td><td>15</td></tr><tr><td colspan="2"><strong>Total</strong></td><td colspan="2"><strong>140 puntos</strong></td></tr></table>
+    <h3>📅 Planificación (40 min)</h3>
+    <table><tr><td><strong>00:00-05:00</strong></td><td>Explicar la dinámica: 12 preguntas, 30 min, no cambiar de pestaña. Validar cédula.</td></tr><tr><td><strong>05:00-30:00</strong></td><td>Evaluación individual en silencio. Monitorear desde Sheets.</td></tr><tr><td><strong>30:00-35:00</strong></td><td>Mostrar ranking del grupo. Celebrar top 3.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Revisar 2 preguntas con más errores. Cierre reflexivo.</td></tr></table>
+    <div class="peligro">🚨 Verificar que todos los alumnos estén cargados en el Sheets antes de empezar. Si un alumno cambia de pestaña, la evaluación se cancela automáticamente.</div>
+    <h3>📝 Resumen Administrativo — Nivel 10</h3>
+    <div class="resumen"><p>Evaluación integradora de los módulos HTML y CSS con 12 preguntas de formato variado (opción múltiple, completar espacio, ordenar secuencia, verdadero/falso). El sistema digital implementó temporizador de 30 minutos, validación de identidad por cédula y detección de cambio de pestaña como medida de integridad académica. Los resultados se registraron automáticamente en Google Sheets.</p></div>
+</div></div>
+
+<!-- NIVEL 11 -->
+<div class="pestana" id="pestana-n11"><div class="seccion">
+    <h2><span class="badge badge-n11">Nivel 11</span> Primeros Pasos en JavaScript</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - JS-LVL 1-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - JS-LVL 1-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Qué hace que una página web sea interactiva? ¿Cómo sabe la página reaccionar cuando hacés clic en un botón?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Entender qué es JavaScript y dónde se ejecuta</li><li>Declarar variables con let y const</li><li>Usar console.log() para depurar</li><li>Mostrar mensajes con alert()</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - JS-LVL 1-Ejercicios.html</code> y <code>DiseñoWeb - JS-LVL 1-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-03:00</strong></td><td>Pregunta disparadora. Mostrar botones interactivos. Preguntar: "¿Qué lenguaje hace esto posible?"</td></tr><tr><td><strong>03:00-07:00</strong></td><td>Leer sección 1. Explicar que JS se ejecuta en el navegador. Mostrar la consola (F12).</td></tr><tr><td><strong>07:00-10:00</strong></td><td>Leer sección 2. Declarar variables con let y const en vivo. Mostrar tipos de datos básicos.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 3 (console.log). Cada estudiante abre la consola y prueba mostrar mensajes.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer sección 4 (alert). Mostrar la diferencia entre console.log (para desarrolladores) y alert (para usuarios).</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual de 5 preguntas.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisar errores comunes (mayúsculas, punto y coma).</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Entregar ejercicios. Cada estudiante copia y resuelve en su cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal usando las respuestas.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 11</h3>
+    <div class="resumen"><p>Se introdujo JavaScript como lenguaje de programación del navegador, enseñando la declaración de variables (let, const), tipos de datos básicos y las funciones de salida console.log y alert como primeras herramientas de interacción. Los estudiantes interactuaron con la consola del navegador y completaron un quiz de 5 preguntas.</p></div>
+</div></div>
+
+<!-- NIVEL 12 -->
+<div class="pestana" id="pestana-n12"><div class="seccion">
+    <h2><span class="badge badge-n12">Nivel 12</span> Interactuando con la Página</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - JS-LVL 2-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - JS-LVL 2-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Cómo hace JavaScript para encontrar un elemento específico en la página y cambiar lo que dice o cómo se ve?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Comprender eventos (onclick) para responder a acciones del usuario</li><li>Seleccionar elementos con getElementById</li><li>Modificar contenido con innerHTML</li><li>Cambiar estilos dinámicamente con .style</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - JS-LVL 2-Ejercicios.html</code> y <code>DiseñoWeb - JS-LVL 2-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-04:00</strong></td><td>Pregunta disparadora. Mostrar un botón que cambia texto al hacer clic. Preguntar cómo funciona.</td></tr><tr><td><strong>04:00-10:00</strong></td><td>Leer sección 1. Explicar eventos (onclick). Mostrar que JS "escucha" lo que hace el usuario.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 2 (getElementById). Mostrar cómo seleccionar un elemento HTML desde JS.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer secciones 3-4. Practicar innerHTML para cambiar texto y .style para cambiar colores.</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisión.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 12</h3>
+    <div class="resumen"><p>Se trabajó la interacción usuario-página mediante eventos de clic (onclick), la selección precisa de elementos del DOM por su ID (getElementById) y la modificación dinámica tanto del contenido textual (innerHTML) como de los estilos visuales (.style) desde JavaScript. Los estudiantes crearon pequeños scripts interactivos en el navegador.</p></div>
+</div></div>
+
+<!-- NIVEL 13 -->
+<div class="pestana" id="pestana-n13"><div class="seccion">
+    <h2><span class="badge badge-n13">Nivel 13</span> Tomando Decisiones</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - JS-LVL 3-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - JS-LVL 3-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"¿Cómo sabe un programa si un alumno aprobó o no? ¿Qué instrucciones le damos para que tome decisiones?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Usar if/else para tomar decisiones en código</li><li>Aplicar operadores de comparación (===, !==, >, <)</li><li>Combinar condiciones con && y ||</li><li>Crear estructuras if/else if/else</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - JS-LVL 3-Ejercicios.html</code> y <code>DiseñoWeb - JS-LVL 3-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-05:00</strong></td><td>Pregunta disparadora. Usar el ejemplo de notas escolares: "Si nota >= 6, aprobó; si no, no aprobó".</td></tr><tr><td><strong>05:00-10:00</strong></td><td>Leer sección 1. Explicar la sintaxis de if/else. Escribir ejemplos simples en el pizarrón.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 2 (Operadores de comparación). Practicar ===, !==, >, < con ejemplos reales.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer secciones 3-4 (&&, || y if/else if/else). Crear condiciones compuestas.</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisión.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 13</h3>
+    <div class="resumen"><p>Se introdujeron las estructuras condicionales como mecanismo de toma de decisiones en código, abarcando operadores de comparación (===, !==, >, <), operadores lógicos para condiciones compuestas (&&, ||) y la estructura completa if/else if/else. Los estudiantes programaron decisiones basadas en notas escolares y otros ejemplos cotidianos.</p></div>
+</div></div>
+
+<!-- NIVEL 14 -->
+<div class="pestana" id="pestana-n14"><div class="seccion">
+    <h2><span class="badge badge-n14">Nivel 14</span> Bucles y Repetición</h2>
+    <div class="nav-botones">
+        <a href="DiseñoWeb - JS-LVL 4-Ejercicios.html" class="btn-nav btn-ejercicios" target="_blank">📝 Abrir Ejercicios</a>
+        <a href="DiseñoWeb - JS-LVL 4-Respuestas.html" class="btn-nav btn-respuestas" target="_blank">✅ Abrir Respuestas</a>
+    </div>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"Si tuvieras que mostrar los números del 1 al 100, ¿escribirías 100 líneas de código o hay una forma más inteligente?"</div>
+    <h3>🎯 Objetivos</h3>
+    <ul><li>Usar el bucle for para repeticiones controladas</li><li>Entender while para repeticiones condicionales</li><li>Crear y recorrer arrays básicos</li><li>Prevenir bucles infinitos</li></ul>
+    <h3>📅 Planificación (40 min)</h3>
+    <h4>Inicio <span class="tiempo">(10 min)</span></h4>
+    <div class="consejo">💡 <strong>Material:</strong> <code>DiseñoWeb - JS-LVL 4-Ejercicios.html</code> y <code>DiseñoWeb - JS-LVL 4-Respuestas.html</code> para el cierre.</div>
+    <table><tr><td><strong>00:00-05:00</strong></td><td>Pregunta disparadora. Desafío: escribir números del 1 al 10 en el pizarrón. Luego mostrar un for en 2 líneas.</td></tr><tr><td><strong>05:00-10:00</strong></td><td>Leer sección 1. Explicar las 3 partes del for: inicialización, condición, incremento.</td></tr></table>
+    <h4>Desarrollo <span class="tiempo">(20 min)</span></h4>
+    <table><tr><td><strong>10:00-14:00</strong></td><td>Leer sección 2 (while). Comparar for vs while. Mostrar cuándo usar cada uno.</td></tr><tr><td><strong>14:00-17:00</strong></td><td>Leer secciones 3-4 (Arrays y bucles infinitos). Crear y recorrer un array con for. Advertir sobre bucles infinitos.</td></tr><tr><td><strong>17:00-27:00</strong></td><td>Quiz individual.</td></tr><tr><td><strong>27:00-30:00</strong></td><td>Revisión. Mención de la evaluación final (Nivel 15) como próxima clase.</td></tr></table>
+    <h4>Cierre <span class="tiempo">(10 min)</span></h4>
+    <table><tr><td><strong>30:00-35:00</strong></td><td>Ejercicios en el cuaderno.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Corrección grupal.</td></tr></table>
+    <h3>📝 Resumen Administrativo — Nivel 14</h3>
+    <div class="resumen"><p>Se abordaron las estructuras de repetición como herramienta de eficiencia en programación, enseñando el bucle for para iteraciones con contador (inicialización, condición, incremento), while para repeticiones condicionales y la creación y recorrido de arrays como colecciones de datos. Se enfatizó la prevención de bucles infinitos mediante condiciones de salida correctas.</p></div>
+</div></div>
+
+<!-- NIVEL 15 -->
+<div class="pestana" id="pestana-n15"><div class="seccion">
+    <h2><span class="badge badge-n15">Nivel 15</span> Evaluación Final (HTML + CSS + JS)</h2>
+    <h3>💡 Pregunta disparadora</h3>
+    <div class="pregunta">"Después de 14 niveles de aprendizaje, ¿estás listo para la evaluación final que integra HTML, CSS y JavaScript?"</div>
+    <h3>📊 Estructura de la evaluación</h3>
+    <table><tr><th>Tipo</th><th>Cantidad</th><th>Pts c/u</th><th>Total</th></tr><tr><td>Opción múltiple</td><td>5</td><td>10</td><td>50</td></tr><tr><td>Completar espacio</td><td>3</td><td>15</td><td>45</td></tr><tr><td>Ordenar secuencia</td><td>2</td><td>15</td><td>30</td></tr><tr><td>Verdadero / Falso</td><td>2</td><td>7.5</td><td>15</td></tr><tr><td colspan="2"><strong>Total</strong></td><td colspan="2"><strong>140 puntos</strong></td></tr></table>
+    <h3>📅 Planificación (40 min)</h3>
+    <table><tr><td><strong>00:00-05:00</strong></td><td>Explicar la dinámica: 12 preguntas, 30 min, no cambiar de pestaña. Validar cédula.</td></tr><tr><td><strong>05:00-30:00</strong></td><td>Evaluación individual en silencio. Monitorear desde Sheets.</td></tr><tr><td><strong>30:00-35:00</strong></td><td>Mostrar ranking del grupo. Celebrar top 3.</td></tr><tr><td><strong>35:00-40:00</strong></td><td>Revisar 2 preguntas con más errores. Cierre reflexivo del curso completo.</td></tr></table>
+    <div class="peligro">🚨 Verificar que todos los alumnos estén cargados en el Sheets antes de empezar. Si un alumno cambia de pestaña, la evaluación se cancela automáticamente.</div>
+    <h3>📝 Resumen Administrativo — Nivel 15</h3>
+    <div class="resumen"><p>Evaluación final integradora de todo el curso de Diseño Web, abarcando HTML, CSS y JavaScript en 12 preguntas de formato variado (opción múltiple, completar espacio, ordenar secuencia, verdadero/falso). El sistema de calificación automática con temporizador, validación de identidad y detección de cambio de pestaña registró los resultados en Google Sheets, generando una nota del 1 al 10 y un ranking comparativo por grupo como cierre del curso.</p></div>
+</div></div>
+
+</div>
+
+<script>
+    function mostrarPestana(id) {
+        document.querySelectorAll('.pestana').forEach(p => p.classList.remove('activa'));
+        document.querySelectorAll('.tabs button.activo').forEach(b => b.classList.remove('activo'));
+        document.querySelectorAll('.dropdown.abierto').forEach(d => d.classList.remove('abierto'));
+        document.getElementById('pestana-' + id).classList.add('activa');
+        if (id === 'inicio') {
+            document.querySelector('.tabs button').classList.add('activo');
+        }
+    }
+
+    function toggleDropdown(e, btn) {
+        e.stopPropagation();
+        var dd = btn.parentElement;
+        var abierto = dd.classList.contains('abierto');
+        document.querySelectorAll('.dropdown.abierto').forEach(d => d.classList.remove('abierto'));
+        if (!abierto) dd.classList.add('abierto');
+    }
+
+    document.addEventListener('click', function() {
+        document.querySelectorAll('.dropdown.abierto').forEach(d => d.classList.remove('abierto'));
+    });
+</script>
+<script src="/ide/ide-panel.js"></script>
+<script src="/static/js/seguridad.js"></script>
+</body>
+</html>
