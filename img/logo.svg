@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140" fill="none">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6366f1"/>
+      <stop offset="50%" stop-color="#8b5cf6"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+  </defs>
+  <!-- Icon: code brackets + book -->
+  <g transform="translate(30,25)">
+    <rect x="10" y="5" width="70" height="85" rx="6" fill="url(#g)" opacity="0.25"/>
+    <text x="45" y="38" text-anchor="middle" font-size="28" fill="#e2e8f0">&lt;/&gt;</text>
+    <text x="45" y="72" text-anchor="middle" font-size="18" fill="#818cf8">📘</text>
+  </g>
+  <!-- Text -->
+  <text x="130" y="62" font-family="'Segoe UI','Inter',sans-serif" font-size="52" font-weight="800" fill="url(#g)">Educa</text>
+  <text x="330" y="62" font-family="'Segoe UI','Inter',sans-serif" font-size="52" font-weight="800" fill="#06b6d4">Code</text>
+  <text x="130" y="94" font-family="'Segoe UI','Inter',sans-serif" font-size="16" fill="#94a3b8" letter-spacing="4">PLATAFORMA EDUCATIVA</text>
+</svg>
