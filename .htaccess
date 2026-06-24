@@ -1,0 +1,16 @@
+# Bloquear acceso directo a archivos sensibles
+<Files "config.php">
+    Order allow,deny
+    Deny from all
+</Files>
+<Files "test.php">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Bloquear acceso al directorio includes/
+RewriteEngine On
+RewriteRule ^includes/ - [F,L]
+
+# Bloquear navegacion de directorios
+Options -Indexes

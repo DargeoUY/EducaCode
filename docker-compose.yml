@@ -1,0 +1,36 @@
+services:
+  web:
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/var/www/html/uploads
+    networks:
+      - app_net
+
+  mariadb:
+    image: mariadb:11
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-root_pass_2026}
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-materiales1}
+      MARIADB_USER: ${MARIADB_USER:-app_user}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-app_pass_2026}
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./includes/db_setup.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_net
+
+networks:
+  app_net:
+    driver: bridge
