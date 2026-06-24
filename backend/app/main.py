@@ -54,56 +54,56 @@ app.include_router(notas.router)
 app.include_router(ide.router)
 app.include_router(compartir.router)
 
-STATIC_DIR = "/data/static"
-
-app.mount("/static", StaticFiles(directory=STATIC_DIR, html=True), name="static")
+app.mount("/static", StaticFiles(directory="/project/static", html=True), name="static")
 
 
 @app.get("/login", response_class=HTMLResponse)
 async def login_page():
-    return FileResponse(f"{STATIC_DIR}/login.html")
+    return FileResponse("/project/static/login.html")
 
 
 @app.get("/admin/{rest:path}", response_class=HTMLResponse)
 async def admin_pages(rest: str = ""):
     import os
+    base = "/project/static/admin"
     if rest.endswith(".html") or rest.endswith(".js") or rest.endswith(".css"):
-        path = f"{STATIC_DIR}/admin/{rest}"
+        path = f"{base}/{rest}"
     else:
-        path = f"{STATIC_DIR}/admin/{rest}.html"
+        path = f"{base}/{rest}.html"
         if not os.path.isfile(path):
-            path = f"{STATIC_DIR}/admin/{rest}"
+            path = f"{base}/{rest}"
             if not os.path.isfile(path) and not rest:
-                path = f"{STATIC_DIR}/admin/index.html"
+                path = f"{base}/index.html"
     if os.path.isfile(path):
         return FileResponse(path)
-    return FileResponse(f"{STATIC_DIR}/admin/index.html")
+    return FileResponse(f"{base}/index.html")
 
 
 @app.get("/docente/{rest:path}", response_class=HTMLResponse)
 async def docente_pages(rest: str = ""):
     import os
+    base = "/project/static/docente"
     if rest.endswith(".html") or rest.endswith(".js") or rest.endswith(".css"):
-        path = f"{STATIC_DIR}/docente/{rest}"
+        path = f"{base}/{rest}"
     else:
-        path = f"{STATIC_DIR}/docente/{rest}.html"
+        path = f"{base}/{rest}.html"
         if not os.path.isfile(path):
-            path = f"{STATIC_DIR}/docente/{rest}"
+            path = f"{base}/{rest}"
             if not os.path.isfile(path) and not rest:
-                path = f"{STATIC_DIR}/docente/index.html"
+                path = f"{base}/index.html"
     if os.path.isfile(path):
         return FileResponse(path)
-    return FileResponse(f"{STATIC_DIR}/docente/index.html")
+    return FileResponse(f"{base}/index.html")
 
 
 @app.get("/ide", response_class=HTMLResponse)
 async def ide_page():
-    return FileResponse(f"{STATIC_DIR}/ide/ide.html")
+    return FileResponse("/project/ide/ide.html")
 
 
 @app.get("/", response_class=HTMLResponse)
 async def root():
-    return FileResponse(f"{STATIC_DIR}/index.html")
+    return FileResponse("/project/index.html")
 
 
 @app.get("/api/health")

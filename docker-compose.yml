@@ -9,17 +9,7 @@ services:
       mariadb:
         condition: service_healthy
     volumes:
-      - ./static:/data/static:ro
-      - ./Diseño_Web:/data/static/Diseño_Web:ro
-      - ./Algoritmia:/data/static/Algoritmia:ro
-      - ./Algoritmo:/data/static/Algoritmo:ro
-      - ./Python:/data/static/Python:ro
-      - ./pseudocodigo:/data/static/pseudocodigo:ro
-      - ./lti-test:/data/static/lti-test:ro
-      - ./style:/data/static/style:ro
-      - ./ico-img:/data/static/ico-img:ro
-      - ./ide:/data/static/ide:ro
-      - ./index.html:/data/static/index.html:ro
+      - ./:/project:ro
     networks:
       - app_net
 
