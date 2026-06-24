@@ -152,6 +152,16 @@ CREATE TABLE IF NOT EXISTS bloqueos_actividad (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS proyectos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    lenguaje VARCHAR(30) NOT NULL DEFAULT 'python',
+    contenido LONGTEXT,
+    creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS solicitudes_docente (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,

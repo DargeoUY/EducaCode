@@ -28,6 +28,7 @@ require_once __DIR__ . '/../includes/header.php';
 <div class="stats-grid">
     <div class="stat-card"><div class="stat-num"><?= count($grupos) ?></div><div class="stat-label">Grupos</div></div>
     <div class="stat-card"><div class="stat-num"><?= $nEstudiantes ?></div><div class="stat-label">Estudiantes</div></div>
+    <div class="stat-card"><a href="<?= BASE_URL ?>ide/" style="text-decoration:none"><div class="stat-num">💻</div><div class="stat-label">Ver proyectos</div></a></div>
 </div>
 
 <?php if (!empty($bloqueos)): ?>
