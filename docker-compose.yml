@@ -6,8 +6,18 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+      lti:
+        condition: service_started
     volumes:
       - ./uploads:/var/www/html/uploads
+      - ./000-default.conf:/etc/apache2/sites-available/000-default.conf:ro
+    networks:
+      - app_net
+
+  lti:
+    build: ./lti
+    env_file:
+      - .env
     networks:
       - app_net
 

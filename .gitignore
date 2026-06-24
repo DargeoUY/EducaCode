@@ -1,5 +1,7 @@
-.env
 db/data/
 uploads/*
 !uploads/.gitkeep
 error.log
+.*.swp
+__pycache__/
+*.pyc

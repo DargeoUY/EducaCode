@@ -2,11 +2,16 @@
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../includes/funciones.php';
 require_once __DIR__ . '/../includes/auth.php';
-require_estudiante();
 
-$usuario = usuario_actual($pdo);
-$uid = $usuario['id'];
 $eid = $_GET['id'] ?? 0;
+$lti_token = $_GET['lti_token'] ?? '';
+
+if (!isset($_SESSION['usuario_id'])) {
+    $redir = 'estudiante/evaluacion.php?id=' . $eid . ($lti_token ? '&lti_token=' . urlencode($lti_token) : '');
+    header('Location: ' . BASE_URL . 'index.php?redirect=' . urlencode($redir));
+    exit;
+}
+require_estudiante();
 
 $stmt = $pdo->prepare("SELECT e.*, g.docente_id FROM evaluaciones e JOIN grupos g ON e.grupo_id = g.id WHERE e.id = :id");
 $stmt->execute([':id' => $eid]); $eval = $stmt->fetch();
@@ -34,7 +39,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nota = $max > 0 ? round(($puntaje / $max) * 10, 1) : 0;
     $pdo->prepare("INSERT INTO evaluacion_intentos (evaluacion_id, usuario_id, intento_num, respuestas_json, puntaje, fecha_inicio, fecha_fin, finalizada) VALUES (:e,:u,:n,:r,:p,NOW() - INTERVAL 1 MINUTE, NOW(), 1)")
         ->execute([':e' => $eid, ':u' => $uid, ':n' => $intentos + 1, ':r' => json_encode($respuestas, JSON_UNESCAPED_UNICODE), ':p' => $nota]);
-    echo '<div style="text-align:center;padding:60px"><h1>✅ Evaluación entregada</h1><p>Puntaje: ' . $puntaje . ' / ' . $max . '</p><p>Nota: ' . $nota . ' / 10</p><a href="grupo.php?id=' . $eval['grupo_id'] . '" class="btn-primario" style="margin-top:16px">Volver</a></div>';
+    $intento_id = $pdo->lastInsertId();
+
+    $lti_msg = '';
+    if ($lti_token) {
+        $ch = curl_init(BASE_URL . 'lti/submit');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST => true,
+            CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+            CURLOPT_POSTFIELDS => json_encode([
+                'token' => $lti_token,
+                'puntaje' => $puntaje,
+                'nota' => $nota,
+                'max_puntaje' => $max,
+            ]),
+            CURLOPT_TIMEOUT => 10,
+        ]);
+        $lti_resp = json_decode(curl_exec($ch), true);
+        curl_close($ch);
+        if ($lti_resp && ($lti_resp['ok'] ?? false) && ($lti_resp['enviado_a_crea'] ?? false)) {
+            $lti_msg = '<p style="color:var(--ok)">Nota enviada a CREA.</p>';
+        }
+    }
+
+    echo '<div style="text-align:center;padding:60px"><h1>✅ Evaluación entregada</h1><p>Puntaje: ' . $puntaje . ' / ' . $max . '</p><p>Nota: ' . $nota . ' / 10</p>' . $lti_msg . '<a href="grupo.php?id=' . $eval['grupo_id'] . '" class="btn-primario" style="margin-top:16px">Volver</a></div>';
     exit;
 }
 

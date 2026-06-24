@@ -37,17 +37,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     else {
         $pdo->prepare("INSERT INTO evaluaciones (grupo_id, titulo, descripcion, preguntas_json, puntaje_max, duracion_min, intentos_max, shuffle_preguntas) VALUES (:g,:t,:d,:pj,:pm,:dm,:im,:s)")
             ->execute([':g' => $gid, ':t' => $titulo, ':d' => $descripcion, ':pj' => json_encode($preguntas, JSON_UNESCAPED_UNICODE), ':pm' => $puntaje, ':dm' => $duracion, ':im' => $intentos, ':s' => (int)$shuffle]);
-        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Evaluación creada.'];
-        redirigir('docente/evaluaciones.php?grupo_id=' . $gid);
+        $nueva_eval_id = $pdo->lastInsertId();
+        $_SESSION['flash'] = ['tipo' => 'exito', 'mensaje' => 'Evaluación creada. ID: ' . $nueva_eval_id];
+        $_SESSION['lti_eval_id'] = $nueva_eval_id;
+        redirigir('docente/evaluacion-crear.php?grupo_id=' . $gid . '&creada=' . $nueva_eval_id);
     }
 }
 
 $titulo = 'Crear Evaluación';
+$eval_creada_id = $_GET['creada'] ?? (($_SESSION['lti_eval_id'] ?? 0));
+if ($eval_creada_id > 0 && isset($_SESSION['lti_eval_id'])) unset($_SESSION['lti_eval_id']);
 require_once __DIR__ . '/../includes/header.php';
 ?>
 
 <div class="page-header"><h1>📝 Crear Evaluación — <?= sanitizar($grupo['nombre']) ?></h1></div>
 <?php if ($error): ?><div class="flash flash-error"><?= sanitizar($error) ?></div><?php endif; ?>
+
+<?php if ($eval_creada_id > 0): ?>
+<div class="card" style="border-color:var(--ok);border-width:2px">
+    <h2>✅ Evaluación creada (ID: <?= $eval_creada_id ?>)</h2>
+    <h3 style="margin-top:12px">🔗 Configuración LTI para CREA</h3>
+    <p style="font-size:.85rem;color:var(--text-sec);margin-bottom:8px">Copiá estos datos en la configuración de la herramienta externa en CREA:</p>
+    <div class="grupo-input"><label>URL de lanzamiento</label><input type="text" class="input-dato" readonly value="<?= BASE_URL ?>lti/launch" onclick="this.select()" style="font-family:monospace"></div>
+    <div class="grupo-input"><label>Consumer Key</label><input type="text" class="input-dato" readonly value="educacode-crea-key" onclick="this.select()" style="font-family:monospace"></div>
+    <div class="grupo-input"><label>Consumer Secret</label><input type="text" class="input-dato" readonly value="educacode-crea-secret-2026" onclick="this.select()" style="font-family:monospace"></div>
+    <div class="grupo-input"><label>Parámetro personalizado</label><input type="text" class="input-dato" readonly value="custom_evaluacion_id=<?= $eval_creada_id ?>" onclick="this.select()" style="font-family:monospace"></div>
+    <p style="font-size:.78rem;color:var(--text-sec);margin-top:8px">En CREA: Materiales → Agregar Material → Herramienta externa → Pegar URL de lanzamiento + Key + Secret. En "Parámetros personalizados" agregar el custom_evaluacion_id.</p>
+</div>
+<?php endif; ?>
 
 <form method="POST" id="form-eval">
 <div class="card"><h2>Configuración</h2>

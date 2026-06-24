@@ -5,7 +5,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && docker-php-ext-install pdo pdo_mysql mysqli zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN a2enmod rewrite headers
+RUN a2enmod rewrite headers proxy proxy_http
 
 COPY . /var/www/html/
 

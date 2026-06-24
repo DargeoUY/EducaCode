@@ -100,7 +100,9 @@ CREATE TABLE IF NOT EXISTS evaluacion_intentos (
     tab_salidas INT NOT NULL DEFAULT 0,
     fecha_inicio DATETIME NOT NULL,
     fecha_fin DATETIME DEFAULT NULL,
-    finalizada TINYINT(1) NOT NULL DEFAULT 0
+    finalizada TINYINT(1) NOT NULL DEFAULT 0,
+    lti_outcome_url VARCHAR(500) DEFAULT NULL,
+    lti_sourcedid VARCHAR(200) DEFAULT NULL
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS tab_salidas (
@@ -177,6 +179,13 @@ ALTER TABLE usuarios ADD INDEX idx_bloqueado (bloqueado);
 ALTER TABLE grupos ADD INDEX idx_codigo (codigo_invitacion);
 ALTER TABLE evaluacion_intentos ADD INDEX idx_eval_usuario (evaluacion_id, usuario_id);
 ALTER TABLE banco_preguntas ADD INDEX idx_materia (materia);
+
+-- LTI 1.1 migration: agrega columnas de outcome si faltan
+SET @lti_col_exists = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'evaluacion_intentos' AND COLUMN_NAME = 'lti_outcome_url');
+SET @sql_lti = IF(@lti_col_exists = 0, 'ALTER TABLE evaluacion_intentos ADD COLUMN lti_outcome_url VARCHAR(500) DEFAULT NULL, ADD COLUMN lti_sourcedid VARCHAR(200) DEFAULT NULL', 'SELECT 1');
+PREPARE stmt_lti FROM @sql_lti;
+EXECUTE stmt_lti;
+DEALLOCATE PREPARE stmt_lti;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
