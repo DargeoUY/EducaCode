@@ -1,6 +1,8 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse, HTMLResponse
 from app.routers import auth, admin, docente, estudiantes, notas, ide, compartir
 from app.services.compartir import manager
 from app.database import init_db, engine, async_session
@@ -51,6 +53,55 @@ app.include_router(estudiantes.router)
 app.include_router(notas.router)
 app.include_router(ide.router)
 app.include_router(compartir.router)
+
+app.mount("/static", StaticFiles(directory="/app/static", html=True), name="static")
+
+
+@app.get("/login", response_class=HTMLResponse)
+async def login_page():
+    return FileResponse("/app/static/login.html")
+
+
+@app.get("/admin/{rest:path}", response_class=HTMLResponse)
+async def admin_pages(rest: str = ""):
+    import os
+    if rest.endswith(".html") or rest.endswith(".js") or rest.endswith(".css"):
+        path = f"/app/static/admin/{rest}"
+    else:
+        path = f"/app/static/admin/{rest}.html"
+        if not os.path.isfile(path):
+            path = f"/app/static/admin/{rest}"
+            if not os.path.isfile(path) and not rest:
+                path = "/app/static/admin/index.html"
+    if os.path.isfile(path):
+        return FileResponse(path)
+    return FileResponse("/app/static/admin/index.html")
+
+
+@app.get("/docente/{rest:path}", response_class=HTMLResponse)
+async def docente_pages(rest: str = ""):
+    import os
+    if rest.endswith(".html") or rest.endswith(".js") or rest.endswith(".css"):
+        path = f"/app/static/docente/{rest}"
+    else:
+        path = f"/app/static/docente/{rest}.html"
+        if not os.path.isfile(path):
+            path = f"/app/static/docente/{rest}"
+            if not os.path.isfile(path) and not rest:
+                path = "/app/static/docente/index.html"
+    if os.path.isfile(path):
+        return FileResponse(path)
+    return FileResponse("/app/static/docente/index.html")
+
+
+@app.get("/ide", response_class=HTMLResponse)
+async def ide_page():
+    return FileResponse("/app/static/ide/ide.html")
+
+
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    return FileResponse("/app/static/index.html")
 
 
 @app.get("/api/health")
