@@ -1,15 +1,9 @@
-# Bloquear acceso directo a archivos sensibles
-<Files "config.php">
-    Order allow,deny
-    Deny from all
-</Files>
-<Files "test.php">
-    Order allow,deny
-    Deny from all
-</Files>
+RewriteEngine On
+
+# Redirigir /login al index.php
+RewriteRule ^login/?$ /index.php [L,R=301]
 
 # Bloquear acceso al directorio includes/
-RewriteEngine On
 RewriteRule ^includes/ - [F,L]
 
 # Bloquear navegacion de directorios
