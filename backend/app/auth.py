@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from passlib.hash import bcrypt
+import bcrypt as _bcrypt
 from app.config import JWT_SECRET, JWT_ALGORITHM, JWT_EXPIRE_HOURS
 from app.database import get_db
 from app.models import Usuario
@@ -13,11 +13,11 @@ security = HTTPBearer()
 
 
 def hash_password(password: str) -> str:
-    return bcrypt.hash(password)
+    return _bcrypt.hashpw(password.encode("utf-8"), _bcrypt.gensalt()).decode("utf-8")
 
 
 def verify_password(password: str, hashed: str) -> bool:
-    return bcrypt.verify(password, hashed)
+    return _bcrypt.checkpw(password.encode("utf-8"), hashed.encode("utf-8"))
 
 
 def create_token(usuario_id: int, cedula: str, rol: str) -> str:
